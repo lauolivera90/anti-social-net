@@ -1,13 +1,20 @@
+import TimeAgo from "../Home/TimeAgo";
+
 const Comment = ({ user, text, date }) => {
     return (
-        <div className="bg-white border rounded-xl p-4 shadow-sm hover:shadow-md transition">
-            <div className="flex justify-between items-center mb-1">
-                <h4 className="text-sm font-semibold text-gray-800">@{user}</h4>
-                <span className="text-xs text-gray-500">{new Date(date).toLocaleString()}</span>
+        <div className="d-flex flex-row border bg-black p-4 gap-2 text-white">
+            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="user icon" 
+            className="img-circle" style={{ width: "48px", height: "48px", objectFit: "cover" }}/>
+            <div className="">
+                <div className="d-flex flex-row gap-2">
+                    <p className="text-capitalize fw-bold">{user}</p>
+                    <p className="text-secondary">@{user}</p>
+                    <TimeAgo date={date} />
+                </div>
+                <p className="text-start">{text}</p>
             </div>
-            <p className="text-gray-700 text-sm">{text}</p>
         </div>
     );
-}
+};
 
-export default Comment
+export default Comment;
