@@ -5,7 +5,7 @@ import MakeAPost from "../components/Home/MakeAPost/MakeAPost";
 
 function Home() {
   const [posts, setPosts] = useState([]);
-  const [loadedPosts, setLoadedPosts] = useState([]);
+  //const [loadedPosts, setLoadedPosts] = useState([]);
 
   const cargarPosts = async () => {
     try {
@@ -20,7 +20,7 @@ function Home() {
     }
   };
 
-
+  /*
   const AleatoryPosts = () => {
     const shuffledPost = [...posts].sort(() => Math.random() - 0.5);
     if (loadedPosts.length > 0) {
@@ -28,10 +28,10 @@ function Home() {
       console.log("Posts ya cargados:", loadedPosts);
     }
     const toLoad = shuffledPost.slice(0, 2); // Toma los primeros 10 posts aleatorios
-    loadedPosts.push(...loadedPosts, toLoad); // Agrega los IDs de los posts cargados
+    setLoadedPosts((prev) => [...prev, ...toLoad.map(post => post._id)]); // Agrega los IDs de los posts cargados
 
     return toLoad; // Retorna 10 posts aleatorios
-  }
+  }*/
 
   // Detecta cuando el usuario llega al final de la página
   useEffect(() => {
@@ -57,7 +57,7 @@ function Home() {
         <TypeOfFeed />
         <MakeAPost/>
       <div>
-        {AleatoryPosts().map((post) => (
+        {posts.map((post) => (
             <PostPreview
                 key={post._id}
                 user={post.user?.nickname || "Desconocido"}
