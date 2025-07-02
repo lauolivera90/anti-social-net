@@ -20,7 +20,7 @@ const UploadDate = ({date}) => {
 
     return (
         <>
-            <p className="text-secondary text-start mt-3">{formatDate()}</p>
+            <p className="text-secondary text-start mt-3 mb-0">{formatDate()}</p>
         </>
     );
 };
