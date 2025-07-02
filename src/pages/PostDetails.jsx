@@ -20,7 +20,8 @@ const PostDetails = () => {
           user: { nickname },
           upload_date,
           image,
-          comments = []
+          comments = [],
+          tag = []
         } = data;
 
         setPostData({
@@ -28,7 +29,8 @@ const PostDetails = () => {
           user: nickname,
           date: upload_date,
           images: image,
-          comments: comments
+          comments: comments,
+          tags: tag
         });
         
       } catch (error) {
@@ -51,10 +53,11 @@ const PostDetails = () => {
           date={postData.date}
           image={postData.images}
           comment={postData.comments}
+          tag={postData.tags || []}
         />
       ) : (
         <p>Cargando publicación...</p>
-      )};
+      )}
         <div>
           {/* Aseguramos que 'comments' esté definido y no esté vacío */}
           {postData.comments && postData.comments.length > 0 ? (
@@ -67,7 +70,7 @@ const PostDetails = () => {
               />
             ))
             ) : (
-              <p>No hay comentarios aún.</p>
+              <div className='p-5 bg-black'></div>
             )}
         </div>
     </>

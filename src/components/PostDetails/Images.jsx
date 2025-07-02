@@ -6,11 +6,11 @@ const PostImages = ({ images }) => {
   if (total === 0) return null;
 
   return (
-    <ul className="list-unstyled m-0 p-0">
+    <ul className="list-unstyled m-0 p-0 mt-3">
       <div className="row g-1">
         {total === 1 && (
           <div className="col-12">
-            <img src={images[0].url} alt="Imagen 1" className="img-fluid rounded" />
+            <img src={images[0].url} alt="Imagen 1" className="img-fluid rounded"/>
           </div>
         )}
 

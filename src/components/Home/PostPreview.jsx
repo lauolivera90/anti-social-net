@@ -1,8 +1,9 @@
 import PostImages from "../PostDetails/Images"
 import { useNavigate } from "react-router-dom";
 import TimeAgo from "./TimeAgo";
+import Tags from "../PostDetails/Tags";
 
-const PostPreview = ({user, description, images, date, postId}) => {
+const PostPreview = ({user, description, images, date, postId, tags}) => {
     const navigate = useNavigate();
 
     const goToPost = (e) => {
@@ -11,17 +12,20 @@ const PostPreview = ({user, description, images, date, postId}) => {
     };
 
     return (
-        <div className="d-flex flex-row border bg-black container p-4 gap-2" onClick={goToPost}>
+        <div className="d-flex flex-row border-0 border-bottom border-dark bg-black container p-4 gap-2" onClick={goToPost}>
             <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="user icon" 
             className="img-circle" style={{ width: "48px", height: "48px", objectFit: "cover" }}/>
             <div className="text-white d-flex flex-column">
                 <div className="d-flex flex-column">
                     <div className="d-flex flex-row gap-2">
-                        <p className="text-capitalize fw-bold">{user}</p>
-                        <p className="text-secondary">@{user}</p>
+                        <p className="text-capitalize fw-bold m-0">{user}</p>
+                        <p className="text-secondary m-0">@{user}</p>
                         <TimeAgo date={date}/>
                     </div>
-                    <p className="text-start">{description}</p>
+                    <div className="d-flex flex-column">
+                        <p className="text-start m-0">{description}</p>
+                        <Tags tags={tags} />
+                    </div>
                 </div>
                 <PostImages images={images} />
             </div>
