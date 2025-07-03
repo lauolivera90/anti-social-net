@@ -1,7 +1,7 @@
 import {useEffect, useState} from "react";
 import Comment from "../PostDetails/Comment";
 
-const UserPosts = () => {
+const UserComments = ({setCommentsLenght}) => {
     const [comments, setComments] = useState([]);
 
     const loadComments = async () => {
@@ -14,6 +14,7 @@ const UserPosts = () => {
             const data = await response.json();
             const userComments = data.filter(comment => comment.user && comment.user._id === userId);
             setComments(userComments);
+            setCommentsLenght(userComments.length)
             //setPostLength(comments.length); // Actualiza la cantidad de posts
         } catch (error) {
             console.error("Error al cargar los posts:", error);
@@ -36,7 +37,7 @@ const UserPosts = () => {
                     />
                 ))
             ) : (
-                <div className="p-5 bg-black">
+                <div className="bg-black p-5">
                     <span>No hay comentarios disponibles.</span>
                 </div>
             )}
@@ -44,4 +45,4 @@ const UserPosts = () => {
     )
 }
 
-export default UserPosts;
+export default UserComments;

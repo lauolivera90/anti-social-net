@@ -21,7 +21,7 @@ const PostPreview = ({user, description, images, date, postId, tags,}) => {
     };
 
     return (
-        <div className="d-flex flex-row border-0 border-bottom border-dark bg-black container p-4 gap-2" onClick={goToPost}>
+        <div className="d-flex flex-row border-0 border-bottom border-dark bg-black p-4 gap-2" onClick={goToPost}>
             <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="user icon"
             onClick={goToProfile} 
             className="img-circle" style={{ width: "48px", height: "48px", objectFit: "cover" }}/>
