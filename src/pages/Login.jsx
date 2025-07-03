@@ -20,6 +20,10 @@ export default function Login() {
     navigate("/home")
   }
 
+  const toRegister = () =>{
+    navigate("/register")
+  }
+
   const validateUser = async () => {
     try {
       const response =  await fetch("http://localhost:3000/user");
@@ -39,35 +43,48 @@ export default function Login() {
   }
 
   return (
-    <Container className='d-flex justify-content-center mt-5'>
-      <Form onSubmit={mLogin}>
-        <h2>Iniciar Sesión</h2>
+    <div className="d-flex vh-100">
+      <div className="w-100 h-100">
+        <img
+          src="https://i.pinimg.com/736x/79/0e/44/790e44391a38a9589e32c846947a01bb.jpg"
+          alt="backGround"
+          className="w-100 h-100 object-fit-cover"
+          style={{ display: "block" }}
+        />
+      </div>
+      <div className='w-100 d-flex flex-column justify-content-center align-items-center gap-3 p-5'>
+        <Container className='d-flex flex-column justify-content-center align-items-center'>
+          <Form onSubmit={mLogin}>
+            <h1 className='text-black mb-4 border-0 border-bottom border-dark p-5'>Iniciar Sesión</h1>
+            <Form.Group className="mb-3" controlId="formEmail">
+              <Form.Control className='mb-3' 
+                type="text" 
+                value={nickname}
+                onChange={(e) => setNickName(e.target.value)}
+                placeholder="Nombre de usuario"
+              />
+            </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formEmail">
-          <Form.Label>Nombre de usuario</Form.Label>
-          <Form.Control 
-            type="text" 
-            value={nickname}
-            onChange={(e) => setNickName(e.target.value)}
-            placeholder="Ingrese su nombre de usuario"
-          />
-        </Form.Group>
+            <Form.Group className="mb-3" controlId="formPassword">
+              <Form.Control 
+                type="password" 
+                value={contraseña}
+                onChange={(e) => setContraseña(e.target.value)}
+                placeholder="Contraseña"
+              />
+            </Form.Group>
 
-        <Form.Group className="mb-3" controlId="formPassword">
-          <Form.Label>Contraseña</Form.Label>
-          <Form.Control 
-            type="password" 
-            value={contraseña}
-            onChange={(e) => setContraseña(e.target.value)}
-            placeholder="Contraseña"
-          />
-        </Form.Group>
-
-        <Button variant="primary" type="submit">
-          Iniciar sesión
-        </Button>
-      </Form>
-    </Container>
+            <Button variant="primary" type="submit">
+              Iniciar sesión
+            </Button>
+          </Form>
+        </Container>
+        <div className='d-flex flex-row gap-2 mt-5'>
+          <p>No tienes una cuenta?</p>
+          <a className='text-primary' onClick={toRegister}>Registrarse</a>
+        </div>
+      </div>
+    </div>
   )
 }
 
