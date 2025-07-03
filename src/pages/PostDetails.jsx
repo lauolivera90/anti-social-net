@@ -14,10 +14,9 @@ const PostDetails = () => {
           throw new Error('Error en la respuesta del servidor. Ver detalle: ' + response.status);
         }
         const data = await response.json();
-        console.log(data);
         const {
           description,
-          user: { nickname },
+          user: { nickname, _id},
           upload_date,
           image,
           comments = [],
@@ -26,7 +25,7 @@ const PostDetails = () => {
 
         setPostData({
           description,
-          user: nickname,
+          user: {nickname, _id},
           date: upload_date,
           images: image,
           comments: comments,
@@ -64,13 +63,13 @@ const PostDetails = () => {
             postData.comments.map((post, index) => (
               <Comment 
                 key={index}
-                user={post.user?.nickname || "Desconocido"}
+                user={post.user || "Desconocido"}
                 text={post.text}
                 date={post.upload_date}
               />
             ))
             ) : (
-              <div className='p-5 bg-black'></div>
+              <div className='p-5 bg-black'>No hay comentarios disponibles.</div>
             )}
         </div>
     </>

@@ -59,6 +59,7 @@ const MakeAPost = () => {
             if (inputText.length > 0) {
                 // Actualiza el contador de caracteres
                 counter.textContent = `${inputText.length}`;
+                document.querySelector('#post').disabled = false;    
                 if (inputText.length > 2200) {
                     // Si el texto supera los 2200 caracteres, cambia el color del contador a rojo 
                     // y deshabilita el botón de publicar
@@ -67,13 +68,18 @@ const MakeAPost = () => {
                    document.querySelector('#post').disabled = true;
                    return;
                 }
-                counter.style.color = 'white'; 
+                counter.style.color = 'white';
             }
             // Si no hay texto, limpia el contador
             else {
                 counter.textContent = '';
+                document.querySelector('#post').disabled = true;    
             }
     }, [inputText]);
+
+    useEffect(() => {
+        document.querySelector('#post').disabled = true;
+    }, [])
 
     return (
         <div className="bg-black border-bottom border-dark text-white d-flex flex-column p-4">
@@ -83,7 +89,7 @@ const MakeAPost = () => {
                 <TagsPreview setSelectedTags={setSelectedTags} selectedTags={selectedTags}/>
                 <div className="d-flex justify-content-end flex-grow-1">
                     <span id='counter' className='me-2'></span>
-                    <button className="justify-content-end btn btn-primary" id="post" onClick={post}>Publicar</button>
+                    <button className="justify-content-end btn btn-primary" id="post" onClick={post} disabled={true} >Publicar</button>
                 </div>
             </div>
             <div className='d-flex flex-column gap-2 border-top pt-3 mt-3'>

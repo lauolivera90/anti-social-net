@@ -1,18 +1,16 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Container, Form, Button } from "react-bootstrap";
-import { useAuth } from "../context/AuthContext";
 
 export default function Register() {
   const [nickName, setNickName] = useState("");
   const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [usuarios, setUsuarios] = useState([]);
-  const { login } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:3000/users")
+    fetch("http://localhost:3000/user")
       .then(res => res.json())
       .then(data => setUsuarios(data))
       .catch(err => console.error("Error al cargar usuarios:", err));
@@ -26,26 +24,34 @@ export default function Register() {
       return;
     }
 
-    const yaExiste = usuarios.some(u => u.nickName === nickName);
-    if (yaExiste) {
+    const yaExisteUsuario = usuarios.some(u => u.nickName === nickName);
+    const yaExisteMail = usuarios.some(u => u.mail === email);
+
+    if (yaExisteUsuario) {
       alert("Ese nickName ya está en uso.");
       return;
     }
-
-    const nuevoUsuario = { nickName, email };
+    if (yaExisteMail) {
+      alert("Ese mail ya está en uso.");
+      return;
+    }
 
     try {
-      const res = await fetch("http://localhost:3000/users", {
+      const res = await fetch("http://localhost:3000/user", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(nuevoUsuario)
+        body: JSON.stringify({
+          nickname: nickName,
+          mail: email,
+          password: "123456"
+        })
       });
 
       if (!res.ok) throw new Error("Error al registrar");
 
       const usuarioCreado = await res.json();
-      login(usuarioCreado);
-      navigate("/");
+      console.log('Usuario creado con exito: ', usuarioCreado)
+      navigate("/login");
 
     } catch (error) {
       console.error("Registro falló:", error);

@@ -9,7 +9,7 @@ const PostNav = () => {
     }
 
     return (
-        <div className='d-flex flex-row mb-2 gap-5 position-sticky top-0 bg-black text-white pt-3 pb-3'>
+        <div className='d-flex flex-row gap-5 position-sticky top-0 bg-black text-white pt-3 pb-3'>
             <i className="bi bi-arrow-left fs-5 hoover:bg-white" onClick={goBack}></i>
             <h4 className=''>Post</h4>
         </div>

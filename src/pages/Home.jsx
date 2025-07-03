@@ -2,9 +2,12 @@ import { useEffect, useState } from "react";
 import PostPreview from "../components/Home/postPreview";
 import TypeOfFeed from "../components/Home/TypeOfFeed";
 import MakeAPost from "../components/Home/MakeAPost/MakeAPost";
+import AsideNav from "../components/AsideNav/AsideNav";
+import { useAuth } from '../context/AuthContext';
 
 function Home() {
   const [posts, setPosts] = useState([]);
+  const {usuario, logout} = useAuth();
   //const [loadedPosts, setLoadedPosts] = useState([]);
 
   const cargarPosts = async () => {
@@ -52,23 +55,33 @@ function Home() {
     cargarPosts();
   }, []);
 
+  useEffect(() => {
+  if (usuario) {
+    //console.log("Usuario cargado correctamente:", usuario);
+  }
+}, [usuario]); // ✅ ahora se ejecuta cuando cambia `usuario`
+
   return (
-    <div>
-        <TypeOfFeed />
-        <MakeAPost/>
-      <div>
-        {posts.map((post) => (
-            <PostPreview
-                key={post._id}
-                user={post.user?.nickname || "Desconocido"}
-                images={post.image}
-                description={post.description}
-                date={post.upload_date}
-                postId={post._id}
-                tags={post.tag || []}
-            />
-        ))}
-      </div>
+    <div className="d-flex flex-row gap-3">
+        <button onClick={logout}></button>
+        <p>{usuario.nickname}</p>
+        <div>
+          <TypeOfFeed />
+          <MakeAPost/>
+          <div>
+            {posts.map((post) => (
+                <PostPreview
+                    key={post._id}
+                    user={post.user || "Desconocido"}
+                    images={post.image}
+                    description={post.description}
+                    date={post.upload_date}
+                    postId={post._id}
+                    tags={post.tag || []}
+                />
+            ))}
+          </div>
+        </div>
     </div>
   );
 }

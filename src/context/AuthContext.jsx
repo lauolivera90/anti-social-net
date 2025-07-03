@@ -1,23 +1,31 @@
-import { createContext, useState, useEffect, useContext } from 'react';
+import { createContext, useContext, useState, useEffect } from 'react';
 
-export const AuthContext = createContext(null);
+export const AuthContext = createContext(null); 
 
 export function AuthProvider({ children }) {
   const [usuario, setUsuario] = useState(null);
   const [cargando, setCargando] = useState(true);
 
-  useEffect(() => {
-    const usuarioGuardado = localStorage.getItem('usuario');
-    if (usuarioGuardado) {
-      setUsuario(JSON.parse(usuarioGuardado));
+
+    useEffect(() => {
+    const user = localStorage.getItem('usuario');
+    if (user) {
+      try {
+        setUsuario(JSON.parse(user));
+      } catch (e) {
+        console.error("Error al parsear el usuario del localStorage", e);
+        localStorage.removeItem('usuario'); 
+      }
     }
     setCargando(false);
   }, []);
 
-  const login = (usuarioData) => {
-    setUsuario(usuarioData);
-    localStorage.setItem('usuario', JSON.stringify(usuarioData));
-  };
+
+  const login = (user) => {
+  setUsuario(user);
+  localStorage.setItem('usuario', JSON.stringify(user));
+  //console.log("👤 Usuario logueado y guardado:", user);
+};
 
   const logout = () => {
     setUsuario(null);
