@@ -16,6 +16,10 @@ export default function Register() {
       .catch(err => console.error("Error al cargar usuarios:", err));
   }, []);
 
+  const toLogin = () => {
+    navigate("/login")
+  }
+
   const handleRegister = async (e) => {
     e.preventDefault();
 
@@ -60,33 +64,44 @@ export default function Register() {
   };
 
   return (
-    <Container className="d-flex justify-content-center mt-5">
-      <Form onSubmit={handleRegister}>
-        <h2>Registrarse</h2>
+    <div className="d-flex vh-100">
+      <div className="w-100 h-100">
+        <img
+          src="https://i.pinimg.com/736x/79/0e/44/790e44391a38a9589e32c846947a01bb.jpg"
+          alt="backGround"
+          className="w-100 h-100 object-fit-cover"
+          style={{ display: "block" }}
+        />
+      </div>
+      <div className='w-100 d-flex flex-column justify-content-center align-items-center gap-3 p-5'>
+        <Container className="d-flex flex-column justify-content-center align-items-center">
+          <Form onSubmit={handleRegister}>
+            <h1 className="'text-black mb-4 border-0 border-bottom border-dark p-5">Registrarse</h1>
 
-        <Form.Group className="mb-3">
-          <Form.Label>NickName</Form.Label>
-          <Form.Control
-            type="text" value={nickName} onChange={(e) => setNickName(e.target.value)} 
-            placeholder="Ingrese un NickName"/>
-        </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Control
+                type="text" value={nickName} onChange={(e) => setNickName(e.target.value)} 
+                placeholder="Nombre de usuario"/>
+            </Form.Group>
 
-        <Form.Group className="mb-3">
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-            placeholder="Ingrese su email"/>
-        </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"/>
+            </Form.Group>
 
-        <Form.Group className="mb-3">
-        <Form.Label>Contraseña</Form.Label>
-        <Form.Control type="password" value={contraseña} onChange={(e) => setContraseña(e.target.value)}
-            placeholder="Ingrese una contraseña"/> 
-        </Form.Group>
+            <Form.Group className="mb-3">
+            <Form.Control type="password" value={contraseña} onChange={(e) => setContraseña(e.target.value)}
+                placeholder="Contraseña"/> 
+            </Form.Group>
 
-        <Button variant="success" type="submit">
-          Registrarse
-        </Button>
-      </Form>
-    </Container>
+            <button className="btn btn-primary">Registrarse</button>
+          </Form>
+        </Container>
+        <div className='d-flex flex-row gap-2 mt-5'>
+          <p>No tienes una cuenta?</p>
+          <a className='text-primary' onClick={toLogin}>Loguearse</a>
+        </div>
+      </div>
+    </div>
   );
 }

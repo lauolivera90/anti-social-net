@@ -2,15 +2,17 @@ import React, {useEffect, useRef, useState } from 'react';
 import Emoji from './Emoji';
 import ImagesPreview from './ImagesPreview';
 import TagsPreview from './TagsPreview';
-
+import { useAuth } from '../../../context/AuthContext' 
 
 const MakeAPost = () => {
     const [inputText, setInputText] = useState("");
     const [images, setImages] = useState([]);
     const [selectedTags, setSelectedTags] = useState([]);
     const textareaRef = useRef(null);
+    const {usuario} = useAuth();
 
     const post = async() => {
+        alert(111)
         try {
             const response = await fetch("http://localhost:3000/post", {
                 method: "POST",
@@ -18,7 +20,7 @@ const MakeAPost = () => {
                     "Content-Type": "application/json",
                 },
                 body: JSON.stringify({
-                    user: "686550ae29fae48f2be39994",
+                    user: usuario._id,
                     description: inputText,
                     image: images,
                     tag: selectedTags,
@@ -27,8 +29,6 @@ const MakeAPost = () => {
             if (!response.ok) {
                 throw new Error("Error al publicar el post", response.statusText);
             }
-            const data = await response.json();
-            console.log(data);
             // Reset state after posting
             setInputText("");
             setImages([]);
@@ -55,17 +55,14 @@ const MakeAPost = () => {
 
     useEffect(() => {
         const counter = document.querySelector('#counter');
-            document.querySelector('#post').disabled = false;
             if (inputText.length > 0) {
                 // Actualiza el contador de caracteres
-                counter.textContent = `${inputText.length}`;
-                document.querySelector('#post').disabled = false;    
+                counter.textContent = `${inputText.length}`;  
                 if (inputText.length > 2200) {
                     // Si el texto supera los 2200 caracteres, cambia el color del contador a rojo 
                     // y deshabilita el botón de publicar
                     counter.style.color = 'red';
                     counter.textContent = `-${inputText.length}`;
-                   document.querySelector('#post').disabled = true;
                    return;
                 }
                 counter.style.color = 'white';
@@ -73,13 +70,8 @@ const MakeAPost = () => {
             // Si no hay texto, limpia el contador
             else {
                 counter.textContent = '';
-                document.querySelector('#post').disabled = true;    
             }
     }, [inputText]);
-
-    useEffect(() => {
-        document.querySelector('#post').disabled = true;
-    }, [])
 
     return (
         <div className="bg-black border-bottom border-dark text-white d-flex flex-column p-4">
@@ -89,7 +81,7 @@ const MakeAPost = () => {
                 <TagsPreview setSelectedTags={setSelectedTags} selectedTags={selectedTags}/>
                 <div className="d-flex justify-content-end flex-grow-1">
                     <span id='counter' className='me-2'></span>
-                    <button className="justify-content-end btn btn-primary" id="post" onClick={post} disabled={true} >Publicar</button>
+                    <button className="justify-content-end btn btn-primary" id="post" onClick={post} disabled={inputText.trim().length === 0 || inputText.length > 2200} >Publicar</button>
                 </div>
             </div>
             <div className='d-flex flex-column gap-2 border-top pt-3 mt-3'>
