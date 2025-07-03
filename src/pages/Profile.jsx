@@ -4,10 +4,12 @@ import UserPosts from "../components/UserProfile/userPosts";
 import UserComments from "../components/UserProfile/UserComments";
 import PostNav from "../components/PostDetails/PostNav";
 
+
 const Profile = () => {
-    
     const [user, setUser] = useState({});
-    const [postLenght, setPostLength] = useState(0);
+    const [postLenght, setPostLength] = useState();
+    const [commentsLenght, setCommentsLenght] = useState();
+
 
     const loadUser = async () => {
         try {
@@ -22,6 +24,8 @@ const Profile = () => {
             console.error("Error al cargar el usuario:", error);
         }
     }
+
+    
 
     function handleShowPosts() {
         const postsSection = document.querySelector('#user-posts');
@@ -62,9 +66,9 @@ const Profile = () => {
         <div className="p-4 bg-black">
             <PostNav />
             <div className="bg-black d-flex flex-column">
-                <UserInformation nickname={user.nickname}
+                <UserInformation user={user}
                     postsCount={postLenght}
-                    commentsCount={5}
+                    commentsCount={commentsLenght}
                 />
                 <div className="justify-content-evenly  border border-dark border-0 border-bottom d-flex flex-row mt-5">
                     <p id="user-postsButton" className="text-white text-center pb-2 border-0 border-bottom border-5 rounded-1" 
@@ -75,7 +79,7 @@ const Profile = () => {
                 <div className="">
                     <div>
                         <div id="user-posts"><UserPosts setPostLength={setPostLength}/></div>
-                        <div id="user-comments" style={{display:"none"}}><UserComments/></div>
+                        <div id="user-comments" style={{display:"none"}}><UserComments setCommentsLenght={setCommentsLenght}/></div>
                     </div>
                 </div>
             </div>

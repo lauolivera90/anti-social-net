@@ -8,13 +8,15 @@ import Register from './pages/Register'
 import Public from './pages/Public'
 import PrivateRoute from './components/Private'
 import PublicRoute from './components/toHome'
+import EditProfile from './pages/EditProfile'
 
 function App() {
 
   return <>
     <Routes>
-      <Route path="/" element={<Public /> } />
+      <Route path="/" element={<PublicRoute><Public /></PublicRoute>} />
       <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>}/>
+      <Route path="/user/:id/edit" element={<PrivateRoute><EditProfile /></PrivateRoute>}/>
       <Route path="/post/:id" element={ <PostDetails /> } />
       <Route path="/user/:id" element={ <Profile /> } />
       <Route path="/login" element={<PublicRoute><Login /></PublicRoute>} />

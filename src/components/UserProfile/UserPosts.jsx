@@ -13,7 +13,7 @@ const UserPosts = ({setPostLength}) => {
             }
             const data = await response.json();
             setPosts(data);
-            setPostLength(posts.length); // Actualiza la cantidad de posts
+            setPostLength(data.length); // Actualiza la cantidad de posts
         } catch (error) {
             console.error("Error al cargar los posts:", error);
         }
@@ -25,7 +25,8 @@ const UserPosts = ({setPostLength}) => {
 
     return (
         <>
-            {posts.map((post) => (
+            {posts && posts.length > 0 ? (
+            posts.map((post) => (
                     <PostPreview
                         key={post._id}
                         user={post.user || "Desconocido"}
@@ -35,7 +36,12 @@ const UserPosts = ({setPostLength}) => {
                         postId={post._id}
                         tags={post.tag || []}
                     />
-                    ))}
+                    ))
+                ) : (
+                <div className="bg-black p-5">
+                    <span>No hay publicaciones disponibles</span>
+                </div>
+            )}
         </>
     )
 }

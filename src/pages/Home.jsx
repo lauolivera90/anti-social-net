@@ -62,10 +62,9 @@ function Home() {
 }, [usuario]); // ✅ ahora se ejecuta cuando cambia `usuario`
 
   return (
-    <div className="d-flex flex-row gap-3">
-        <button onClick={logout}></button>
-        <p>{usuario.nickname}</p>
-        <div>
+    <div className="d-flex flex-row">
+        <div className="bg-black border-0 border-dark border-end"><button className="position-sticky top-0 btn btn-primary m-2" onClick={logout}>Desloguearse</button></div>
+        <div className="">
           <TypeOfFeed />
           <MakeAPost/>
           <div>
