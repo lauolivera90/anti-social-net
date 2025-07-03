@@ -1,24 +1,41 @@
 import { Container, Form, Button } from 'react-bootstrap'
-import { useState } from 'react'
+import {useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useAuth } from '../context/AuthLogin' 
+import { useAuth } from '../context/AuthContext' 
 
 export default function Login() {
-  const [email, setEmail] = useState("") 
+  const [nickname, setNickName] = useState("")
   const [contraseña, setContraseña] = useState("") 
   const { login } = useAuth() 
   const navigate = useNavigate()
 
-  const mLogin = (e) => {
+  const mLogin = async (e) => {
     e.preventDefault()
-
-    if (!email || contraseña !== "123456") {
-      alert("Debes completar el email y usar la contraseña correcta")
+    const isValidUser = await validateUser()
+    if (!isValidUser || contraseña !== "1234") {
+      alert("El usuario o la contraseña son incorrectos")
       return
     }
-
-    login(email)
+    login(isValidUser)
     navigate("/home")
+  }
+
+  const validateUser = async () => {
+    try {
+      const response =  await fetch("http://localhost:3000/user");
+      if (!response.ok) {
+        throw new Error("No se pudo obtener los usuarios");
+      }
+      const data = await response.json();
+      const user = data.find(
+      user => user?.nickname?.toLowerCase() === nickname.toLowerCase()
+    );
+
+    return user || false;
+    }
+    catch (error){
+      console.error({error: error.message})
+    }
   }
 
   return (
@@ -27,12 +44,12 @@ export default function Login() {
         <h2>Iniciar Sesión</h2>
 
         <Form.Group className="mb-3" controlId="formEmail">
-          <Form.Label>Email</Form.Label>
+          <Form.Label>Nombre de usuario</Form.Label>
           <Form.Control 
-            type="email" 
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            placeholder="Ingrese su mail"
+            type="text" 
+            value={nickname}
+            onChange={(e) => setNickName(e.target.value)}
+            placeholder="Ingrese su nombre de usuario"
           />
         </Form.Group>
 

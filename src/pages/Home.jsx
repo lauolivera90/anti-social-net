@@ -3,9 +3,11 @@ import PostPreview from "../components/Home/postPreview";
 import TypeOfFeed from "../components/Home/TypeOfFeed";
 import MakeAPost from "../components/Home/MakeAPost/MakeAPost";
 import AsideNav from "../components/AsideNav/AsideNav";
+import { useAuth } from '../context/AuthContext';
 
 function Home() {
   const [posts, setPosts] = useState([]);
+  const {usuario, logout} = useAuth();
   //const [loadedPosts, setLoadedPosts] = useState([]);
 
   const cargarPosts = async () => {
@@ -53,9 +55,16 @@ function Home() {
     cargarPosts();
   }, []);
 
+  useEffect(() => {
+  if (usuario) {
+    //console.log("Usuario cargado correctamente:", usuario);
+  }
+}, [usuario]); // ✅ ahora se ejecuta cuando cambia `usuario`
+
   return (
     <div className="d-flex flex-row gap-3">
-        <AsideNav />
+        <button onClick={logout}></button>
+        <p>{usuario.nickname}</p>
         <div>
           <TypeOfFeed />
           <MakeAPost/>
