@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import TimeAgo from "./TimeAgo";
 import Tags from "../PostDetails/Tags";
 
-const PostPreview = ({user, description, images, date, postId, tags}) => {
+const PostPreview = ({user, description, images, date, postId, tags,}) => {
     const navigate = useNavigate();
 
     const goToPost = (e) => {
@@ -11,15 +11,25 @@ const PostPreview = ({user, description, images, date, postId, tags}) => {
         navigate(`/post/${postId}`);
     };
 
+    const goToProfile = (e) => {
+        e.stopPropagation();
+        if (user && user._id) {
+            if (window.location.pathname.split('/')[1] != "user") navigate(`/user/${user._id}`);
+        } else {
+            console.log("User no válido");
+        }
+    };
+
     return (
         <div className="d-flex flex-row border-0 border-bottom border-dark bg-black container p-4 gap-2" onClick={goToPost}>
-            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="user icon" 
+            <img src="https://cdn-icons-png.flaticon.com/512/149/149071.png" alt="user icon"
+            onClick={goToProfile} 
             className="img-circle" style={{ width: "48px", height: "48px", objectFit: "cover" }}/>
             <div className="text-white d-flex flex-column">
                 <div className="d-flex flex-column">
                     <div className="d-flex flex-row gap-2">
-                        <p className="text-capitalize fw-bold m-0">{user}</p>
-                        <p className="text-secondary m-0">@{user}</p>
+                        <p className="text-capitalize fw-bold m-0" onClick={goToProfile}>{user.nickname}</p>
+                        <p className="text-secondary m-0" onClick={goToProfile}>@{user.nickname}</p>
                         <TimeAgo date={date}/>
                     </div>
                     <div className="d-flex flex-column">
