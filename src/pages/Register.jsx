@@ -7,6 +7,7 @@ export default function Register() {
   const [email, setEmail] = useState("");
   const [contraseña, setContraseña] = useState("");
   const [usuarios, setUsuarios] = useState([]);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -16,15 +17,22 @@ export default function Register() {
       .catch(err => console.error("Error al cargar usuarios:", err));
   }, []);
 
-  const toLogin = () => {
-    navigate("/login")
-  }
+  const toLogin = () => navigate("/login");
 
   const handleRegister = async (e) => {
     e.preventDefault();
 
+    setError(""); // Reseteamos el estado de error al intentar un nuevo registro.
+
     if (!nickName || !email || !contraseña) {
-      alert("Completá todos los campos.");
+      setError("Completá todos los campos.");
+      return;
+    }
+
+    // Validación básica del formato del email.
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setError("Por favor, ingresa un correo electrónico válido.");
       return;
     }
 
@@ -32,11 +40,12 @@ export default function Register() {
     const yaExisteMail = usuarios.some(u => u.mail === email);
 
     if (yaExisteUsuario) {
-      alert("Ese nickName ya está en uso.");
+      setError("Ese nickname ya está en uso.");
       return;
     }
+
     if (yaExisteMail) {
-      alert("Ese mail ya está en uso.");
+      setError("Ese email ya está en uso.");
       return;
     }
 
@@ -47,61 +56,88 @@ export default function Register() {
         body: JSON.stringify({
           nickname: nickName,
           mail: email,
-          password: "123456"
-        })
+          password: contraseña,
+        }),
       });
 
       if (!res.ok) throw new Error("Error al registrar");
 
       const usuarioCreado = await res.json();
-      console.log('Usuario creado con exito: ', usuarioCreado)
+      console.log("Usuario creado con éxito:", usuarioCreado);
       navigate("/login");
-
     } catch (error) {
       console.error("Registro falló:", error);
-      alert("No se pudo registrar.");
+      setError("No se pudo registrar. Intenta nuevamente.");
     }
   };
 
   return (
-    <div className="d-flex vh-100">
+    <Container className="d-flex vh-100">
+      {/* Fondo de pantalla */}
       <div className="w-100 h-100">
         <img
           src="https://i.pinimg.com/736x/79/0e/44/790e44391a38a9589e32c846947a01bb.jpg"
-          alt="backGround"
+          alt="Fondo"
           className="w-100 h-100 object-fit-cover"
-          style={{ display: "block" }}
         />
       </div>
-      <div className='w-100 d-flex flex-column justify-content-center align-items-center gap-3 p-5'>
+
+      {/* Formulario de registro */}
+      <Container className="w-100 d-flex flex-column justify-content-center align-items-center gap-3 p-5">
         <Container className="d-flex flex-column justify-content-center align-items-center">
           <Form onSubmit={handleRegister}>
-            <h1 className="'text-black mb-4 border-0 border-bottom border-dark p-5">Registrarse</h1>
+            <h1 className="text-black mb-4 border-0 border-bottom border-dark p-5">Registrarse</h1>
 
+            {/* Campo Nickname */}
             <Form.Group className="mb-3">
               <Form.Control
-                type="text" value={nickName} onChange={(e) => setNickName(e.target.value)} 
-                placeholder="Nombre de usuario"/>
+                type="text"
+                value={nickName}
+                onChange={(e) => setNickName(e.target.value)}
+                placeholder="Nombre de usuario"
+              />
             </Form.Group>
 
+            {/* Campo Email */}
             <Form.Group className="mb-3">
-              <Form.Control type="email" value={email} onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"/>
+              <Form.Control
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="Email"
+              />
             </Form.Group>
 
+            {/* Campo Contraseña */}
             <Form.Group className="mb-3">
-            <Form.Control type="password" value={contraseña} onChange={(e) => setContraseña(e.target.value)}
-                placeholder="Contraseña"/> 
+              <Form.Control
+                type="password"
+                value={contraseña}
+                onChange={(e) => setContraseña(e.target.value)}
+                placeholder="Contraseña"
+              />
             </Form.Group>
 
-            <button className="btn btn-primary">Registrarse</button>
+            {/* Mensaje de error */}
+            {error && (
+              <div className="alert alert-danger mt-3" role="alert">
+                {error}
+              </div>
+            )}
+
+            <Button variant="primary" type="submit" className="w-100 mt-4">
+              Registrarse
+            </Button>
           </Form>
         </Container>
-        <div className='d-flex flex-row gap-2 mt-5'>
-          <p>No tienes una cuenta?</p>
-          <a className='text-primary' onClick={toLogin}>Loguearse</a>
-        </div>
-      </div>
-    </div>
+
+        <Container className="d-flex flex-row gap-2 mt-5">
+          <p>¿Ya tienes una cuenta?</p>
+          <a className="text-primary" onClick={toLogin}>
+            Iniciar sesión
+          </a>
+        </Container>
+      </Container>
+    </Container>
   );
 }

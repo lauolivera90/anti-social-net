@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import Comment from "../components/PostDetails/Comment";
 import ContentPost from "../components/PostDetails/ContentPost"
+import { Container } from 'react-bootstrap';
 
 const PostDetails = () => {
   const [postData, setPostData] = useState(null);
@@ -57,8 +58,7 @@ const PostDetails = () => {
       ) : (
         <p>Cargando publicación...</p>
       )}
-        <div>
-          {/* Aseguramos que 'comments' esté definido y no esté vacío */}
+        <Container className='ajustContainer'>
           {postData.comments && postData.comments.length > 0 ? (
             postData.comments.map((post, index) => (
               <Comment 
@@ -69,9 +69,9 @@ const PostDetails = () => {
               />
             ))
             ) : (
-              <div className='p-5 bg-black'>No hay comentarios disponibles.</div>
+              <Container className='bg-black ajustContainer'>No hay comentarios disponibles.</Container>
             )}
-        </div>
+        </Container>
     </>
   );
 }

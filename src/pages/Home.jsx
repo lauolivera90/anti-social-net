@@ -4,6 +4,7 @@ import TypeOfFeed from "../components/Home/TypeOfFeed";
 import MakeAPost from "../components/Home/MakeAPost/MakeAPost";
 import AsideNav from "../components/AsideNav/AsideNav";
 import { useAuth } from '../context/AuthContext';
+import { Container, Col, Row, Button } from "react-bootstrap";
 
 function Home() {
   const [posts, setPosts] = useState([]);
@@ -61,28 +62,40 @@ function Home() {
   }
 }, [usuario]); // ✅ ahora se ejecuta cuando cambia `usuario`
 
-  return (
-    <div className="d-flex flex-row">
-        <div className="bg-black border-0 border-dark border-end"><button className="position-sticky top-0 btn btn-primary m-2" onClick={logout}>Desloguearse</button></div>
-        <div className="">
-          <TypeOfFeed />
-          <MakeAPost/>
-          <div>
-            {posts.map((post) => (
-                <PostPreview
-                    key={post._id}
-                    user={post.user || "Desconocido"}
-                    images={post.image}
-                    description={post.description}
-                    date={post.upload_date}
-                    postId={post._id}
-                    tags={post.tag || []}
-                />
-            ))}
-          </div>
-        </div>
-    </div>
-  );
+return (
+  <Container fluid className="ajustContainer">
+    <Row>
+      <Col xs={12} md={3} lg={2} className="bg-black border-end border-dark ajustContainer">
+        <Button
+          className="position-sticky top-0 btn btn-primary m-2"
+          onClick={logout}
+        >
+          Desloguearse
+        </Button>
+      </Col>
+
+      <Col xs={12} md={9} lg={10} className="ajustContainer">
+        <TypeOfFeed />
+        <MakeAPost />
+
+        <Container className="ajustContainer">
+          {posts.map((post) => (
+            <PostPreview
+              key={post._id}
+              user={post.user || "Desconocido"}
+              images={post.image}
+              description={post.description}
+              date={post.upload_date}
+              postId={post._id}
+              tags={post.tag || []}
+            />
+          ))}
+        </Container>
+      </Col>
+    </Row>
+  </Container>
+);
+
 }
 
 export default Home;

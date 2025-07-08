@@ -1,90 +1,97 @@
 import React, { useEffect, useRef, useState } from 'react';
+import { Container, Form, Row, Col } from "react-bootstrap";
 
-const TagsPreviews = ({selectedTags, setSelectedTags}) => {
-    const [showAddTag, setShowAddTag] = useState(false);
-    const [tags, setTags] = useState([]);
-    const popupRef = useRef(null);
+const TagsPreviews = ({ selectedTags, setSelectedTags }) => {
+  const [showAddTag, setShowAddTag] = useState(false);
+  const [tags, setTags] = useState([]);
+  const popupRef = useRef(null);
 
-    const getTags = async () => {
-        try{
-            const response = await fetch("http://localhost:3000/tag");
-        if (!response.ok) {
-            throw new Error("Error al obtener las etiquetas");
-        }
-        const data = await response.json();
-        setTags(data);
-        }
-        catch (error) {
-            console.error({ error: error.message });
-        }
+  const getTags = async () => {
+    try {
+      const response = await fetch("http://localhost:3000/tag");
+      if (!response.ok) throw new Error("Error al obtener las etiquetas");
+      const data = await response.json();
+      setTags(data);
+    } catch (error) {
+      console.error({ error: error.message });
     }
+  };
 
-    const setChecked = (tagName) =>{
-        if (selectedTags.includes(tagName)) {
-            return true
-        }
-        return false;
+  useEffect(() => {
+    getTags();
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowAddTag(false);
+      }
+    };
+    if (showAddTag) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('scroll', handleClickOutside);
     }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('scroll', handleClickOutside);
+    };
+  }, [showAddTag]);
 
-    useEffect(() => {
-        //obtengo los tags antes de cargar el componente
-        getTags();
-    }, []);
+  const isChecked = (tagId) => selectedTags.includes(tagId);
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            //Verifica si el clic fue fuera del popup
-        if (popupRef.current && !popupRef.current.contains(event.target)) {
-            setShowAddTag(false);
-        }};
-        if (showAddTag) {
-            //Agrega el evento de clic al documento cuando el componente es visible 
-            document.addEventListener('mousedown', handleClickOutside);
-            document.addEventListener('scroll', handleClickOutside);
-        }
-        return () => {
-            //Elimina el evento cuando el componente se cierra
-            document.removeEventListener('mousedown', handleClickOutside);
-            document.removeEventListener('scroll', handleClickOutside);
-        };
-    }, [showAddTag]);
-
-    return (
-        <>
-          <i className="bi bi-tag-fill fs-5" onClick={() => {
-                    setShowAddTag(!showAddTag)
-                }}></i>
-                {showAddTag && (
-                    <div ref={popupRef} className="position-absolute z-2 mt-2 d-flex flex-row gap-4 bg-white pt-3 pb-3 p-2 border rounded-3" style={{ top: "100%", left: 0 }}>
-                         {tags.map((tag) => (
-                            <div className='d-flex flex-row gap-2' key={tag._id}>
-                                <a className='text-primary text-capitalize'>#{tag.name}</a>
-                                <input type="checkbox" className='form-check-input' checked={setChecked(tag._id)}
-                                onChange={(e) => {
-                                    if (e.target.checked) {
-                                        setSelectedTags((prev) => [...prev, tag._id]);
-                                        const p = document.createElement('p');
-                                        const tagsContainer = document.querySelector('#tags');
-                                        p.textContent = `#${tag.name}`;
-                                        p.className = 'text-primary text-capitalize';
-                                        tagsContainer.appendChild(p);
-                                    } else {
-                                        setSelectedTags((prev) => prev.filter((t) => t !== tag._id));
-                                        const tagsContainer = document.querySelector('#tags');
-                                        const tagElements = tagsContainer.querySelectorAll('p');
-                                        tagElements.forEach((element) => {
-                                            if (element.textContent === `#${tag.name}`) {
-                                                element.remove();
-                                            }
-                                        });
-                                    }
-                                }}
-                                ></input> 
-                            </div>
-                        ))}
-                    </div>
-                )}
-        </> )
+  const toggleTag = (tag) => {
+    if (isChecked(tag._id)) {
+      setSelectedTags(selectedTags.filter(id => id !== tag._id));
+    } else {
+      setSelectedTags([...selectedTags, tag._id]);
     }
+  };
+
+  return (
+    <>
+      <i
+        className="bi bi-tag-fill fs-5"
+        onClick={() => setShowAddTag(!showAddTag)}
+        style={{ cursor: 'pointer' }}
+      ></i>
+
+      {showAddTag && (
+        <Container
+          ref={popupRef}
+          className="position-absolute z-2 mt-2 bg-white p-3 border rounded-3"
+          style={{ top: "100%", left: 0, minWidth: '300px' }}
+        >
+          <Row className="gx-3 gy-2">
+            {tags.map((tag) => (
+              <Col xs="auto" key={tag._id} className="d-flex align-items-center gap-2">
+                <Form.Check
+                  type="checkbox"
+                  id={`tag-checkbox-${tag._id}`}
+                  checked={isChecked(tag._id)}
+                  onChange={() => toggleTag(tag)}
+                  label={`#${tag.name}`}
+                  className="text-primary text-capitalize"
+                />
+              </Col>
+            ))}
+          </Row>
+        </Container>
+      )}
+
+      {/* Mostrar etiquetas seleccionadas */}
+      <Container className="mt-2 d-flex flex-wrap gap-2" id="tags">
+        {selectedTags.length > 0 && tags.length > 0 && selectedTags.map(tagId => {
+          const tag = tags.find(t => t._id === tagId);
+          if (!tag) return null;
+          return (
+            <p key={tag._id} className="text-primary text-capitalize m-0">
+              #{tag.name}
+            </p>
+          );
+        })}
+      </Container>
+    </>
+  );
+};
 
 export default TagsPreviews;
