@@ -1,78 +1,111 @@
-import React, {useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
+import { Container, Button, Form } from "react-bootstrap";
 
-const ImagesPreview = ({images, setImages}) => {
-    const [showAddImage, setShowAddImage] = useState(false);
-    const popupRef = useRef(null);
+const ImagesPreview = ({ images, setImages }) => {
+  const [showAddImage, setShowAddImage] = useState(false);
+  const [inputUrl, setInputUrl] = useState('');
+  const popupRef = useRef(null);
 
-     const addImage = (url) => {
-        //hacer que si una url esta no se agregue
-        if (!/^https?:\/\/.+(\.(jpg|jpeg|png|gif)(\?.*)?$|[?&]format=(jpg|jpeg|png|gif))/.test(url)) return alert("Debes ingresar una URL válida de imagen");
-        const containImages = document.getElementById('contain-images');
-        const newImage = document.createElement('img');
-        const container = document.createElement('div');
-        container.className = 'position-relative';
-        newImage.src = url;
-        newImage.className = 'img-thumbnail';
+  // Regex para validar URL de imagen
+  const isValidImageUrl = (url) => {
+    return /^https?:\/\/.+(\.(jpg|jpeg|png|gif)(\?.*)?$|[?&]format=(jpg|jpeg|png|gif))/.test(url);
+  };
 
-        const newLabel = document.createElement('i');
-        newLabel.className = 'bi bi-x-square-fill btn fs-3 text-white  position-absolute top-0 end-0';
-        container.appendChild(newImage);
-        container.appendChild(newLabel);
-
-        newLabel.onclick = () => {
-            container.remove(); //elimina el contenedor de la imagen
-            setImages((prev) => prev.filter((image) => image.url !== url)); //elimina la imagen del estado
-        }
-
-        containImages.appendChild(container);
-        setImages((prev) => [...prev, { url }]); //copia las imagenes anteriores y agrega la nueva
-        document.querySelector('#input-image').value = '';
-        setShowAddImage(false);
-        console.log(images)
+  const addImage = () => {
+    if (!isValidImageUrl(inputUrl)) {
+      alert("Debes ingresar una URL válida de imagen");
+      return;
     }
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            // Verifica si el clic fue fuera del popup
+    // Evitar URLs duplicadas
+    if (images.some(img => img.url === inputUrl)) {
+      alert("Esta imagen ya ha sido añadida");
+      return;
+    }
 
-            if (popupRef.current && !popupRef.current.contains(event.target)) {
-                setShowAddImage(false);
-            }
-        };
-        if (showAddImage) {
-            // Agrega el evento de clic al documento cuando el componente es visible 
-            document.addEventListener('mousedown', handleClickOutside);
-            document.addEventListener('scroll', handleClickOutside);
+    setImages(prev => [...prev, { url: inputUrl }]);
+    setInputUrl('');
+    setShowAddImage(false);
+  };
 
-        }
-        return () => {
-            // Elimina el evento cuando el componente se cierra
-            document.removeEventListener('mousedown', setShowAddImage);
-            document.removeEventListener('scroll', handleClickOutside);
-        };
-    }, [showAddImage]);
+  const removeImage = (urlToRemove) => {
+    setImages(prev => prev.filter(img => img.url !== urlToRemove));
+  };
 
-    return (
-        <>
-        <i className="bi bi-card-image fs-5" onClick={() => {
-                    if (images.length < 4) {
-                        setShowAddImage(!showAddImage)
-                    }
-                }}></i>
-                {showAddImage && (
-                    <div ref={popupRef} className="position-absolute z-2 mt-2 d-flex flex-column gap-4 bg-white pt-3 pb-3 p-2 border rounded-3" style={{ top: "100%", left: 0 }}>
-                        <div className='d-flex flex-row gap-2'>
-                            <input className='border rounded-3 bg-white text-black' type="url" placeholder='Url de la imagen' id='input-image'/>
-                            <i className='bi bi-trash3-fill btn fs-5 text-black' onClick={() => {
-                                document.querySelector('#input-image').value = '';
-                
-                            }}></i>
-                        </div>
-                        <button className="btn btn-primary" onClick={() => addImage(document.querySelector('#input-image').value)}>Añadir</button>
-                    </div>
-                )}
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (popupRef.current && !popupRef.current.contains(event.target)) {
+        setShowAddImage(false);
+      }
+    };
+    if (showAddImage) {
+      document.addEventListener('mousedown', handleClickOutside);
+      document.addEventListener('scroll', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      document.removeEventListener('scroll', handleClickOutside);
+    };
+  }, [showAddImage]);
+
+  return (
+    <>
+      <i
+        className="bi bi-card-image fs-5"
+        style={{ cursor: images.length < 4 ? 'pointer' : 'not-allowed' }}
+        onClick={() => {
+          if (images.length < 4) setShowAddImage(!showAddImage);
+          else alert("Solo puedes agregar hasta 4 imágenes");
+        }}
+      ></i>
+
+      {showAddImage && (
+        <Container
+          ref={popupRef}
+          className="position-absolute z-2 mt-2 d-flex flex-column gap-3 bg-white pt-3 pb-3 p-3 border rounded-3"
+          style={{ top: "100%", left: 0, minWidth: '300px' }}
+        >
+          <Form.Control
+            type="url"
+            placeholder="URL de la imagen"
+            value={inputUrl}
+            onChange={(e) => setInputUrl(e.target.value)}
+            autoFocus
+          />
+          <div className="d-flex justify-content-between">
+            <Button variant="secondary" onClick={() => setInputUrl('')}>
+              Limpiar
+            </Button>
+            <Button variant="primary" onClick={addImage} disabled={!inputUrl.trim()}>
+              Añadir
+            </Button>
+          </div>
+        </Container>
+      )}
+
+      <Container
+        id="contain-images"
+        className="d-grid gap-2 mt-3"
+        style={{ gridTemplateColumns: "repeat(2, 1fr)" }}
+      >
+        {images.map((img) => (
+          <div key={img.url} className="position-relative container">
+            <img
+              src={img.url}
+              alt="preview"
+              className="img-thumbnail"
+              style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
+            />
+            <i
+              className="bi bi-x-square-fill btn fs-3 text-white position-absolute top-0 end-0"
+              style={{ cursor: 'pointer' }}
+              onClick={() => removeImage(img.url)}
+            ></i>
+          </div>
+        ))}
+      </Container>
     </>
-    )
-}
+  );
+};
 
 export default ImagesPreview;

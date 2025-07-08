@@ -1,48 +1,57 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Comment from "../PostDetails/Comment";
+import { Container, Row, Col, Alert } from "react-bootstrap";
 
-const UserComments = ({setCommentsLenght}) => {
-    const [comments, setComments] = useState([]);
+const UserComments = ({ setCommentsLenght }) => {
+  const [comments, setComments] = useState([]);
 
-    const loadComments = async () => {
-        try {
-            let userId = window.location.pathname.split('/').pop();
-            const response = await fetch(`http://localhost:3000/comment`);
-            if (!response.ok) {
-                throw new Error("Error de red al cargar los posts del usuario");
-            }
-            const data = await response.json();
-            const userComments = data.filter(comment => comment.user && comment.user._id === userId);
-            setComments(userComments);
-            setCommentsLenght(userComments.length)
-            //setPostLength(comments.length); // Actualiza la cantidad de posts
-        } catch (error) {
-            console.error("Error al cargar los posts:", error);
-        }
+  const loadComments = async () => {
+    try {
+      const userId = window.location.pathname.split("/").pop();
+      const response = await fetch(`http://localhost:3000/comment`);
+      if (!response.ok) {
+        throw new Error("Error de red al cargar los comentarios del usuario");
+      }
+      const data = await response.json();
+      const userComments = data.filter(
+        (comment) => comment.user && comment.user._id === userId
+      );
+      setComments(userComments);
+      setCommentsLenght(userComments.length);
+    } catch (error) {
+      console.error("Error al cargar los comentarios:", error);
     }
+  };
 
-    useEffect(() => {
-        loadComments();
-    }, []);
+  useEffect(() => {
+    loadComments();
+  }, []);
 
-    return (
-        <div>
-            {comments && comments.length > 0 ? (
-                comments.map((comment, index) => (
-                    <Comment 
-                        key={index}
-                        user={comment.user || "Desconocido"}
-                        text={comment.text}
-                        date={comment.upload_date}
-                    />
-                ))
-            ) : (
-                <div className="bg-black p-5">
-                    <span>No hay comentarios disponibles.</span>
-                </div>
-            )}
-        </div>
-    )
-}
+  return (
+    <Container fluid>
+      {comments && comments.length > 0 ? (
+        <Row>
+          {comments.map((comment, index) => (
+            <Col key={index} xs={12}>
+              <Comment
+                user={comment.user || "Desconocido"}
+                text={comment.text}
+                date={comment.upload_date}
+              />
+            </Col>
+          ))}
+        </Row>
+      ) : (
+        <Row>
+          <Col>
+            <Container className="bg-black text-white text-center rounded">
+              <span>No hay comentarios disponibles.</span>
+            </Container>
+          </Col>
+        </Row>
+      )}
+    </Container>
+  );
+};
 
 export default UserComments;

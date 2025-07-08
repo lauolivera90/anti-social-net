@@ -3,6 +3,7 @@ import UserInformation from "../components/UserProfile/UserInformation";
 import UserPosts from "../components/UserProfile/userPosts";
 import UserComments from "../components/UserProfile/UserComments";
 import PostNav from "../components/PostDetails/PostNav";
+import { Container, Row, Col, Button, Nav } from 'react-bootstrap';
 
 
 const Profile = () => {
@@ -62,29 +63,58 @@ const Profile = () => {
         loadUser();
     }, []);
 
+
     return (
-        <div className="p-4 bg-black">
-            <PostNav />
-            <div className="bg-black d-flex flex-column">
-                <UserInformation user={user}
-                    postsCount={postLenght}
-                    commentsCount={commentsLenght}
-                />
-                <div className="justify-content-evenly  border border-dark border-0 border-bottom d-flex flex-row mt-5">
-                    <p id="user-postsButton" className="text-white text-center pb-2 border-0 border-bottom border-5 rounded-1" 
-                    onClick={handleShowPosts}>Publicaciones</p>
-                    <p id="user-commentsButton" className="text-center pb-2"
-                    onClick={handleShowComments}>Comentarios</p>
-                </div>
-                <div className="">
-                    <div>
-                        <div id="user-posts"><UserPosts setPostLength={setPostLength}/></div>
-                        <div id="user-comments" style={{display:"none"}}><UserComments setCommentsLenght={setCommentsLenght}/></div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    )
+    <Container fluid className="bg-black">
+        <PostNav />
+
+        <Container className="bg-black">
+        <Row>
+            <Col>
+            <UserInformation
+                user={user}
+                postsCount={postLenght}
+                commentsCount={commentsLenght}
+            />
+            </Col>
+        </Row>
+
+        <Row className="mt-5 border-bottom border-dark justify-content-evenly">
+            <Col xs="auto">
+            <Nav.Link
+                id="user-postsButton"
+                className="text-white text-center pb-2 border-bottom border-5 rounded-1"
+                onClick={handleShowPosts}
+                style={{ cursor: 'pointer' }}
+            >
+                Publicaciones
+            </Nav.Link>
+            </Col>
+            <Col xs="auto">
+            <Nav.Link
+                id="user-commentsButton"
+                className="text-white text-center pb-2"
+                onClick={handleShowComments}
+                style={{ cursor: 'pointer' }}
+            >
+                Comentarios
+            </Nav.Link>
+            </Col>
+        </Row>
+        <Row>
+            <Col>
+            <Container id="user-posts">
+                <UserPosts setPostLength={setPostLength} />
+            </Container>
+            <Container id="user-comments"  style={{ display: 'none'}}>
+                <UserComments setCommentsLenght={setCommentsLenght} />
+            </Container>
+            </Col>
+        </Row>
+        </Container>
+    </Container>
+    );
+
 }
 
 export default Profile;

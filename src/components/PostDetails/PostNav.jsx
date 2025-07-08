@@ -1,19 +1,30 @@
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useNavigate } from "react-router-dom";
+import { Container, Row, Col } from 'react-bootstrap';
 
 const PostNav = () => {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
 
-    const goBack = () => {    
-        navigate(-1); // Navega a la página anterior
-    }
+  const goBack = () => {
+    navigate(-1); // Navega a la página anterior
+  };
 
-    return (
-        <div className='d-flex flex-row gap-5 position-sticky top-0 bg-black text-white pt-3 pb-3'>
-            <i className="bi bi-arrow-left fs-5 hoover:bg-white" onClick={goBack}></i>
-            <h4 className=''>Post</h4>
-        </div>
-    )
-}
+  return (
+    <Container fluid className="position-sticky top-0 bg-black text-white pt-3 pb-3">
+      <Row className="align-items-center">
+        <Col xs="auto">
+          <i
+            className="bi bi-arrow-left fs-5"
+            onClick={goBack}
+            style={{ cursor: 'pointer' }}
+          ></i>
+        </Col>
+        <Col>
+          <h4 className="m-0">Post</h4>
+        </Col>
+      </Row>
+    </Container>
+  );
+};
 
 export default PostNav;
