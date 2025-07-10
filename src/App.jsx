@@ -23,6 +23,7 @@ function App() {
   return <>
     <Routes>
       <Route path="/search" element={<PrivateRoute><Search /></PrivateRoute>} />
+      <Route path="/search/:id" element={<PrivateRoute><Search /></PrivateRoute>}/>
       <Route path="/" element={<PublicRoute><Public /></PublicRoute>} />
       <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>}/>
       <Route path="/user/edit" element={<PrivateRoute><Configuration /></PrivateRoute>}/>
