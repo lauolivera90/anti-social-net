@@ -8,9 +8,9 @@ const Tags = ({ tags }) => {
           <Row>
             {tags.map((tag, index) => (
               <Col key={index} xs="auto">
-                <Badge bg="primary" className="text-capitalize">
+                <span className="text-capitalize text-primary">
                   #{tag.name}
-                </Badge>
+                </span>
               </Col>
             ))}
           </Row>

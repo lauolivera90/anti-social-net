@@ -2,7 +2,7 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import { useNavigate } from "react-router-dom";
 import { Container, Row, Col } from 'react-bootstrap';
 
-const PostNav = () => {
+const ProfileNav = ({user, }) => {
   const navigate = useNavigate();
 
   const goBack = () => {
@@ -20,11 +20,11 @@ const PostNav = () => {
           ></i>
         </Col>
         <Col xs={3} md={3}>
-          <h4 className="mb-0">Publicación</h4>
+          <h4 className="m-0 text-capitalize">{user.nickname}</h4>
         </Col>
       </Row>
     </Container>
   );
 };
 
-export default PostNav;
+export default ProfileNav;

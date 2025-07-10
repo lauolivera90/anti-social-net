@@ -1,0 +1,269 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url('../../fonts/RobotoFlex-VariableFont_GRAD\,XOPQ\,XTRA\,YOPQ\,YTAS\,YTDE\,YTFI\,YTLC\,YTUC\,opsz\,slnt\,wdth\,wght.ttf') format('ttf');
+}
+
+/*
+.opciones {
+    background-color: black;
+    font-weight: 700;
+    font-size: x-large;
+    font-family: 'Roboto';
+    color: white;
+    width: 80%;
+    text-align: inherit;
+    width: fit-content;
+    background-color: black;
+    color: white;
+    padding: 1.2vh;
+    border-radius: 10dvw;
+    border-width: 0px;
+    object-position: center;
+    text-decoration: none;
+
+}
+
+.opciones {
+    text-align: left;
+}
+
+.opciones i {
+    margin-right: 20px;
+    text-align: justify;
+    background-position-x: left;
+}
+
+.post i {
+    margin-right: 20px;
+    text-align: justify;
+    background-position-x: left;
+    color:black;
+}
+
+.post {
+    background-color: white ;
+    color: black;
+    font-weight: 700;
+    font-size: x-large;
+    font-family: 'Roboto';
+    margin-top: 20px;
+    text-align: justify;
+    width: calc(300px+10dvw);
+    max-width: 18vw;
+    min-width: 200px;
+    width: 200px;
+    padding: 2dvh;
+    border-radius: 10dvw;
+    border-width: 0px;
+    object-position: center;
+    text-decoration: none;
+    shape-rendering: geometricPrecision;
+
+}
+
+.post #pluma {
+    text-align: left;
+    margin-left: 0;
+
+}
+
+.post #texto {
+    text-align: left;
+    margin-right: 40px;
+
+}
+
+.post #texto {
+    margin-right: 20px;
+}
+
+.post:hover {
+    background-color: whitesmoke;
+    color: rgb(22, 22, 22);
+}
+
+.opciones:hover {
+    background-color: rgb(24, 24, 24);
+    color: whitesmoke;
+    text-decoration: none;
+
+}
+
+
+.nav {
+    margin-top: 0dvh;
+    flex-direction: column;
+    height: 100vh;
+    max-width: 20vw;
+    width: max-content;
+    margin-left: 4dvi;
+    margin-right: 0;
+
+}
+
+.nav {
+    position: sticky;
+    overflow-y: auto;
+    box-sizing: border-box;
+
+}
+
+.nav #envoltura {
+    display: flex;
+    justify-content: center;
+    -align-items: self-start;
+    align-items: self-start;
+    flex-wrap: nowrap;
+    flex-flow: row;
+}
+
+
+.nav div {
+    flex-grow: initial;
+}
+
+
+@media (min-width: 1280px) and (max-width: 1360px) {
+    .nav {
+        margin-left: 3dvi;
+        width: 25dvi;
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1279px) {
+    .nav {
+        margin-left: 2dvi+10px;
+        width: 20dvi
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1199px) {
+    .nav {
+        margin-left: 20px;
+        width: 250px;
+    }
+
+    .logo {
+        width: 80%;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .nav {
+        margin-left: 20px;
+        width: min-content;
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }   
+
+   
+
+    .text {
+        display: none;
+
+    }
+
+    .nav {
+        width: min-content;
+        min-width: fit-content;
+    }
+
+    .opciones {
+        width: fit-content;
+        border-radius: 100%;
+        text-align: center;
+        border-width: auto;
+    }
+
+    .post {
+        width: 20px;
+        height: 20px;
+        border-radius: 100%;
+        padding: 0;
+        max-width: 18vw;
+        min-width: 0px;
+        width: fit-content;
+        height: auto;
+        background-color: white;
+        color:black;
+        border-radius: 100%;
+        border-color:white;
+        
+        text-decoration: none;
+        
+        shape-rendering: geometricPrecision;
+    }
+    
+    .post:hover{
+        color:black;
+        background-color: rgb(24, 24, 24);
+        border-radius: 100%;
+    }
+    
+    
+
+}
+
+@media (max-width: 767px) {
+    
+    .nav {
+        margin-left: 20px;
+        width: 20px;
+        max-width: 20px;
+        display:flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }   
+
+    
+    
+
+    .text {
+        display: none;
+
+    }
+
+    .nav {
+        width: min-content;
+        min-width: fit-content;
+    }
+
+    .opciones {
+        width: fit-content;
+        border-radius: 100%;
+        text-align: center;
+        border-width: auto;
+    }
+
+    .post {
+        width: 20px;
+        height: 20px;
+        border-radius: 100%;
+        padding: 0;
+        max-width: 18vw;
+        min-width: 0px;
+        width: fit-content;
+        height: auto;
+        background-color: white;
+        color:black;
+        border-radius: 100%;
+        border-color:white;
+        
+        text-decoration: none;
+        
+        shape-rendering: geometricPrecision;
+    }
+    
+    .post:hover{
+        color:black;
+        background-color: rgb(24, 24, 24);
+        border-radius: 100%;
+    }
+    .opciones:hover{
+        background-color: black;
+    }
+    
+}*/

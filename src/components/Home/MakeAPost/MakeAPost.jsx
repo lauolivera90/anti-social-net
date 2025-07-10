@@ -6,11 +6,20 @@ import { useAuth } from '../../../context/AuthContext';
 import { Container, Row, Col, Button, Form } from 'react-bootstrap';
 
 const MakeAPost = () => {
+  const [focus, setFocus] = useState(false)
   const [inputText, setInputText] = useState("");
   const [images, setImages] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const textareaRef = useRef(null);
   const { usuario } = useAuth();
+
+  const cleanInputs = () => {
+    setInputText("");
+    setImages([]);
+    setSelectedTags([]);
+    document.querySelector('#contain-images').innerHTML = '';
+    document.querySelector('#tags').innerHTML = '';
+  }
 
   const post = async () => {
     try {
@@ -27,12 +36,7 @@ const MakeAPost = () => {
         }),
       });
       if (!response.ok) throw new Error("Error al publicar el post");
-
-      setInputText("");
-      setImages([]);
-      setSelectedTags([]);
-      document.querySelector('#contain-images').innerHTML = '';
-      document.querySelector('#tags').innerHTML = '';
+      cleanInputs()
     } catch (error) {
       console.error({ error: error.message });
     }
@@ -51,6 +55,7 @@ const MakeAPost = () => {
   };
 
   useEffect(() => {
+    if (!focus) return
     const counter = document.querySelector('#counter');
     if (inputText.length > 0) {
       counter.textContent = `${inputText.length}`;
@@ -67,32 +72,36 @@ const MakeAPost = () => {
 
   return (
     <Container fluid className="bg-black border-bottom border-dark text-white p-4">
-      {/* Herramientas y botón */}
-      <Row className="align-items-center px-3 position-relative mb-3">
-        <Col xs="auto"><ImagesPreview images={images} setImages={setImages} /></Col>
-        <Col xs="auto"><Emoji setInputText={setInputText} /></Col>
-        <Col xs="auto"><TagsPreview setSelectedTags={setSelectedTags} selectedTags={selectedTags} /></Col>
-        <Col className="text-end">
-          <span id="counter" className="me-2"></span>
-          <Button
-            id="post"
-            variant="primary"
-            onClick={post}
-            disabled={inputText.trim().length === 0 || inputText.length > 2200}
-          >
-            Publicar
-          </Button>
-        </Col>
-      </Row>
+      {focus && (
+        <>
+          <Row className="align-items-center px-3 position-relative mb-3">
+            <Col xs="auto"><ImagesPreview images={images} setImages={setImages} /></Col>
+            <Col xs="auto"><Emoji setInputText={setInputText} /></Col>
+            <Col xs="auto"><TagsPreview setSelectedTags={setSelectedTags} selectedTags={selectedTags} /></Col>
+            <Col className="text-end">
+              <span id="counter" className="me-2"></span>
+              <Button
+                id="post"
+                variant="primary"
+                onClick={post}
+                disabled={inputText.trim().length === 0 || inputText.length > 2200}
+              >
+                Publicar
+              </Button>
+            </Col>
+          </Row>
+        </>
+      )}
 
       {/* Entrada de texto + tags + imágenes */}
-      <Row className="pt-3 border-top mt-3">
+      <Row className={`fs-5 bg-black pt-3 mt-3 ${focus ? "border-top border-dark" : "border-0"}`}>
         <Col>
           <Form.Control
             as="textarea"
             ref={textareaRef}
+            onFocus={() => setFocus(true)}
             rows={1}
-            className="bg-black text-white border-0 mb-3"
+            className="fs-5 bg-black text-white border-0 mb-3"
             placeholder="¿En qué estás pensando?"
             style={{ resize: "none", overflow: "hidden", height: "auto" }}
             value={inputText}

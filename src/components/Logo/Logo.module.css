@@ -1,0 +1,427 @@
+.logo {
+    padding: 2dvb;
+    width: fit-content;
+    height: 150px;
+    border-radius: 0%;
+    cursor: pointer;
+    position: initial;
+    -transform: rotate3d(-1, 1, -1, 45deg);
+    z-index: -9;
+    object-position: center;
+
+}
+
+.espiral1 {
+    border: 1dvh dotted whitesmoke;
+    border-radius: 100%;
+    border-width: 0.25dvb 0.5dvb 0.75dvb 1dvb;
+    border-color: ghostwhite;
+
+    mask-border-width: auto;
+    padding: auto;
+    border-spacing: 20px 20px;
+    border-radius: 50% 100% 50% 100%;
+    -animation: spira 1s alternate-reverse 4;
+    -animation-delay: 0s;
+    -animation: efecto2 1s alternate-reverse infinite;
+    -animation-delay: 500ms;
+    -animation-timing-function: linear;
+}
+
+.espiral2 {
+    border: 1dvh dotted whitesmoke;
+    border-radius: 100%;
+    border-width: 1dvb 0.75dvb 0.5dvb 0.25dvb;
+    border-color: ghostwhite;
+    mask-border-width: auto;
+    padding: auto;
+    border-radius: 100% 50% 100% 50%;
+    -animation: spira 1s normal 4;
+    animation-delay: 500ms;
+    -animation: spira 1s reverse infinite;
+    -animation-delay: 500ms;
+    -animation-timing-function: linear;
+}
+
+.circulo {
+    border: 1.8dvh dotted whitesmoke;
+    border-radius: 100%;
+    border-width: 0.25dvb 0.5dvb 0.75dvb 1dvb;
+    border-color: ghostwhite;
+    mask-border-width: auto;
+    padding: 13px;
+    border-radius: 100% 100% 100% 100%;
+    -animation: spira2 1s normal 4;
+    animation-delay: -250ms;
+    -animation: spira 1s reverse infinite;
+    -animation-delay: 500ms;
+    -animation-timing-function: linear;
+    -transform: rotateX(45deg);
+    margin-top: 40px;
+    -transform: rotate3d(1, 1, 1, 45deg);
+    margin-top: inherit;
+    position: initial;
+    min-height: fit-content;
+
+}
+
+/*
+.circulo:hover{
+    
+    animation: nova 1s normal 1;
+}
+.espiral1:hover{
+    animation: nova 1s alternate-reverse 1;
+}
+.espiral2:hover{
+    animation: nova 1s normal 1;
+}*/
+
+@keyframes nova {
+    0% {
+        transform: rotateY(0deg);
+    }
+
+    50% {
+        transform: rotateY(180deg);
+    }
+
+    100% {
+        transform: rotateY(360deg);
+    }
+}
+
+
+@keyframes spira {
+    0% {
+        border-width: 0.25dvb 0.5dvb 0.75dvb 1dvb;
+    }
+
+    25% {
+        border-width: 0.75dvb 1dvb 1.25dvb 0.5dvb;
+    }
+
+    50% {
+        border-width: 1.25dvb 1.5dvb 0.75dvb 1dvb;
+    }
+
+    75% {
+        border-width: 1.25dvb 0.5dvb 0.75dvb 1dvb;
+    }
+
+    100% {
+        border-width: 0.25dvb 0.5dvb 0.75dvb 1dvb;
+    }
+}
+
+@keyframes spira2 {
+    0% {
+        border-radius: 100% 100% 100% 100%;
+        border-width: 0.25dvb 0.5dvb 0.75dvb 1dvb;
+    }
+
+    25% {
+        border-radius: 100% 100% 100% 100%;
+        border-width: 0.5dvb 0.75dvb 1dvb 0.25dvb;
+    }
+
+    50% {
+        border-radius: 100% 100% 100% 100%;
+        border-width: 0.75dvb 1dvb 0.25dvb 0.5dvb;
+    }
+
+    75% {
+        border-radius: 100% 100% 100% 100%;
+        border-width: 1dvb 0.25dvb 0.5dvb 0.75dvb;
+    }
+
+    100% {
+        border-radius: 100% 100% 100% 100%;
+        border-width: 0.25dvb 0.5dvb 0.75dvb 1dvb;
+        ;
+    }
+}
+
+@keyframes efecto4 {
+    0% {
+        border-radius: 100% 100% 100% 100%;
+        border-width: 1dvb 1.5dvb 2dvb 2.5dvb;
+    }
+
+    25% {
+        border-radius: 100% 100% 100% 100%;
+        border-width: 3dvb 1.5dvb 2dvb 2.5dvb;
+    }
+
+    50% {
+        border-radius: 100% 100% 100% 100%;
+        border-width: 3.5dvb 4dvb 2.5dvb 3dvb;
+    }
+
+    75% {
+        border-radius: 100% 100% 100% 100%;
+        border-width: 4dvb 4.5dvb 5dvb 3.5dvb;
+    }
+
+    100% {
+        border-radius: 100% 100% 100% 100%;
+        border-width: 2.5dvb 3dvb 3.5dvb 4dvb;
+    }
+}
+
+@keyframes efecto3 {
+    0% {
+        border-radius: 50% 100% 50% 100%;
+        border-width: 0.5dvb 1dvb 1.5dvb 2dvb;
+    }
+
+    25% {
+        border-radius: 50% 100% 50% 100%;
+        border-width: 1.5dvb 2dvb 2.5dvb 1dvb;
+    }
+
+    50% {
+        border-radius: 75% 75% 75% 75%;
+        border-width: 2.5dvb 3dvb 1.5dvb 2dvb;
+    }
+
+    75% {
+        border-radius: 100% 50% 100% 50%;
+        border-width: 3.5dvb 2dvb 2.5dvb 3dvb;
+    }
+
+    100% {
+        border-radius: 100% 50% 100% 50%;
+        border-width: 2.5dvb 3dvb 3.5dvb 4dvb;
+    }
+}
+
+
+@keyframes efecto2 {
+    0% {
+        border-radius: 50% 100% 50% 100%;
+        border-width: 1dvb 1.5dvb 2dvb 2.5dvb;
+    }
+
+    25% {
+        border-radius: 50% 100% 50% 100%;
+        border-width: 2dvb 2.5dvb 3dvb 1.5dvb;
+    }
+
+    50% {
+        border-radius: 75% 75% 75% 75%;
+        border-width: 3dvb 3.5dvb 2dvb 2.5dvb;
+    }
+
+    75% {
+        border-radius: 100% 50% 100% 50%;
+        border-width: 3dvb 1.5dvb 2dvb 2.5dvb;
+    }
+
+    100% {
+        border-radius: 100% 50% 100% 50%;
+        border-width: 1dvb 1.5dvb 2dvb 2.5dvb;
+    }
+}
+
+@keyframes efecto1 {
+    0% {
+        border-radius: 50% 100% 50% 100%;
+        border-width: 1dvb 2dvb 3dvb 4dvb;
+    }
+
+    10% {
+        border-radius: 50% 100% 50% 100%;
+        border-width: 2dvb 3dvb 4dvb 1dvb;
+    }
+
+    20% {
+        border-radius: 50% 75% 50% 75%;
+        border-width: 3dvb 4dvb 2dvb 1dvb;
+    }
+
+    30% {
+        border-radius: 50% 50% 50% 50%;
+        border-width: 4dvb 1dvb 2dvb 3dvb;
+    }
+
+    40% {
+        border-radius: 100% 50% 100% 50%;
+        border-width: 1dvb 2dvb 3dvb 4dvb;
+    }
+
+    50% {
+        border-radius: 100% 50% 100% 50%;
+        border-width: 4dvb 1dvb 2dvb 3dvb;
+    }
+
+    60% {
+        border-radius: 100% 50% 100% 50%;
+        border-width: 3dvb 4dvb 1dvb 2dvb;
+    }
+
+    70% {
+        border-radius: 75% 50% 75% 50%;
+        border-width: 2dvb 3dvb 4dvb 1dvb;
+    }
+
+    80% {
+        border-radius: 50% 50% 50% 50%;
+        border-width: 1dvb 2dvb 3dvb 4dvb;
+    }
+
+    90% {
+        border-radius: 50% 75% 50% 75%;
+        border-width: 4dvb 1dvb 2dvb 3dvb;
+    }
+
+    100% {
+        border-radius: 50% 100% 50% 100%;
+        border-width: 3dvb 4dvb 1dvb 2dvb;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    
+
+    .logo {
+        width: 105px;
+        height: auto;
+        align-items: self-start;
+        margin-bottom: 0;
+    }
+
+    .text {
+        display: none;
+
+    }
+
+    .nav {
+        width: 20vw;
+    }
+
+    .opciones {
+        width: fit-content;
+    }
+
+
+    .espiral1 {
+        border: 1dvh dotted whitesmoke;
+        border-radius: 100%;
+        border-width: 0.1dvb 0.2dvb 0.3dvb 0.4dvb;
+        border-color: ghostwhite;
+
+        mask-border-width: auto;
+        padding: auto;
+        border-spacing: 20px 20px;
+        border-radius: 50% 100% 50% 100%;
+        -animation: spira 1s alternate-reverse 4;
+        -animation-delay: 0s;
+        -animation: efecto2 1s alternate-reverse infinite;
+        -animation-delay: 500ms;
+        -animation-timing-function: linear;
+    }
+
+    .espiral2 {
+        border: 1dvh dotted whitesmoke;
+        border-radius: 100%;
+        border-width: 0.4dvb 0.3dvb 0.2dvb 0.1dvb;
+        border-color: ghostwhite;
+        mask-border-width: auto;
+        padding: auto;
+        border-radius: 100% 50% 100% 50%;
+        -animation: spira 1s normal 4;
+        animation-delay: 500ms;
+        -animation: spira 1s reverse infinite;
+        -animation-delay: 500ms;
+        -animation-timing-function: linear;
+    }
+
+    .circulo {
+        border: 1.8dvh dotted whitesmoke;
+        border-radius: 100%;
+        border-width: 0.1dvb 0.2dvb 0.3dvb 0.4dvb;
+        border-color: ghostwhite;
+
+        margin-top: inherit;
+        position: initial;
+        min-height: fit-content;
+
+    }
+    
+}
+
+@media (max-width:767px){
+
+    .logo {
+        width: 92px;
+        height: auto;
+        align-items: left;
+        margin-bottom: 0;
+        border:none;
+        float:left
+    }
+    
+
+    .espiral1{
+        display:flex;
+        flex-direction: row;
+        justify-content: left;
+        align-items: left;
+        margin-left:-35px;
+    }
+
+    .text {
+        display: none;
+
+    }
+
+    .nav {
+        width: 20vw;
+    }
+
+    .opciones {
+        width: fit-content;
+    }
+
+
+    .espiral1 {
+        border:none;
+        -animation: spira 1s alternate-reverse 4;
+        -animation-delay: 0s;
+        -animation: efecto2 1s alternate-reverse infinite;
+        -animation-delay: 500ms;
+        -animation-timing-function: linear;
+    }
+
+    .espiral2 {
+        border: none;
+        border-radius: 100%;
+        border-width: 0.2dvb 0.15dvb 0.1dvb 0.05dvb;
+        border-color: ghostwhite;
+        mask-border-width: auto;
+        padding: auto;
+        border-radius: 100% 50% 100% 50%;
+        width: fit-content;
+    }
+
+    .circulo {
+        border:none;
+        border: 1.8dvh dotted whitesmoke;
+        border-radius: 100%;
+        border-width: 0.05dvb 0.2dvb 0.15dvb 0.2dvb;
+        border-color: ghostwhite;
+        width: fit-content;
+        margin-top: inherit;
+        position: initial;
+        min-height: fit-content;
+        border:none;
+        justify-content: center;
+    }   
+    #circulo{
+        border:none;
+    }
+    img{
+        border:none;
+    }
+}
