@@ -1,0 +1,206 @@
+@font-face {
+    font-family: 'Roboto';
+    src: url('../../fonts/RobotoFlex-VariableFont_GRAD\,XOPQ\,XTRA\,YOPQ\,YTAS\,YTDE\,YTFI\,YTLC\,YTUC\,opsz\,slnt\,wdth\,wght.ttf') format('ttf');
+}
+
+.userIcon {
+    background-color: black;
+    opacity: 50%;
+    color: black;
+    font-weight: bold;
+    font-size: medium;
+    font-family: 'Roboto';
+    margin-top: 25px;
+    text-align: justify;
+    max-width: 18dvi;
+    min-width: 15dvi;
+    width: auto;
+    height: auto;
+    min-height: 20px;
+    border-radius: 10dvw;
+    border-width: 0px;
+    object-position: center;
+    text-decoration: none;
+    width: 250px;
+    height: auto;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    flex-shrink: inherit;
+    flex-wrap: initial;
+    justify-content: center;
+    text-align: left;
+    align-items: center;
+}
+
+.userIcon:hover {
+    background-color: rgb(24, 24, 24);
+    color: whitesmoke;
+    text-decoration: none;
+
+}
+
+.userIcon svg {
+    display: block;
+    float: left;
+    color: blue;
+    background-color: white;
+    width: fit-content;
+    height: auto;
+    min-width: 60px;
+    border-color: aliceblue;
+    border-style: solid;
+    border-radius: 100%;
+    border-width: 2px;
+    object-position: left;
+}
+
+.body {
+    width: 20vw;
+    height: 10vh;
+    background-color: black;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.header {
+    width: 20vw;
+    height: 10vh;
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.body i {
+    color: red;
+    text-align: right;
+    font-size: x-large;
+    border-radius: 100%;
+    background-color: white;
+    border: 2px solid white;
+    align-items: baseline;
+}
+
+.popover {
+    max-width: 20vw;
+    object-position: center;
+    cursor: pointer;
+    box-sizing: inherit;
+    color: white;
+    box-shadow: 0px 0px 3px 3px white;
+    box-shadow: inset;
+    font-weight: 500;
+    font-size: larger;
+    font-family: 'Roboto';
+}
+
+.popover *:hover {
+    background-color: rgb(24, 24, 24);
+}
+
+
+.userIcon aside {
+    margin-left: 15px;
+}
+
+@media (min-width: 1280px) and (max-width: 1360px) {
+    .userIcon {
+        width: 90%;
+        font-weight: 200;
+        font-size: larger;
+        font-family: 'Roboto';
+    }
+}
+
+@media (min-width: 1200px) and (max-width: 1279px) {
+    .userIcon {
+
+        width: 80%;
+        font-weight: 100;
+        font-size: larger;
+        font-family: 'Roboto';
+    }
+
+    svg {
+        height: 80%;
+        width: auto;
+    }
+}
+
+@media (min-width: 1120px) and (max-width: 1199px) {
+    .userIcon {
+        width: 60%;
+        font-weight: 300;
+        font-size: medium;
+        font-family: 'Roboto';
+    }
+}
+
+@media (min-width: 1024px) and (max-width: 1119px) {
+    .userIcon {
+        width: 60%;
+        font-weight: 300;
+        font-size: medium;
+        font-family: 'Roboto';
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1023px) {
+    .userIcon aside {
+        display: none;
+    }
+
+    .userIcon {
+        border-radius: 100%;
+        width: auto;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: left;
+        margin-left: -6%;
+    }
+
+    .userIcon:hover {
+        border-radius: 100%;
+    }
+
+}
+
+@media (max-width: 768px) {
+    .userIcon aside {
+        display: none;
+    }
+
+    .userIcon {
+        border-radius: 100%;
+        width: 30px;
+        height: auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: left;
+        align-items: left;
+        margin-left: -10%;
+        
+    }
+
+    .userIcon svg {
+        display: flex;
+        justify-content: left;
+        color: blue;
+        background-color: white;
+        width: min-content;
+        height: auto;
+        max-width: 40px;
+        border-color: aliceblue;
+        border-style: solid;
+        border-radius: 100%;
+        border-width: 0px;
+        object-position: left;
+    }
+}

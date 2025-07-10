@@ -44,6 +44,7 @@ const Emoji = ({ setInputText }) => {
           ref={popupRef} 
           className="position-absolute z-3 mt-2" 
           style={{ top: "100%", left: 0 }}
+          onClick={(e) => e.stopPropagation()}
         >
           <EmojiPicker onEmojiClick={onEmojiClick} />
         </Container>

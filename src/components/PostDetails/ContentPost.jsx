@@ -34,7 +34,7 @@ const ContentPost = ({ description, user, date, image, tag }) => {
             style={{ width: '48px', height: '48px', objectFit: 'cover', cursor: 'pointer' }}
           />
         </Col>
-        <Col>
+        <Col xs="auto">
           <p className="text-capitalize fw-bold m-0" onClick={goToProfile} style={{ cursor: 'pointer' }}>
             {user.nickname}
           </p>

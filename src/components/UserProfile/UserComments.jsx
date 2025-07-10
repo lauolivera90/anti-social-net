@@ -2,22 +2,21 @@ import { useEffect, useState } from "react";
 import Comment from "../PostDetails/Comment";
 import { Container, Row, Col, Alert } from "react-bootstrap";
 
-const UserComments = ({ setCommentsLenght }) => {
+const UserComments = ({ setCommentsLength, user }) => {
   const [comments, setComments] = useState([]);
 
   const loadComments = async () => {
     try {
-      const userId = window.location.pathname.split("/").pop();
       const response = await fetch(`http://localhost:3000/comment`);
       if (!response.ok) {
         throw new Error("Error de red al cargar los comentarios del usuario");
       }
       const data = await response.json();
       const userComments = data.filter(
-        (comment) => comment.user && comment.user._id === userId
+        (comment) => comment.user && comment.user._id === user._id
       );
       setComments(userComments);
-      setCommentsLenght(userComments.length);
+      setCommentsLength(userComments.length);
     } catch (error) {
       console.error("Error al cargar los comentarios:", error);
     }
@@ -44,7 +43,7 @@ const UserComments = ({ setCommentsLenght }) => {
       ) : (
         <Row>
           <Col>
-            <Container className="bg-black text-white text-center rounded">
+            <Container className="bg-black text-white text-center rounded p-5">
               <span>No hay comentarios disponibles.</span>
             </Container>
           </Col>

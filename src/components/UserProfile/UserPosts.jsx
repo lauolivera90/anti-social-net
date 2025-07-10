@@ -2,19 +2,20 @@ import { useEffect, useState } from "react";
 import PostPreview from "../Home/postPreview";
 import { Container, Row, Col } from "react-bootstrap";
 
-const UserPosts = ({ setPostLength }) => {
+const UserPosts = ({ setPostLength, user }) => {
   const [posts, setPosts] = useState([]);
 
   const loadPosts = async () => {
     try {
-      const userId = window.location.pathname.split("/").pop();
-      const response = await fetch(`http://localhost:3000/post?userId=${userId}`);
-      if (!response.ok) {
+      const response = await fetch(`http://localhost:3000/post?userId=${user._id}`);
+      console.log("mostrando lo que user tiene en el componente userPosts: ", user)
+      if (!response.ok) {       
         throw new Error("Error de red al cargar los posts del usuario");
       }
       const data = await response.json();
       setPosts(data);
       setPostLength(data.length);
+      console.log("mostrando lo que user tiene en el componente userPosts: ", user)
     } catch (error) {
       console.error("Error al cargar los posts:", error);
     }

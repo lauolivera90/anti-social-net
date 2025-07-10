@@ -8,7 +8,7 @@ import { Container, Col, Row, Button } from "react-bootstrap";
 
 function Home() {
   const [posts, setPosts] = useState([]);
-  const {usuario, logout} = useAuth();
+  const {usuario} = useAuth();
   //const [loadedPosts, setLoadedPosts] = useState([]);
 
   const cargarPosts = async () => {
@@ -63,18 +63,13 @@ function Home() {
 }, [usuario]); // ✅ ahora se ejecuta cuando cambia `usuario`
 
 return (
-  <Container fluid className="ajustContainer">
-    <Row>
-      <Col xs={12} md={3} lg={2} className="bg-black border-end border-dark ajustContainer">
-        <Button
-          className="position-sticky top-0 btn btn-primary m-2"
-          onClick={logout}
-        >
-          Desloguearse
-        </Button>
+  <Container fluid>
+    <Row> 
+      <Col xs={12} md="auto" className="bg-black border-end border-dark">
+        <AsideNav/>
       </Col>
 
-      <Col xs={12} md={9} lg={10} className="ajustContainer">
+      <Col className="ajustContainer">
         <TypeOfFeed />
         <MakeAPost />
 
