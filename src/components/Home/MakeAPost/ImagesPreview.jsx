@@ -6,7 +6,6 @@ const ImagesPreview = ({ images, setImages }) => {
   const [inputUrl, setInputUrl] = useState('');
   const popupRef = useRef(null);
 
-  // Regex para validar URL de imagen
   const isValidImageUrl = (url) => {
     return /^https?:\/\/.+(\.(jpg|jpeg|png|gif)(\?.*)?$|[?&]format=(jpg|jpeg|png|gif))/.test(url);
   };
@@ -17,7 +16,6 @@ const ImagesPreview = ({ images, setImages }) => {
       return;
     }
 
-    // Evitar URLs duplicadas
     if (images.some(img => img.url === inputUrl)) {
       alert("Esta imagen ya ha sido añadida");
       return;
@@ -28,16 +26,13 @@ const ImagesPreview = ({ images, setImages }) => {
     setShowAddImage(false);
   };
 
-  const removeImage = (urlToRemove) => {
-    setImages(prev => prev.filter(img => img.url !== urlToRemove));
+  const handleClickOutside = (event) => {
+    if (popupRef.current && !popupRef.current.contains(event.target)) {
+      setShowAddImage(false);
+    }
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
-      if (popupRef.current && !popupRef.current.contains(event.target)) {
-        setShowAddImage(false);
-      }
-    };
     if (showAddImage) {
       document.addEventListener('mousedown', handleClickOutside);
       document.addEventListener('scroll', handleClickOutside);
@@ -73,37 +68,11 @@ const ImagesPreview = ({ images, setImages }) => {
             autoFocus
           />
           <div className="d-flex justify-content-between">
-            <Button variant="secondary" onClick={() => setInputUrl('')}>
-              Limpiar
-            </Button>
-            <Button variant="primary" onClick={addImage} disabled={!inputUrl.trim()}>
-              Añadir
-            </Button>
+            <Button variant="secondary" onClick={() => setInputUrl('')}>Limpiar</Button>
+            <Button variant="primary" onClick={addImage} disabled={!inputUrl.trim()}>Añadir</Button>
           </div>
         </Container>
       )}
-
-      <Container
-        id="contain-images"
-        className="d-grid gap-2 mt-3"
-        style={{ gridTemplateColumns: "repeat(2, 1fr)" }}
-      >
-        {images.map((img) => (
-          <div key={img.url} className="position-relative container">
-            <img
-              src={img.url}
-              alt="preview"
-              className="img-thumbnail"
-              style={{ width: '100%', height: 'auto', objectFit: 'cover' }}
-            />
-            <i
-              className="bi bi-x-square-fill btn fs-3 text-white position-absolute top-0 end-0"
-              style={{ cursor: 'pointer' }}
-              onClick={() => removeImage(img.url)}
-            ></i>
-          </div>
-        ))}
-      </Container>
     </>
   );
 };

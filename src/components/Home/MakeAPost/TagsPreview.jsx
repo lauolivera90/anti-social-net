@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Container, Form, Row, Col } from "react-bootstrap";
 
-const TagsPreviews = ({ selectedTags, setSelectedTags }) => {
+const TagsPreviews = ({ selectedTags, setSelectedTags, setAvailableTags }) => {
   const [showAddTag, setShowAddTag] = useState(false);
   const [tags, setTags] = useState([]);
   const popupRef = useRef(null);
@@ -12,6 +12,7 @@ const TagsPreviews = ({ selectedTags, setSelectedTags }) => {
       if (!response.ok) throw new Error("Error al obtener las etiquetas");
       const data = await response.json();
       setTags(data);
+      setAvailableTags(data); // <--- exportás las tags al padre
     } catch (error) {
       console.error({ error: error.message });
     }
@@ -77,19 +78,6 @@ const TagsPreviews = ({ selectedTags, setSelectedTags }) => {
           </Row>
         </Container>
       )}
-
-      {/* Mostrar etiquetas seleccionadas */}
-      <Container className="mt-2 d-flex flex-wrap gap-2" id="tags">
-        {selectedTags.length > 0 && tags.length > 0 && selectedTags.map(tagId => {
-          const tag = tags.find(t => t._id === tagId);
-          if (!tag) return null;
-          return (
-            <p key={tag._id} className="text-primary text-capitalize m-0">
-              #{tag.name}
-            </p>
-          );
-        })}
-      </Container>
     </>
   );
 };

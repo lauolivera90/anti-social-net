@@ -72,18 +72,18 @@ export default function Register() {
   };
 
   return (
-    <Container className="d-flex vh-100">
-      {/* Fondo de pantalla */}
+    <div className="d-flex vh-100">
+      {/* Background image */}
       <div className="w-100 h-100">
         <img
           src="https://i.pinimg.com/736x/79/0e/44/790e44391a38a9589e32c846947a01bb.jpg"
-          alt="Fondo"
+          alt="Fondo visual"
           className="w-100 h-100 object-fit-cover"
         />
       </div>
 
       {/* Formulario de registro */}
-      <Container className="w-100 d-flex flex-column justify-content-center align-items-center gap-3 p-5">
+      <Container className="w-100 bg-light d-flex flex-column justify-content-center align-items-center gap-3 p-5">
         <Container className="d-flex flex-column justify-content-center align-items-center">
           <Form onSubmit={handleRegister}>
             <h1 className="text-black mb-4 border-0 border-bottom border-dark p-5">Registrarse</h1>
@@ -131,13 +131,13 @@ export default function Register() {
           </Form>
         </Container>
 
-        <Container className="d-flex flex-row gap-2 mt-5">
+        <Container className="d-flex flex-row gap-2 mt-5 justify-content-center">
           <p>¿Ya tienes una cuenta?</p>
           <a className="text-primary" onClick={toLogin}>
             Iniciar sesión
           </a>
         </Container>
       </Container>
-    </Container>
+    </div>
   );
 }

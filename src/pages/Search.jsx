@@ -1,61 +1,68 @@
-import {useState } from "react";
-import { Container, Form, Row, Col, Nav, Tabs, Tab } from "react-bootstrap"
 
-const Search = () =>{
-    const [input, setInput] = useState("")
-    const tokens = input.split(/\s+/);
-    let author = null 
-    let tags = [];
-    let content = [];
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import ListGroup from 'react-bootstrap/ListGroup';
+import TypeOfFeed from '../components/Home/TypeOfFeed';
+import { useState, useEffect } from 'react';
+import PostPreview from '../components/Home/PostPreview';
+import { Container, Col, Row, Button } from "react-bootstrap";
 
-    const handleSearch = () => {
-        setInput(document.getElementById("searchbar").value)
-        tokens.forEach(token => {
-        if (token.startsWith("From:@")) {
-            author = token.slice(6).toLowerCase(); // quitar "From:@"
-        } else if (token.startsWith("#")) {
-            tags.push(token.slice(1).toLowerCase()); // quitar "#"
-        } else {
-            content.push(token.toLowerCase());
+const Searched = () => {
+    const [busqueda, setBusqueda] = useState([])
+    const [tag,setTag]=useState("")
+
+    const getPostsByTag = async () => {
+        try {
+            const value = window.location.pathname.split("/").pop();
+            setTag(value)
+            const response = await fetch("http://localhost:3000/post");
+            if (!response.ok) {
+                throw new Error("No se pudo obtener los post");
+            }
+            //No me fijo si es valido el tag por ahora
+            const data = await response.json();
+            const postConTags = data.filter(post => (post.tag).includes(value) || (post.tag).includes(value.toLocaleUpperCase()))
+            setBusqueda(postConTags)
+
+        } catch (error) {
+            console.log("Se produjo el siguienter error ", error)
         }
-        });
     }
+    useEffect(() => getPostsByTag(), [])
+    return(
+    <>
+        <Container fluid className="ajustContainer">
+            <Row>
+                <Col xs={12} md={9} lg={10} xxl={11} className="ajustContainer">
+                    <TypeOfFeed />
+                    <h3>Los resultados de su búsqueda</h3>
 
+                    {busqueda.lenght > 0 ? (
 
-    return (
-        <Container className="text-white">
-            <Row>
-                <Col>
-                    <Form.Control type="text" id="searchbar" placeholder="Buscar" onChange={handleSearch}
-                    />
+                        <Container className="ajustContainer">
+                            {busqueda.map((post) => (
+                                <PostPreview
+                                    key={post._id}
+                                    user={post.user || "Desconocido"}
+                                    images={post.image}
+                                    description={post.description}
+                                    date={post.upload_date}
+                                    postId={post._id}
+                                    tags={post.tag || []}
+                                />
+                            ))}
+                        </Container>)
+                        : (
+                            <p>Lo sentimos, no tenemos post con tag: {tag}</p>
+                        )
+
+                    }
                 </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Nav.Link id="search-post" style={{ cursor: 'pointer' }}
-                    className="border-bottom border-5 rounded-1"
-                    >Publicaciones</Nav.Link>
-                </Col>
-                <Col>
-                    <Nav.Link id="search-user" style={{ cursor: 'pointer' }}
-                    className="border-bottom border-5 rounded-1"
-                    >Usuarios</Nav.Link>
-                </Col>
-                <Col>
-                    <Nav.Link id="search-media" style={{ cursor: 'pointer' }}
-                    className="border-bottom border-5 rounded-1"
-                    >Fotos</Nav.Link>
-                </Col>
-            </Row>
-            <Row>
-                <Col id="show-post">
-                </Col>
-                <Col id="show-user"></Col>
-                <Col id="show-media"></Col>
             </Row>
         </Container>
 
-    )
+    </>)
+
 }
 
-export default Search;
+export default Searched;
