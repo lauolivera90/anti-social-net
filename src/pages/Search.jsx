@@ -59,7 +59,7 @@ const Search = () => {
               {busqueda.map((post) => (
                 <PostPreview
                   key={post._id}
-                  user={post.user?.nickname || "Desconocido"}
+                  user={post.user || "Desconocido"}
                   images={post.image}
                   description={post.description}
                   date={post.upload_date}
