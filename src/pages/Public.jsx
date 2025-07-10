@@ -9,7 +9,6 @@ const Public = () => {
 
   return (
     <div fluid className="d-flex flex-row vh-100">
-      {/* Background image */}
       <div className="w-100 h-100">
         <img
           src="https://i.pinimg.com/736x/79/0e/44/790e44391a38a9589e32c846947a01bb.jpg"
@@ -18,7 +17,6 @@ const Public = () => {
         />
       </div>
 
-      {/* Contenido principal */}
       <Row className="justify-content-center align-items-center w-100 h-100 bg-light">
         <Col xs={12} md={6} lg={4} className="text-center">
           <h1 className="fw-bold text-black">Interacción en todo momento</h1>
