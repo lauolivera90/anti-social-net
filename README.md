@@ -1,12 +1,43 @@
-# React + Vite
+VisualLayer
+VisualLayer es una plataforma web que permite a los usuarios interactuar mediante publicaciones y comentarios. Este proyecto fue desarrollado como parte de una materia universitaria, integrando tanto tecnologías frontend como una API provista por otro grupo de la misma cursada.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🧑‍💻 Integrantes del grupo (orden alfabético)
+Federico González
 
-Currently, two official plugins are available:
+Federico Labriola
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Martin Lubris Vadell
 
-## Expanding the ESLint configuration
+Lautaro B. Olivera
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🚀 Tecnologías utilizadas
+React Bootstrap
+
+Bootstrap CSS
+
+Bootstrap Icons
+
+API desarrollada por el grupo Semáforos en Rojo de la Comisión 2, en la materia Persistencia.
+
+🌐 Funcionalidades de la aplicación
+En la aplicación web el usuario puede:
+
+Crear cuenta de usuario
+
+Eliminar su cuenta (junto con todas sus publicaciones y comentarios)
+
+Iniciar sesión
+
+Acceder y editar su perfil
+
+Cambiar la configuración del usuario
+
+Crear nuevas publicaciones
+
+Ver publicaciones completas
+
+Filtrar publicaciones por etiquetas
+
+Comentar publicaciones
+
+¿Querés que lo prepare también en formato Markdown (README.md) para copiar y pegar directamente o subir al repo?
