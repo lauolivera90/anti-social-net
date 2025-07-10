@@ -3,13 +3,10 @@ import PostPreview from "../components/Home/postPreview";
 import TypeOfFeed from "../components/Home/TypeOfFeed";
 import MakeAPost from "../components/Home/MakeAPost/MakeAPost";
 import AsideNav from "../components/AsideNav/AsideNav";
-import { useAuth } from '../context/AuthContext';
 import { Container, Col, Row, Button } from "react-bootstrap";
 
 function Home() {
   const [posts, setPosts] = useState([]);
-  const {usuario} = useAuth();
-  //const [loadedPosts, setLoadedPosts] = useState([]);
 
   const cargarPosts = async () => {
     try {
@@ -24,27 +21,13 @@ function Home() {
     }
   };
 
-  /*
-  const AleatoryPosts = () => {
-    const shuffledPost = [...posts].sort(() => Math.random() - 0.5);
-    if (loadedPosts.length > 0) {
-      shuffledPost.filter(post => !loadedPosts.includes(post._id));
-      console.log("Posts ya cargados:", loadedPosts);
-    }
-    const toLoad = shuffledPost.slice(0, 2); // Toma los primeros 10 posts aleatorios
-    setLoadedPosts((prev) => [...prev, ...toLoad.map(post => post._id)]); // Agrega los IDs de los posts cargados
-
-    return toLoad; // Retorna 10 posts aleatorios
-  }*/
-
-  // Detecta cuando el usuario llega al final de la página
+ 
   useEffect(() => {
   const handleScroll = () => {
     const bottom = window.innerHeight + window.scrollY >= document.body.offsetHeight - 50;
 
     if (bottom) {
       console.log("Llegaste al final");
-      // Aquí podés cargar más posts, por ejemplo
       }
   };
 
@@ -55,12 +38,6 @@ function Home() {
   useEffect(() => {
     cargarPosts();
   }, []);
-
-  useEffect(() => {
-  if (usuario) {
-    //console.log("Usuario cargado correctamente:", usuario);
-  }
-}, [usuario]); // ✅ ahora se ejecuta cuando cambia `usuario`
 
 return (
   <Container fluid>

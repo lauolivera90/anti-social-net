@@ -22,14 +22,13 @@ export default function Register() {
   const handleRegister = async (e) => {
     e.preventDefault();
 
-    setError(""); // Reseteamos el estado de error al intentar un nuevo registro.
+    setError("");
 
     if (!nickName || !email || !contraseña) {
       setError("Completá todos los campos.");
       return;
     }
 
-    // Validación básica del formato del email.
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setError("Por favor, ingresa un correo electrónico válido.");

@@ -23,7 +23,6 @@ const Comment = ({ user, text, date }) => {
       className="border-0 border-bottom border-dark bg-black pe-4 ps-4 pt-3 pb-1 text-white"
     >
       <Row className="align-items-start">
-        {/* Avatar */}
         <Col xs="auto">
           <Image
             src="https://cdn-icons-png.flaticon.com/512/149/149071.png"
@@ -34,7 +33,6 @@ const Comment = ({ user, text, date }) => {
           />
         </Col>
 
-        {/* Comment Content */}
         <Col>
           <Row className="align-items-center">
             <Col xs="auto" onClick={goToProfile} style={{ cursor: "pointer" }}>

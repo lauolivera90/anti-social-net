@@ -12,7 +12,7 @@ const TagsPreviews = ({ selectedTags, setSelectedTags, setAvailableTags }) => {
       if (!response.ok) throw new Error("Error al obtener las etiquetas");
       const data = await response.json();
       setTags(data);
-      setAvailableTags(data); // <--- exportás las tags al padre
+      setAvailableTags(data); 
     } catch (error) {
       console.error({ error: error.message });
     }

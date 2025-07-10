@@ -35,7 +35,6 @@ export default function Login() {
 
   return (
     <div className="d-flex vh-100">
-      {/* Background image */}
       <div className="w-100 h-100">
         <img
           src="https://i.pinimg.com/736x/79/0e/44/790e44391a38a9589e32c846947a01bb.jpg"
@@ -44,7 +43,6 @@ export default function Login() {
         />
       </div>
 
-      {/* Login form */}
       <div className="w-100 d-flex flex-column justify-content-center align-items-center gap-3 p-5 bg-light">
         <Container className="d-flex flex-column justify-content-center align-items-center">
           <Form onSubmit={mLogin} className="w-100" style={{ maxWidth: 400 }}>
