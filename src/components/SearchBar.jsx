@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Form, InputGroup, ListGroup, Container } from 'react-bootstrap';
+import { Form, InputGroup, ListGroup, Container, Row, Col } from 'react-bootstrap';
 
 const TagSearchBar = () => {
   const [searchText, setSearchText] = useState('');
@@ -8,6 +8,10 @@ const TagSearchBar = () => {
   const [filteredTags, setFilteredTags] = useState([]);
 
   const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1); // Navega a la página anterior
+  };
 
   useEffect(() => {
     const fetchTags = async () => {
@@ -38,8 +42,17 @@ const TagSearchBar = () => {
   };
 
   return (
-    <Container className="mb-4">
-      <InputGroup>
+    <Container fluid className="position-sticky top-0 bg-black text-white pt-3 pb-3 border-bottom border-dark">
+      <Row className="align-items-center justify-content-between">
+        <Col xs="auto" md="auto">
+          <i
+            className="bi bi-arrow-left fs-5"
+            onClick={goBack}
+            style={{ cursor: 'pointer' }}
+          ></i>
+        </Col>
+        <Col xs={3} md={3}>
+            <InputGroup>
         <Form.Control
           type="text"
           placeholder="Buscar etiquetas..."
@@ -61,10 +74,9 @@ const TagSearchBar = () => {
           ))}
         </ListGroup>
       )}
-
-      {searchText && filteredTags.length === 0 && (
-        <p className="mt-2 text-muted">No se encontraron etiquetas.</p>
-      )}
+    
+        </Col>
+      </Row>
     </Container>
   );
 };

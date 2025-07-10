@@ -77,12 +77,12 @@ const Profile = () => {
         {Object.keys(user).length !== 0 ? (
             <Row>
                     <Col xs={12} md="auto" className="bg-black border-end border-dark">
-                    <AsideNav/>
-                </Col>
+                        <AsideNav/>
+                    </Col>
                 <Col>
                     <Container fluid className="bg-black">
-                <ProfileNav user={user}/>
-                <Container className="bg-black">
+                    <ProfileNav user={user}/>
+                    <Container className="bg-black">
                 <Row>
                     <Col>
                     <UserInformation
