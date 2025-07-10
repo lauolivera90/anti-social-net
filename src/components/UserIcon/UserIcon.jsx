@@ -21,7 +21,6 @@ function UserIcon() {
                     overlay={
                         <Popover className={styles.popover} id={`popover-positioned-${placement}`}>
                             <Popover.Header as="h3" className={styles.header} onClick={goToConfig}>Configuración de la cuenta</Popover.Header>
-                            {console.log(usuario._id)}
                             <Popover.Body className={styles.body} onClick={logout}>
                                 Cerrar la sesión de  <strong>@{usuario.nickname}</strong> 
                             </Popover.Body>
