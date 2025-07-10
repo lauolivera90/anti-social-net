@@ -1,61 +1,84 @@
-import {useState } from "react";
-import { Container, Form, Row, Col, Nav, Tabs, Tab } from "react-bootstrap"
+import { useState, useEffect } from 'react';
+import Form from 'react-bootstrap/Form';
+import InputGroup from 'react-bootstrap/InputGroup';
+import ListGroup from 'react-bootstrap/ListGroup';
+import TypeOfFeed from '../components/Home/TypeOfFeed';
+import PostPreview from '../components/Home/postPreview';
+import { Container, Col, Row } from "react-bootstrap";
+import TagSearchBar from '../components/SearchBar';
 
-const Search = () =>{
-    const [input, setInput] = useState("")
-    const tokens = input.split(/\s+/);
-    let author = null 
-    let tags = [];
-    let content = [];
+const Search = () => {
+  const [busqueda, setBusqueda] = useState([]);
+  const [tag, setTag] = useState(null); // Inicializa como null para evitar errores
 
-    const handleSearch = () => {
-        setInput(document.getElementById("searchbar").value)
-        tokens.forEach(token => {
-        if (token.startsWith("From:@")) {
-            author = token.slice(6).toLowerCase(); // quitar "From:@"
-        } else if (token.startsWith("#")) {
-            tags.push(token.slice(1).toLowerCase()); // quitar "#"
-        } else {
-            content.push(token.toLowerCase());
-        }
-        });
+  const getPostsByTag = async () => {
+    try {
+      // Obtener el valor del tag desde la URL
+      const value = window.location.pathname.split("/").pop();
+
+      // Obtener el tag del backend
+      const tagResponse = await fetch(`http://localhost:3000/tag/${value}`);
+      if (!tagResponse.ok) throw new Error("No se pudo obtener el tag");
+      const tagData = await tagResponse.json();
+      setTag(tagData); // Guardar tag en estado para mostrarlo
+
+      // Obtener todos los posts
+      const postsResponse = await fetch("http://localhost:3000/post");
+      if (!postsResponse.ok) throw new Error("No se pudo obtener los posts");
+      const postsData = await postsResponse.json();
+
+      // Filtrar los posts que tengan ese tag (comparando por ID)
+      const filteredPosts = postsData.filter(post =>
+        post.tag.some(t => t._id === tagData._id)
+      );
+
+      setBusqueda(filteredPosts);
+    } catch (error) {
+      console.error("Error al obtener los posts por tag:", error);
     }
+  };
 
+  useEffect(() => {
+    getPostsByTag();
+  }, []);
 
-    return (
-        <Container className="text-white">
-            <Row>
-                <Col>
-                    <Form.Control type="text" id="searchbar" placeholder="Buscar" onChange={handleSearch}
-                    />
-                </Col>
-            </Row>
-            <Row>
-                <Col>
-                    <Nav.Link id="search-post" style={{ cursor: 'pointer' }}
-                    className="border-bottom border-5 rounded-1"
-                    >Publicaciones</Nav.Link>
-                </Col>
-                <Col>
-                    <Nav.Link id="search-user" style={{ cursor: 'pointer' }}
-                    className="border-bottom border-5 rounded-1"
-                    >Usuarios</Nav.Link>
-                </Col>
-                <Col>
-                    <Nav.Link id="search-media" style={{ cursor: 'pointer' }}
-                    className="border-bottom border-5 rounded-1"
-                    >Fotos</Nav.Link>
-                </Col>
-            </Row>
-            <Row>
-                <Col id="show-post">
-                </Col>
-                <Col id="show-user"></Col>
-                <Col id="show-media"></Col>
-            </Row>
-        </Container>
+  return (
+    <Container fluid className="ajustContainer">
+      <Row className='p-5'>
+        <TagSearchBar />
+      </Row>
+      <Row>
+        <Col xs={12} md={9} lg={10} xxl={11} className="ajustContainer">
+          <TypeOfFeed />
+          <h3>
+            Resultados para el tag: #{tag?.name || "Cargando..."}
+          </h3>
 
-    )
-}
+          {busqueda.length > 0 ? (
+            <Container className="ajustContainer">
+              {busqueda.map((post) => (
+                <PostPreview
+                  key={post._id}
+                  user={post.user || "Desconocido"}
+                  images={post.image}
+                  description={post.description}
+                  date={post.upload_date}
+                  postId={post._id}
+                  tags={post.tag || []}
+                />
+              ))}
+            </Container>
+          ) : (
+            <p>
+              {tag?.name
+                ? `Lo sentimos, no tenemos posts con el tag: #${tag.name}`
+                : "Cargando resultados..."}
+            </p>
+          )}
+        </Col>
+      </Row>
+    </Container>
+  );
+};
 
 export default Search;
