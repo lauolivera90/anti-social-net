@@ -10,7 +10,6 @@ Asegurate de tener el Backend corriendo. Si no lo tenés, la aplicación se ver�
 2. Configuración del Frontend
 Cloná este repositorio y ejecutá los siguientes comandos en la terminal:
 
-Bash
 # Instalar todas las dependencias (incluye Vite)
 npm install
 
