@@ -12,7 +12,7 @@ export default function Login() {
   const mLogin = async (e) => {
     e.preventDefault();
     const isValidUser = await validateUser();
-    if (!isValidUser || contraseña !== '1234') {
+    if (!isValidUser) {
       alert('El usuario o la contraseña son incorrectos');
       return;
     }

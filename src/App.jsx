@@ -10,7 +10,7 @@ import PrivateRoute from './components/Private'
 import Search from './pages/Search'
 import PublicRoute from './components/toHome'
 import Configuration from './pages/Configuration'
-import Contacto from '../../../porahora/src/pages/Contacto'
+import Contacto from './pages/Contacto'
 
 function App() {
 

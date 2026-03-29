@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-import styles from '../components/NotLogged/NotLogged.module.css'
+//import styles from '../components/NotLogged/NotLogged.module.css'
 
 export default function Contacto() {
     const navigate = useNavigate()
