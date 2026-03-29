@@ -15,6 +15,7 @@ npm install
 
 # Iniciar el servidor de desarrollo
 npm run dev
+
 Nota: Por defecto, el frontend busca la API en http://localhost:3000. Asegurate de que el backend esté usando ese puerto.
 
 # 🛠️ Tecnologías utilizadas
