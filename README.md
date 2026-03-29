@@ -1,37 +1,48 @@
-# VisualLayer
+🌐 Antisocial Net - VisualLayer
+Antisocial es una plataforma de red social inspirada en X (Twitter), desarrollada como proyecto integrador universitario. El enfoque principal fue el consumo de APIs REST, el manejo de estados complejos en el frontend y el diseño responsivo.
 
-**VisualLayer** es una plataforma web que permite a los usuarios interactuar mediante publicaciones y comentarios. Este proyecto fue desarrollado como parte de una materia universitaria, integrando tanto tecnologías frontend como una API provista por otro grupo de la misma cursada.
+🚀 Instalación y Uso Rápido (Local)
+Para ver la aplicación funcionando con datos de prueba, seguí estos pasos:
 
-## 🧑‍💻 Integrantes del grupo
+1. Requisito previo
+Asegurate de tener el Backend corriendo. Si no lo tenés, la aplicación se verá vacía.
 
-(Orden alfabético)
+2. Configuración del Frontend
+Cloná este repositorio y ejecutá los siguientes comandos en la terminal:
 
-- Federico González  
-- Federico Labriola  
-- Martin Lubris Vadell  
-- Lautaro B. Olivera  
+Bash
+# Instalar todas las dependencias (incluye Vite)
+npm install
 
-## 🚀 Tecnologías utilizadas
+# Iniciar el servidor de desarrollo
+npm run dev
+Nota: Por defecto, el frontend busca la API en http://localhost:3000. Asegurate de que el backend esté usando ese puerto.
 
-- [React Bootstrap](https://react-bootstrap.github.io/)  
-- [Bootstrap CSS](https://getbootstrap.com/)  
-- [Bootstrap Icons](https://icons.getbootstrap.com/)  
-- API desarrollada por el grupo **Semáforos en Rojo** de la **Comisión 2**, en la materia **Persistencia** (https://github.com/lauolivera90/backend-antisocialnet)
+🛠️ Tecnologías utilizadas
+Core: React.js & Vite (para un bundling ultrarrápido).
 
-## 🌐 Funcionalidades de la aplicación
+UI/UX: React Bootstrap, Bootstrap CSS e Icons.
 
-En la aplicación web los usuarios pueden:
+Comunicación: Axios para el consumo de la API REST (desarrollada por el grupo Semáforos en Rojo).
 
-- Crear cuenta de usuario  
-- Eliminar su cuenta (junto con todas sus publicaciones y comentarios)  
-- Iniciar sesión  
-- Acceder y editar su perfil  
-- Cambiar la configuración del usuario  
-- Crear nuevas publicaciones  
-- Ver publicaciones completas  
-- Filtrar publicaciones por etiquetas  
-- Comentar publicaciones  
+🌐 Funcionalidades Clave
+Gestión de Usuarios: Registro, Login y edición de perfil.
 
----
+Integridad de Datos: Eliminación de cuenta en cascada (borra publicaciones y comentarios asociados).
 
-💡 *Este proyecto fue realizado como parte del trabajo práctico integrador de la cursada.*
+Feed Dinámico: Creación de posts, visualización completa y sistema de comentarios.
+
+Exploración: Filtro avanzado de publicaciones mediante etiquetas (tags).
+
+Configuración: Panel de ajustes de usuario personalizado.
+
+🧑‍💻 Equipo VisualLayer
+Federico González
+
+Federico Labriola
+
+Martin Lubris Vadell
+
+Lautaro B. Olivera
+
+💡 Este proyecto forma parte de la materia "Construccion de interfaces de usuario" de la Tecnicatura en Programación (UNAHUR).
