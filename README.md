@@ -1,7 +1,7 @@
-🌐 Antisocial Net - VisualLayer
+#🌐 Antisocial Net - VisualLayer
 Antisocial es una plataforma de red social inspirada en X (Twitter), desarrollada como proyecto integrador universitario. El enfoque principal fue el consumo de APIs REST, el manejo de estados complejos en el frontend y el diseño responsivo.
 
-🚀 Instalación y Uso Rápido (Local)
+#🚀 Instalación y Uso Rápido (Local)
 Para ver la aplicación funcionando con datos de prueba, seguí estos pasos:
 
 1. Requisito previo
@@ -17,14 +17,14 @@ npm install
 npm run dev
 Nota: Por defecto, el frontend busca la API en http://localhost:3000. Asegurate de que el backend esté usando ese puerto.
 
-🛠️ Tecnologías utilizadas
+#🛠️ Tecnologías utilizadas
 Core: React.js & Vite (para un bundling ultrarrápido).
 
 UI/UX: React Bootstrap, Bootstrap CSS e Icons.
 
 Comunicación: Axios para el consumo de la API REST (desarrollada por el grupo Semáforos en Rojo).
 
-🌐 Funcionalidades Clave
+#🌐 Funcionalidades Clave
 Gestión de Usuarios: Registro, Login y edición de perfil.
 
 Integridad de Datos: Eliminación de cuenta en cascada (borra publicaciones y comentarios asociados).
@@ -35,7 +35,7 @@ Exploración: Filtro avanzado de publicaciones mediante etiquetas (tags).
 
 Configuración: Panel de ajustes de usuario personalizado.
 
-🧑‍💻 Equipo VisualLayer
+#🧑‍💻 Equipo VisualLayer
 Federico González
 
 Federico Labriola
