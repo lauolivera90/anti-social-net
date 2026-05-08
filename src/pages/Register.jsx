@@ -11,7 +11,7 @@ export default function Register() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch("http://localhost:3000/user")
+    fetch("https://antisocialnet-backend.onrender.com/user")
       .then(res => res.json())
       .then(data => setUsuarios(data))
       .catch(err => console.error("Error al cargar usuarios:", err));
@@ -49,7 +49,7 @@ export default function Register() {
     }
 
     try {
-      const res = await fetch("http://localhost:3000/user", {
+      const res = await fetch("https://antisocialnet-backend.onrender.com/user", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

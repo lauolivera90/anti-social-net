@@ -22,7 +22,7 @@ export default function Login() {
 
   const validateUser = async () => {
     try {
-      const response = await fetch('http://localhost:3000/user');
+      const response = await fetch('https://antisocialnet-backend.onrender.com/user');
       if (!response.ok) throw new Error('No se pudo obtener los usuarios');
 
       const data = await response.json();

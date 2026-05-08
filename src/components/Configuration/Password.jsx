@@ -59,7 +59,7 @@
     if (Object.keys(errors).length === 0) {
       try {
         const updatedUser = { ...usuario, password: newPassword };
-        const response = await fetch(`http://localhost:3000/user/${usuario._id}`, {
+        const response = await fetch(`https://antisocialnet-backend.onrender.com/user/${usuario._id}`, {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",

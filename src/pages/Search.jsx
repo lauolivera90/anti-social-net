@@ -13,11 +13,11 @@ const Search = () => {
     try {
       const value = window.location.pathname.split("/").pop();
 
-      const tagResponse = await fetch(`http://localhost:3000/tag/${value}`);
+      const tagResponse = await fetch(`https://antisocialnet-backend.onrender.com/tag/${value}`);
       if (!tagResponse.ok) throw new Error("No se pudo obtener el tag");
       const tagData = await tagResponse.json();
       setTag(tagData);
-      const postsResponse = await fetch("http://localhost:3000/post");
+      const postsResponse = await fetch("https://antisocialnet-backend.onrender.com/post");
       if (!postsResponse.ok) throw new Error("No se pudo obtener los posts");
       const postsData = await postsResponse.json();
 

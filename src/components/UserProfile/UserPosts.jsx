@@ -7,7 +7,7 @@ const UserPosts = ({ setPostLength, user }) => {
 
   const loadPosts = async () => {
     try {
-      const response = await fetch(`http://localhost:3000/post?userId=${user._id}`);
+      const response = await fetch(`https://antisocialnet-backend.onrender.com/post?userId=${user._id}`);
       console.log("mostrando lo que user tiene en el componente userPosts: ", user)
       if (!response.ok) {       
         throw new Error("Error de red al cargar los posts del usuario");

@@ -23,7 +23,7 @@ const Profile = () => {
                 setUser(usuario);
                 return;
             }
-            const response = await fetch(`http://localhost:3000/user/${userId}`);
+            const response = await fetch(`https://antisocialnet-backend.onrender.com/user/${userId}`);
             if (!response.ok) {
                 throw new Error("Error de red al cargar el usuario");
             }

@@ -31,7 +31,7 @@ const Desactivate = ({show, handleClose}) =>{
 
     const userPosts = async () => {
         try {
-        const response = await fetch(`http://localhost:3000/post?userId=${usuario._id}`);
+        const response = await fetch(`https://antisocialnet-backend.onrender.com/post?userId=${usuario._id}`);
         if (!response.ok) {       
             throw new Error("Error de red al cargar los posts del usuario");
         }
@@ -44,7 +44,7 @@ const Desactivate = ({show, handleClose}) =>{
 
     const userComments = async () => {
         try {
-        const response = await fetch(`http://localhost:3000/comment`);
+        const response = await fetch(`https://antisocialnet-backend.onrender.com/comment`);
         if (!response.ok) {
             throw new Error("Error de red al cargar los comentarios del usuario");
         }
@@ -65,7 +65,7 @@ const Desactivate = ({show, handleClose}) =>{
 
         // Eliminar los posts
         for (const post of posts) {
-            const response = await fetch(`http://localhost:3000/post/${post._id}`, {
+            const response = await fetch(`https://antisocialnet-backend.onrender.com/post/${post._id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -77,7 +77,7 @@ const Desactivate = ({show, handleClose}) =>{
 
         // Eliminar los comentarios
         for (const comment of comments) {
-            const response = await fetch(`http://localhost:3000/comment/${comment._id}`, {
+            const response = await fetch(`https://antisocialnet-backend.onrender.com/comment/${comment._id}`, {
                 method: "DELETE",
                 headers: {
                     "Content-Type": "application/json",
@@ -109,7 +109,7 @@ const Desactivate = ({show, handleClose}) =>{
         if (Object.keys(errors).length === 0) {
             try {
                 deleteUserInteraction()
-                const response = await fetch(`http://localhost:3000/user/${usuario._id}`, {
+                const response = await fetch(`https://antisocialnet-backend.onrender.com/user/${usuario._id}`, {
                 method: "DELETE",
                 headers: {
                 "Content-Type": "application/json",
