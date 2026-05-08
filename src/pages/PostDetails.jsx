@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import Comment from "../components/PostDetails/Comment";
 import ContentPost from "../components/PostDetails/ContentPost"
 import { Container, Spinner, Row, Col, Button } from 'react-bootstrap';
-import MakeComment from '../components/PostDetails/MakeComment/MakeComment';
+import MakeComment from '../components/PostDetails/MakeComment/makeComment';
 import AsideNav  from '../components/AsideNav/AsideNav';
 
 const PostDetails = () => {
