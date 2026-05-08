@@ -1,5 +1,5 @@
 import Images from './Images';
-import UploadDate from './uploadDate';
+import UploadDate from './UploadDate';
 import PostNav from './PostNav';
 import Tags from './Tags';
 import { useNavigate } from 'react-router-dom';
