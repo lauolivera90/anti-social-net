@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PostPreview from "../components/Home/PostPreviewostPreview";
+import PostPreview from "../components/Home/PostPreview";
 import TypeOfFeed from "../components/Home/TypeOfFeed";
 import MakeAPost from "../components/Home/MakeAPost/MakeAPost";
 import AsideNav from "../components/AsideNav/AsideNav";
