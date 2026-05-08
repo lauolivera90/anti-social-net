@@ -16,7 +16,7 @@ const TagSearchBar = () => {
   useEffect(() => {
     const fetchTags = async () => {
       try {
-        const res = await fetch('http://localhost:3000/tag'); // Ajusta esta URL según tu API
+        const res = await fetch('https://antisocialnet-backend.onrender.com/tag'); // Ajusta esta URL según tu API
         if (!res.ok) throw new Error('No se pudieron obtener las etiquetas');
         const data = await res.json();
         setTags(data);

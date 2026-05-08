@@ -22,7 +22,7 @@
 
     const post = async () => {
       try {
-        const response = await fetch("http://localhost:3000/post", {
+        const response = await fetch("https://antisocialnet-backend.onrender.com/post", {
           method: "POST",
           headers: {
             "Content-Type": "application/json",

@@ -8,7 +8,7 @@ const TagsPreviews = ({ selectedTags, setSelectedTags, setAvailableTags }) => {
 
   const getTags = async () => {
     try {
-      const response = await fetch("http://localhost:3000/tag");
+      const response = await fetch("https://antisocialnet-backend.onrender.com/tag");
       if (!response.ok) throw new Error("Error al obtener las etiquetas");
       const data = await response.json();
       setTags(data);

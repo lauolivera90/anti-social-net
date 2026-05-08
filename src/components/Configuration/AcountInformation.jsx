@@ -31,7 +31,7 @@ const AcountInformation = ({show, handleClose}) => {
 
     const usedMails = async () => {
         try{
-            const response = await fetch("httpca-/antisocialnet-backend.onrender.com/user")
+            const response = await fetch("https://antisocialnet-backend.onrender.com/user")
             if (!response.ok) throw new Error("Error de red al cargar los usuarios"); 
             const data = await response.json()
             const mails = data.map(user => user.mail)
@@ -44,7 +44,7 @@ const AcountInformation = ({show, handleClose}) => {
 
     const usedNicknames = async () => {
         try{
-            const response = await fetch("http://localhost:3000/user")
+            const response = await fetch("https://antisocialnet-backend.onrender.com/user")
             if (!response.ok) throw new Error("Error de red al cargar los usuarios"); 
             const data = await response.json()
             const nicknames = data.map(user => user.nickname)
@@ -75,7 +75,8 @@ const AcountInformation = ({show, handleClose}) => {
         if (Object.keys(errors).length === 0) {
     try {
         const updatedUser = { ...usuario, nickname, mail: email };
-        const response = await fetch(`https://antisocialnet-backen
+        const response = await fetch(`https://antisocialnet-backend.onrender.com/user/${usuario._id}`, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json",
         },
