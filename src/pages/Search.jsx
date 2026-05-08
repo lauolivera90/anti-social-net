@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import TypeOfFeed from '../components/Home/TypeOfFeed';
-import PostPreview from '../components/Home/postPreview';
+import PostPreview from '../components/Home/PostPreview';
 import AsideNav from '../components/AsideNav/AsideNav';
 import { Container, Col, Row } from "react-bootstrap";
 import TagSearchBar from '../components/SearchBar';

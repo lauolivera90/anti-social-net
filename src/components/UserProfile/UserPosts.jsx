@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import PostPreview from "../Home/postPreview";
+import PostPreview from "../Home/PostPreview";
 import { Container, Row, Col } from "react-bootstrap";
 
 const UserPosts = ({ setPostLength, user }) => {

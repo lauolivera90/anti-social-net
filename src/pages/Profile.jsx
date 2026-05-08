@@ -1,6 +1,6 @@
 import {useEffect, useState} from "react";
 import UserInformation from "../components/UserProfile/UserInformation";
-import UserPosts from "../components/UserProfile/userPosts";
+import UserPosts from "../components/UserProfile/UserPosts";
 import UserComments from "../components/UserProfile/UserComments";
 import ProfileNav from "../components/UserProfile/ProfileNav";
 import { Container, Row, Col, Button, Nav, Spinner } from 'react-bootstrap';
