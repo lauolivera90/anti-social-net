@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react';
 import { Container } from "react-bootstrap";
-import { Input, Button } from '@/Widget/ui';
+import { Input, Button } from '@/widget/ui';
 import { useClickOutside } from '@/shared/hook';
 
 export const AddImageAction = ({ images, setImages }) => {

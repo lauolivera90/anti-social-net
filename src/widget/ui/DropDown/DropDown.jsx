@@ -31,7 +31,7 @@ export const DropDown = ({
               <Dropdown.Divider className={variant === 'light' ? 'bg-light' : 'bg-dark'} />
             ) : (
               <Dropdown.Item 
-                onClick={(e) => {
+                onClick={() => {
                   item.onClick();
                 }}
                 className={`custom-dropdown-item py-2 px-3 rounded-pill mb-1 transition-all d-flex align-items-center ${
