@@ -74,3 +74,18 @@ button:focus-visible {
     background-color: #f9f9f9;
   }
 }
+
+/* Elimina el triángulo/flecha por defecto de Bootstrap */
+.dropdown-toggle::after {
+  display: none !important;
+}
+
+/* Hover personalizado para los items del dropdown para que coincida con el Sidebar */
+.custom-dropdown-item:hover {
+  /* Usamos !important para sobreescribir los estilos por defecto de Bootstrap */
+  background-color: rgba(var(--bs-secondary-rgb), 0.15) !important;
+}
+/* Mantenemos el color rojo para las opciones de peligro incluso en hover */
+.custom-dropdown-item.text-danger:hover {
+    color: var(--bs-danger) !important;
+}

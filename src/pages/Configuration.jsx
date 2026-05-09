@@ -1,68 +1,87 @@
 import { useState } from "react";
-import { Container, Row, Col, Modal, Button } from "react-bootstrap";
-import Password from "../components/Configuration/Password";
-import AcountInformation from "../components/Configuration/AcountInformation";
-import Desactivate from "../components/Configuration/Desactivate";
-import AsideNav from "../components/AsideNav/AsideNav";
-
+import { Container, Row, Col } from "react-bootstrap";
+// Importamos los modales desde la carpeta de UI de la feature
+import { AccountInformation, DesactivateAccount, ChangePassword } from "@/features/Configuration/ui";
 
 const Configuration = () => {
-  const [showChangePassword, setShowChangePassword] = useState(false)
-  const [showInformation, setShowInformation] = useState(false)
-  const [showDesactivate, setShowDesactivate] = useState(false)
+  const [showChangePassword, setShowChangePassword] = useState(false);
+  const [showInformation, setShowInformation] = useState(false);
+  const [showDesactivate, setShowDesactivate] = useState(false);
 
-
-  const handleCloseChangePassword = () => setShowChangePassword(false);
-  const handleShowChangePassword = () => setShowChangePassword(true);
-
-  const handleCloseInformation = () => setShowInformation(false);
-  const handleShowInformation = () => setShowInformation(true);
-
-  const handleCloseDesactivate = () => setShowDesactivate(false);
-  const handleShowDesactivate = () => setShowDesactivate(true);
-
+  // Clase común para las tarjetas de opción para evitar repetición
+  const cardStyle = "p-4 h-100 border border-dark rounded bg-dark bg-opacity-25 transition-all shadow-sm";
 
   return (
-    <Container fluid className="text-white">
-      <Row>
-        <Col xs={0} md="auto" className="bg-black border-end border-dark">
-            <AsideNav/>
-        </Col>
+    <Container className="text-white py-5 pt-3 px-3 vh-100">
+      <Row className="mb-5">
         <Col>
-          <Row>
-        <Col className="mt-5"><h1>Tu cuenta</h1></Col>
-      </Row>
-      <Row>
-        <Col><p>Mira informacion sobre tu cuenta o aprende sobre tus opciones de desactivacion de cuenta</p></Col>
-      </Row>
-      <Row className="pt-5">
-        <Col xs="auto" md={4}>
-            <Row style={{cursor:"pointer"}} onClick={handleShowInformation}>
-              <i className="bi bi-person fs-1"></i>
-              <h6>Informacion de cuenta</h6>
-              <p>Mira informacion de tu cuenta, como tu nombre de usuario y email.</p>
-            </Row>
-        </Col>
-        <Col xs="auto" md={4}>
-            <Row style={{cursor:"pointer"}} onClick={handleShowChangePassword}>
-              <i className="bi bi-key fs-1"></i>
-              <h6>Cambia tu contraseña</h6>
-              <p>Cambia tu contraseña en cualquier momento.</p>
-            </Row>
-        </Col>
-        <Col xs="auto" md={4}>
-            <Row style={{cursor:"pointer"}} onClick={handleShowDesactivate}>
-              <i className="bi bi-heartbreak fs-1"></i>
-              <h6>Desactivar tu cuenta</h6>
-              <p>Mira como puedes desactivar tu cuenta.</p>
-            </Row>
+          <h1 className="fw-bold display-5">Tu cuenta</h1>
+          <p className="text-secondary">
+            Administra la configuración de tu perfil y las opciones de seguridad de tu cuenta.
+          </p>
         </Col>
       </Row>
-      <Password handleClose={handleCloseChangePassword} show={showChangePassword}></Password>
-      <AcountInformation handleClose={handleCloseInformation} show={showInformation}></AcountInformation>
-      <Desactivate handleClose={handleCloseDesactivate} show={showDesactivate}></Desactivate>
+
+      <Row className="g-4">
+        {/* Información de cuenta */}
+        <Col xs={12} lg={4}>
+          <div 
+            className={`${cardStyle} cursor-pointer border-hover-primary`} 
+            onClick={() => setShowInformation(true)}
+            role="button"
+          >
+            <i className="bi bi-person-badge fs-1 text-primary"></i>
+            <h5 className="mt-3 fw-bold">Información de cuenta</h5>
+            <p className="small text-secondary mb-0">
+              Revisa tu nombre de usuario, dirección de correo electrónico y datos básicos.
+            </p>
+          </div>
+        </Col>
+
+        {/* Cambio de contraseña */}
+        <Col xs={12} lg={4}>
+          <div 
+            className={`${cardStyle} cursor-pointer border-hover-primary`} 
+            onClick={() => setShowChangePassword(true)}
+            role="button"
+          >
+            <i className="bi bi-shield-lock fs-1 text-primary"></i>
+            <h5 className="mt-3 fw-bold">Seguridad</h5>
+            <p className="small text-secondary mb-0">
+              Protege tu acceso actualizando tu contraseña de forma periódica.
+            </p>
+          </div>
+        </Col>
+
+        {/* Desactivación */}
+        <Col xs={12} lg={4}>
+          <div 
+            className={`${cardStyle} cursor-pointer border-hover-danger`} 
+            onClick={() => setShowDesactivate(true)}
+            role="button"
+          >
+            <i className="bi bi-person-x fs-1 text-danger"></i>
+            <h5 className="mt-3 fw-bold text-danger">Desactivar cuenta</h5>
+            <p className="small text-secondary mb-0">
+              Aprende cómo puedes suspender o eliminar tu presencia de forma permanente.
+            </p>
+          </div>
         </Col>
       </Row>
+
+      {/* Modales con las variantes de contraste que definimos */}
+      <ChangePassword 
+        show={showChangePassword} 
+        handleClose={() => setShowChangePassword(false)} 
+      />
+      <AccountInformation 
+        show={showInformation} 
+        handleClose={() => setShowInformation(false)} 
+      />
+      <DesactivateAccount 
+        show={showDesactivate} 
+        handleClose={() => setShowDesactivate(false)} 
+      />
     </Container>
   );
 };
