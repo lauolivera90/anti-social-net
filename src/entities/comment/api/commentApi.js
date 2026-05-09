@@ -41,12 +41,10 @@ export const deleteComment = async (commentId) => {
  * @returns {Promise<Array<object>>} Un array de comentarios del usuario.
  */
 export const getCommentsByUserId = async (userId) => {
-  const response = await fetch(`${BASE_URL}/comment`);
+  // Pedimos al backend que nos de solo los comentarios de este usuario
+  const response = await fetch(`${BASE_URL}/comment?userId=${userId}`);
   if (!response.ok) {
     throw new Error("Error de red al cargar los comentarios del usuario");
   }
-  const data = await response.json();
-  return data.filter(
-    (comment) => comment.user && comment.user._id === userId
-  );
+  return await response.json();
 };
