@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Container, Spinner } from 'react-bootstrap';
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from "@/app/providers";
 import { getUserById } from "@/entities/user";
 import { SectionNav, TabScene } from "@/widget/layout";
 import { UserInformation } from "@/entities/user"; // Importación limpia de entidad

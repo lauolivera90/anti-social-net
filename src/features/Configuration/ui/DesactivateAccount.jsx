@@ -1,28 +1,36 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form } from "react-bootstrap";
-import { useAuth } from "@/context/AuthContext";
+import { useAuth } from '@/app/providers';
 import { ModalCustom, Button, ModalInput } from "@/widget/ui";
-import { getPostsByUserId, deletePost } from "@/entities/post";
-import { getCommentsByUserId, deleteComment } from "@/entities/comment";
-import { deleteUser } from "@/entities/user";
+import { getPostsByNickname, deletePost } from "@/entities/post";
+import { getComments, deleteComment } from "@/entities/comment";
+import { deleteUser, loginUser } from "@/entities/user";
 import { useConfirmClose } from "@/shared/hook";
 
 export const DesactivateAccount = ({ show, handleClose }) => {
   const { usuario, logout } = useAuth();
   const MODAL_VARIANT = "slate";
 
+  // Estado para controlar el flujo de dos pasos
+  const [step, setStep] = useState(1); // 1: Password, 2: Confirmation
   const [formData, setFormData] = useState({ passwordInput: "", nickname: "" });
   const [formErrors, setFormErrors] = useState({});
   const [submitted, setSubmitted] = useState(false);
-  const [validated, setValidated] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
   const cleanInputs = () => {
     setFormData({ passwordInput: "", nickname: "" });
     setFormErrors({});
     setSubmitted(false);
-    setValidated(false);
+    setStep(1);
   };
+
+  // Sincronizar y limpiar estado cuando el modal se abre/cierra
+  useEffect(() => {
+    if (show) {
+      cleanInputs();
+    }
+  }, [show]);
 
   // Hook para evitar cierres accidentales si hay texto escrito
   const close = useConfirmClose(
@@ -39,8 +47,8 @@ export const DesactivateAccount = ({ show, handleClose }) => {
 
   const deleteUserInteraction = async () => {
     const [posts, comments] = await Promise.all([
-      getPostsByUserId(usuario._id),
-      getCommentsByUserId(usuario._id),
+      getPostsByNickname(usuario.nickname),
+      getComments({ userId: usuario._id }),
     ]);
 
     const deletePostPromises = posts.map((post) => deletePost(post._id));
@@ -49,53 +57,52 @@ export const DesactivateAccount = ({ show, handleClose }) => {
     await Promise.all([...deletePostPromises, ...deleteCommentPromises]);
   };
 
-  const handleSubmitControl = (event) => {
+  const handleNextStep = async (event) => {
     event.preventDefault();
-    const errors = {};
-
-    if (formData.passwordInput !== usuario.password) {
-      errors.passwordInput = "La contraseña es incorrecta.";
-    }
-
-    setFormErrors(errors);
     setSubmitted(true);
+    setFormErrors({});
+    setIsLoading(true);
 
-    if (Object.keys(errors).length === 0) {
-      setValidated(true);
+    try {
+      // Validación segura de la contraseña actual contra el backend
+      await loginUser({ nickname: usuario.nickname, password: formData.passwordInput });
+      setStep(2);
       setSubmitted(false);
-      setFormErrors({});
+    } catch (error) {
+      setFormErrors({ passwordInput: "Contraseña incorrecta." });
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  const handleSubmitDesactivate = async (event) => {
+  const handleDeactivate = async (event) => {
     event.preventDefault();
-    const errors = {};
+    setSubmitted(true);
 
     if (formData.nickname !== usuario.nickname) {
-      errors.nickname = "El nombre de usuario es incorrecto.";
+      setFormErrors({ nickname: "El nombre de usuario es incorrecto." });
+      return;
     }
 
-    setFormErrors(errors);
-    setSubmitted(true);
+    setFormErrors({});
+    setIsLoading(true);
+    try {
+      await deleteUserInteraction();
+      await deleteUser(usuario._id);
 
-    if (Object.keys(errors).length === 0) {
-      setIsLoading(true);
-      try {
-        await deleteUserInteraction();
-        await deleteUser(usuario._id);
-
-        handleClose();
-        cleanInputs();
-        alert("Su cuenta ha sido eliminada con éxito.");
-        logout();
-      } catch (error) {
-        console.error("Error al eliminar la cuenta:", error.message);
-        alert("Hubo un error al eliminar la cuenta. Intente de nuevo.");
-      } finally {
-        setIsLoading(false);
-      }
+      handleClose();
+      cleanInputs();
+      alert("Su cuenta ha sido eliminada con éxito.");
+      logout();
+    } catch (error) {
+      console.error("Error al eliminar la cuenta:", error.message);
+      alert("Hubo un error al eliminar la cuenta. Intente de nuevo.");
+    } finally {
+      setIsLoading(false);
     }
   };
+
+  if (!usuario) return null;
 
   return (
     <ModalCustom
@@ -107,21 +114,21 @@ export const DesactivateAccount = ({ show, handleClose }) => {
       footerActions={
         <Button
           type="submit"
-          form={!validated ? "validateForm" : "desactivateForm"}
-          variant={validated ? "danger" : "primary"}
-          disabled={isLoading || (!validated ? !formData.passwordInput : !formData.nickname)}
+          form={step === 1 ? "validateForm" : "desactivateForm"}
+          variant={step === 2 ? "danger" : "primary"}
+          disabled={isLoading || (step === 1 ? !formData.passwordInput : !formData.nickname)}
         >
-          {!validated ? "Siguiente" : "Eliminar cuenta"}
+          {step === 1 ? "Siguiente" : "Eliminar cuenta"}
         </Button>
       }
     >
-      {!validated ? (
-        <Form id="validateForm" noValidate onSubmit={handleSubmitControl}>
+      {step === 1 ? (
+        <Form id="validateForm" noValidate onSubmit={handleNextStep}>
           <p className="text-start small text-secondary mb-4">
             Por seguridad, confirma tu contraseña para continuar con la desactivación.
           </p>
           <ModalInput
-            variant={MODAL_VARIANT}
+              variant="light" // Sincronizamos
             name="passwordInput"
             type="password"
             label="Contraseña actual"
@@ -132,7 +139,7 @@ export const DesactivateAccount = ({ show, handleClose }) => {
           />
         </Form>
       ) : (
-        <Form id="desactivateForm" noValidate onSubmit={handleSubmitDesactivate}>
+        <Form id="desactivateForm" noValidate onSubmit={handleDeactivate}>
           <div className="text-start">
             <h6 className="fw-bold text-white">Esto desactivará tu cuenta</h6>
             <p className="small text-secondary">
@@ -143,7 +150,7 @@ export const DesactivateAccount = ({ show, handleClose }) => {
             </p>
           </div>
           <ModalInput
-            variant={MODAL_VARIANT}
+              variant="light" // Sincronizamos
             className="mt-3"
             name="nickname"
             label="Para confirmar, escribe tu nombre de usuario"

@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from 'react-router-dom';
 import { useState } from "react";
 import { UserInfo, Logo } from "@/shared/ui";
 import { DropDown } from "@/widget/ui"; // Importación solicitada
-import { useAuth } from "@/context/AuthContext"; // Importamos el hook
+import { useAuth } from "@/app/providers"; // Importamos el hook
 
 const navItems = [
   { label: "Inicio", path: "/home", icon: "bi bi-house-door-fill fs-4" },
@@ -40,7 +40,7 @@ export function Sidebar() {
     >
       {/* SECCIÓN LOGO */}
       <Row 
-        className={`mt-1 py-2 px-1 mb-2 rounded-pill transition-all d-flex align-items-center ${hoveredItem === 'logo' ? 'bg-secondary bg-opacity-25' : ''}`}
+        className={`mt-1 py-2 px-1 mb-2 rounded-pill transition-all d-flex align-items-center ${hoveredItem === 'logo' ? 'interactive-item-active' : ''}`}
         style={{ cursor: "pointer", width: "fit-content" }}
         onClick={() => navigate('/home')}
         onMouseEnter={() => setHoveredItem('logo')}
@@ -64,9 +64,9 @@ export function Sidebar() {
               onMouseLeave={() => setHoveredItem(null)}>
               <Row
                 // Agregamos una clase personalizada para el hover si la tienes en tu CSS
-                className={`py-2 px-1 d-flex align-items-center rounded-pill transition-all sidebar-item ${
+                className={`py-2 px-1 d-flex align-items-center rounded-pill transition-all ${
                   isActive ? "text-primary fw-bold" : "text-white"
-                } ${isHovered ? 'bg-secondary bg-opacity-25' : ''}`}
+                } ${isHovered ? 'interactive-item-active' : ''}`}
                 style={{ width: "fit-content" }}
               >
                 <Col xs="auto" className="pe-1">
@@ -90,7 +90,7 @@ export function Sidebar() {
           options={userMenuOptions}
           trigger={
             <Row 
-              className={`py-2 px-1 rounded-pill transition-all d-flex align-items-center ${hoveredItem === 'user' ? 'bg-secondary bg-opacity-25' : ''}`}
+              className={`py-2 px-1 rounded-pill transition-all d-flex align-items-center ${hoveredItem === 'user' ? 'interactive-item-active' : ''}`}
               onMouseEnter={() => setHoveredItem('user')}
               onMouseLeave={() => setHoveredItem(null)}
             >

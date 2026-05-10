@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useAuth } from '@/context/AuthContext'; // Usando tu alias
+import { useAuth } from '@/app/providers';
 import { createPost } from '@/entities/post';
 
 export const useCreatePost = () => {
@@ -37,6 +37,6 @@ export const useCreatePost = () => {
     images, setImages,
     selectedTags, setSelectedTags,
     handlePost, isLoading,
-    canPost: inputText.trim().length > 0 && inputText.length <= 2200
+    canPost: inputText.trim().length > 0 && inputText.length <= 240
   };
 };

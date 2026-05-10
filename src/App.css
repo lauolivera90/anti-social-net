@@ -47,4 +47,8 @@
   color: #888;
 }
 
+*.EmojiPickerReact {
 
+ --epr-bg-color: #6a2929;
+
+}

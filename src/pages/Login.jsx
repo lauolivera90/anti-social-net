@@ -1,88 +1,99 @@
-import { Container, Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { Form, Alert } from 'react-bootstrap';
+import { useAuth } from '@/app/providers';
+import { PublicLayout } from '@/widget/layout';
+import { Input, Button } from '@/widget/ui';
+import { loginUser } from '@/entities/user'; // Importamos la función de la API
+import { validators, validateForm } from '@/shared/hook';
+
+// 1. Definimos el esquema de validación para el login
+const loginSchema = {
+  nickname: [validators.required],
+  password: [validators.required],
+};
 
 export default function Login() {
-  const [nickname, setNickName] = useState('');
-  const [contraseña, setContraseña] = useState('');
+  const [formData, setFormData] = useState({ nickname: '', password: '' });
+  const [formErrors, setFormErrors] = useState({});
+  const [error, setError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
 
-  const mLogin = async (e) => {
-    e.preventDefault();
-    const isValidUser = await validateUser();
-    if (!isValidUser) {
-      alert('El usuario o la contraseña son incorrectos');
-      return;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    // Limpiamos el error del campo al empezar a escribir
+    if (formErrors[name]) {
+      setFormErrors(prev => ({ ...prev, [name]: undefined }));
     }
-    login(isValidUser);
-    navigate('/home');
   };
 
-  const validateUser = async () => {
-    try {
-      const response = await fetch('https://antisocialnet-backend.onrender.com/user');
-      if (!response.ok) throw new Error('No se pudo obtener los usuarios');
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    setError('');
 
-      const data = await response.json();
-      return data.find(user => user?.nickname?.toLowerCase() === nickname.toLowerCase()) || false;
+    // 2. Validamos el formulario completo antes de enviarlo
+    const validationErrors = validateForm(formData, loginSchema);
+    setFormErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length > 0) {
+      return;
+    }
+
+    setIsLoading(true);
+    try {
+      // La validación ahora se hace de forma segura en el backend
+      const authenticatedUser = await loginUser(formData);
+      login(authenticatedUser);
+      navigate('/home');
     } catch (error) {
-      console.error({ error: error.message });
-      return false;
+      setError(error.message || "No se pudo iniciar sesión. Intenta nuevamente.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="d-flex vh-100">
-      <div className="w-100 h-100">
-        <img
-          src="https://i.pinimg.com/736x/79/0e/44/790e44391a38a9589e32c846947a01bb.jpg"
-          alt="Fondo visual"
-          className="w-100 h-100 object-fit-cover"
+    <PublicLayout>
+      <h1 className="fw-bold text-white display-5 mb-4 text-center">Inicia sesión</h1>
+
+      <Form onSubmit={handleLogin} className="w-100">
+        <Input
+          name="nickname"
+          type="text"
+          placeholder="Nombre de usuario"
+          value={formData.nickname}
+          onChange={handleChange}
+          className="mb-3"
+          error={formErrors.nickname}
+          classNameControl="py-2"
         />
+        <Input
+          name="password"
+          type="password"
+          placeholder="Contraseña"
+          value={formData.password}
+          onChange={handleChange}
+          className="mb-4"
+          error={formErrors.password}
+          classNameControl="py-2"
+        />
+
+        {error && <Alert variant="danger" className="p-2 small">{error}</Alert>}
+
+        <Button variant="primary" type="submit" className="w-100 py-2 fs-5 rounded-pill mt-3" disabled={isLoading}>
+          {isLoading ? "Iniciando sesión..." : "Iniciar sesión"}
+        </Button>
+      </Form>
+
+      <div className="d-flex flex-row gap-2 mt-5 justify-content-center">
+        <p className="m-0 text-secondary">¿No tienes una cuenta?</p>
+        <Button variant="ghost" className="p-0 m-0 text-primary" onClick={() => navigate('/register')}>
+          Registrarse
+        </Button>
       </div>
-
-      <div className="w-100 d-flex flex-column justify-content-center align-items-center gap-3 p-5 bg-light">
-        <Container className="d-flex flex-column justify-content-center align-items-center">
-          <Form onSubmit={mLogin} className="w-100" style={{ maxWidth: 400 }}>
-            <h1 className="text-black mb-4 border-bottom border-dark pb-2 text-center">Iniciar Sesión</h1>
-
-            <Form.Group className="mb-3" controlId="formNickname">
-              <Form.Label className="visually-hidden">Nombre de usuario</Form.Label>
-              <Form.Control
-                type="text"
-                value={nickname}
-                required
-                onChange={(e) => setNickName(e.target.value)}
-                placeholder="Nombre de usuario"
-              />
-            </Form.Group>
-
-            <Form.Group className="mb-3" controlId="formPassword">
-              <Form.Label className="visually-hidden">Contraseña</Form.Label>
-              <Form.Control
-                type="password"
-                value={contraseña}
-                required
-                onChange={(e) => setContraseña(e.target.value)}
-                placeholder="Contraseña"
-              />
-            </Form.Group>
-
-            <Button variant="primary" type="submit" className="w-100">
-              Iniciar sesión
-            </Button>
-          </Form>
-        </Container>
-
-        <div className="d-flex flex-row gap-2 mt-4">
-          <p className="m-0">¿No tienes una cuenta?</p>
-          <button type="button" className="btn btn-link p-0 m-0" onClick={() => navigate('/register')}>
-            Registrarse
-          </button>
-        </div>
-      </div>
-    </div>
+    </PublicLayout>
   );
 }

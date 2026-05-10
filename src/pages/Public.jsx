@@ -1,47 +1,51 @@
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Row, Col, Button } from "react-bootstrap";
+import { useAuth } from "@/app/providers";
+import { Button } from "@/widget/ui";
+import { PublicLayout } from "@/widget/layout"; // Importamos el nuevo layout
 
 const Public = () => {
   const navigate = useNavigate();
+  const { usuario } = useAuth();
 
-  const goToLogin = () => navigate("/login");
-  const goToRegister = () => navigate("/register");
+  useEffect(() => {
+    if (usuario) {
+      navigate("/home");
+    }
+  }, [usuario, navigate]);
 
   return (
-    <div fluid className="d-flex flex-row vh-100">
-      <div className="w-100 h-100">
-        <img
-          src="https://i.pinimg.com/736x/79/0e/44/790e44391a38a9589e32c846947a01bb.jpg"
-          alt="Fondo visual"
-          className="w-100 h-100 object-fit-cover"
-        />
+    <PublicLayout>
+      <h1 className="fw-bold text-white display-4 mb-4 text-center">
+        Interacción en todo momento
+      </h1>
+      
+      <h2 className="fw-bold fs-5 text-white mb-5 text-center">
+        Únete a AntiSocial hoy mismo.
+      </h2>
+
+      <div className="d-flex flex-column gap-3">
+        <Button
+          variant="primary"
+          className="py-2 fs-5 rounded-pill"
+          onClick={() => navigate("/login")}
+        >
+          Iniciar sesión
+        </Button>
+
+        <Button
+          variant="outline-secondary"
+          className="py-2 fs-5 rounded-pill text-white border-secondary"
+          onClick={() => navigate("/register")}
+        >
+          Registrarse
+        </Button>
       </div>
 
-      <Row className="justify-content-center align-items-center w-100 h-100 bg-light">
-        <Col xs={12} md={6} lg={4} className="text-center">
-          <h1 className="fw-bold text-black">Interacción en todo momento</h1>
-          <h3 className="fw-normal text-black">Únete a Antisocial.</h3>
-
-          <Button
-            variant="primary"
-            className="w-75 mt-4"
-            onClick={goToLogin}
-            aria-label="Iniciar sesión en Antisocial"
-          >
-            Iniciar sesión
-          </Button>
-
-          <Button
-            variant="outline-secondary"
-            className="text-black w-75 mt-2"
-            onClick={goToRegister}
-            aria-label="Registrarse en Antisocial"
-          >
-            Registrarse
-          </Button>
-        </Col>
-      </Row>
-    </div>
+      <p className="text-secondary mt-5 small">
+        Al registrarte, aceptas los Términos de servicio y la Política de privacidad.
+      </p>
+    </PublicLayout>
   );
 };
 

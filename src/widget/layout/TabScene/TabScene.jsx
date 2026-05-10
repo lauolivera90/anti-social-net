@@ -14,16 +14,22 @@ export function TabScene ({ tabs = [] }) {
           return (
             <Col 
               key={tab.label}
-              className="p-0 text-center"
-              onClick={() => setActiveTab(index)}
-              style={{ cursor: 'pointer' }}
+              className="p-0 text-center" // La columna ya no necesita ser clickeable
             >
-              <div className={`py-3 fw-bold transition-all ${
-                isActive 
-                  ? "text-white border-bottom border-primary border-4" 
-                  : "text-secondary"
-              }`}>
-                {tab.label}
+              <div 
+                onClick={() => setActiveTab(index)}
+                style={{ cursor: 'pointer' }}
+                className="interactive-item pt-3 transition-all d-flex flex-column align-items-center"
+              >
+                {/* Este div se ajusta al ancho del texto */}
+                <div style={{ width: 'fit-content' }}>
+                  <span className={`fw-bold ${isActive ? "text-white" : "text-secondary"}`}>
+                    {tab.label}
+                  </span>
+                  {/* El indicador ahora ocupa el 100% del div padre ajustado */}
+                  <div className={`${isActive ? "bg-primary rounded-pill" : ""} mt-3`} style={{ height: '4px', width: '100%' }}></div>
+
+                </div>
               </div>
             </Col>
           );

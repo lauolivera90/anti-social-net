@@ -26,7 +26,8 @@ export const PostPreview = ({ user = {}, description, images, date, postId, tags
       onProfileClick={handleProfileClick}
       headerExtra={`· ${formatTime(date)}`}
     >
-      <p className="text-start mb-2">{description}</p>
+      {/* text-break fuerza el salto de línea en textos largos sin espacios */}
+      <p className="text-start mb-0 text-break">{description}</p>
       
       <div className="d-flex flex-wrap gap-2 mb-2">
         {tags.map((tag) => (

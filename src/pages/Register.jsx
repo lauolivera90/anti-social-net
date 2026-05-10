@@ -1,142 +1,112 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Container, Form, Button } from "react-bootstrap";
+import { Form, Alert } from "react-bootstrap";
+import { PublicLayout } from "@/widget/layout";
+import { Input, Button } from "@/widget/ui";
+import { createUser } from "@/entities/user"; // Importamos la función de la API
+import { validators, validateForm } from "@/shared/hook";
+
+// Definimos el esquema de validación para este formulario específico
+const registrationSchema = {
+  nickname: [validators.required, validators.minLength(3)],
+  mail: [validators.required, validators.isEmail],
+  password: [validators.required, validators.minLength(6)],
+};
 
 export default function Register() {
-  const [nickName, setNickName] = useState("");
-  const [email, setEmail] = useState("");
-  const [contraseña, setContraseña] = useState("");
-  const [usuarios, setUsuarios] = useState([]);
+  const [formData, setFormData] = useState({
+    nickname: "",
+    mail: "",
+    password: "",
+  });
+  const [formErrors, setFormErrors] = useState({});
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    fetch("https://antisocialnet-backend.onrender.com/user")
-      .then(res => res.json())
-      .then(data => setUsuarios(data))
-      .catch(err => console.error("Error al cargar usuarios:", err));
-  }, []);
-
-  const toLogin = () => navigate("/login");
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    // Limpiamos el error de un campo cuando el usuario empieza a corregirlo
+    if (formErrors[name]) {
+      setFormErrors(prev => ({ ...prev, [name]: undefined }));
+    }
+  };
 
   const handleRegister = async (e) => {
     e.preventDefault();
-
     setError("");
 
-    if (!nickName || !email || !contraseña) {
-      setError("Completá todos los campos.");
+    const validationErrors = validateForm(formData, registrationSchema);
+    setFormErrors(validationErrors);
+
+    if (Object.keys(validationErrors).length > 0) {
       return;
     }
 
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
-      setError("Por favor, ingresa un correo electrónico válido.");
-      return;
-    }
-
-    const yaExisteUsuario = usuarios.some(u => u.nickName === nickName);
-    const yaExisteMail = usuarios.some(u => u.mail === email);
-
-    if (yaExisteUsuario) {
-      setError("Ese nickname ya está en uso.");
-      return;
-    }
-
-    if (yaExisteMail) {
-      setError("Ese email ya está en uso.");
-      return;
-    }
-
+    setIsLoading(true);
     try {
-      const res = await fetch("https://antisocialnet-backend.onrender.com/user", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          nickname: nickName,
-          mail: email,
-          password: contraseña,
-        }),
-      });
-
-      if (!res.ok) throw new Error("Error al registrar");
-
-      const usuarioCreado = await res.json();
-      console.log("Usuario creado con éxito:", usuarioCreado);
+      // La validación de si el usuario ya existe se delega al backend
+      await createUser(formData);
+      alert("¡Registro exitoso! Ahora puedes iniciar sesión.");
       navigate("/login");
     } catch (error) {
-      console.error("Registro falló:", error);
-      setError("No se pudo registrar. Intenta nuevamente.");
+      // El backend debería devolver un mensaje de error claro
+      setError(error.message || "No se pudo registrar. Intenta nuevamente.");
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="d-flex vh-100">
-      {/* Background image */}
-      <div className="w-100 h-100">
-        <img
-          src="https://i.pinimg.com/736x/79/0e/44/790e44391a38a9589e32c846947a01bb.jpg"
-          alt="Fondo visual"
-          className="w-100 h-100 object-fit-cover"
+    <PublicLayout>
+      <h1 className="fw-bold text-white display-5 mb-4 text-center">Crea tu cuenta</h1>
+
+      <Form onSubmit={handleRegister} className="w-100">
+        <Input
+          name="nickname"
+          type="text"
+          placeholder="Nombre de usuario"
+          value={formData.nickname}
+          onChange={handleChange}
+          className="mb-3"
+          error={formErrors.nickname}
+          classNameControl="py-2"
         />
+        <Input
+          name="mail"
+          type="email"
+          placeholder="Correo electrónico"
+          value={formData.mail}
+          onChange={handleChange}
+          className="mb-3"
+          error={formErrors.mail}
+          classNameControl="py-2"
+        />
+        <Input
+          name="password"
+          type="password"
+          placeholder="Contraseña"
+          value={formData.password}
+          onChange={handleChange}
+          className="mb-4"
+          error={formErrors.password}
+          classNameControl="py-2"
+        />
+
+        {error && <Alert variant="danger" className="p-2 small">{error}</Alert>}
+
+        <Button variant="primary" type="submit" className="w-100 py-2 fs-5 rounded-pill mt-3" disabled={isLoading}>
+          {isLoading ? "Registrando..." : "Registrarse"}
+        </Button>
+      </Form>
+
+      <div className="d-flex flex-row gap-2 mt-5 justify-content-center">
+        <p className="m-0 text-secondary">¿Ya tienes una cuenta?</p>
+        <Button variant="ghost" className="p-0 m-0 text-primary" onClick={() => navigate("/login")}>
+          Iniciar sesión
+        </Button>
       </div>
-
-      {/* Formulario de registro */}
-      <Container className="w-100 bg-light d-flex flex-column justify-content-center align-items-center gap-3 p-5">
-        <Container className="d-flex flex-column justify-content-center align-items-center">
-          <Form onSubmit={handleRegister}>
-            <h1 className="text-black mb-4 border-0 border-bottom border-dark p-5">Registrarse</h1>
-
-            {/* Campo Nickname */}
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="text"
-                value={nickName}
-                onChange={(e) => setNickName(e.target.value)}
-                placeholder="Nombre de usuario"
-              />
-            </Form.Group>
-
-            {/* Campo Email */}
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                placeholder="Email"
-              />
-            </Form.Group>
-
-            {/* Campo Contraseña */}
-            <Form.Group className="mb-3">
-              <Form.Control
-                type="password"
-                value={contraseña}
-                onChange={(e) => setContraseña(e.target.value)}
-                placeholder="Contraseña"
-              />
-            </Form.Group>
-
-            {/* Mensaje de error */}
-            {error && (
-              <div className="alert alert-danger mt-3" role="alert">
-                {error}
-              </div>
-            )}
-
-            <Button variant="primary" type="submit" className="w-100 mt-4">
-              Registrarse
-            </Button>
-          </Form>
-        </Container>
-
-        <Container className="d-flex flex-row gap-2 mt-5 justify-content-center">
-          <p>¿Ya tienes una cuenta?</p>
-          <a className="text-primary" onClick={toLogin}>
-            Iniciar sesión
-          </a>
-        </Container>
-      </Container>
-    </div>
+    </PublicLayout>
   );
 }
