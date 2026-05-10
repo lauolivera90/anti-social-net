@@ -8,8 +8,7 @@ import Register from '@/pages/Register';
 import Public from '@/pages/Public';
 import Configuration from '@/pages/Configuration';
 import Contacto from '@/pages/Contacto';
-import PrivateRoute from '@/components/Private';
-import PublicRoute from '@/components/toHome';
+import {PublicRoute, ProtectedRoute} from '@/app/providers';
 
 function App() {
   return (
@@ -21,7 +20,7 @@ function App() {
       <Route path="/contacto" element={<PublicRoute><Contacto /></PublicRoute>} />
 
       {/* --- RUTAS PRIVADAS (Con Sidebar via Layout) --- */}
-      <Route element={<PrivateRoute><MainLayout /></PrivateRoute>}>
+      <Route element={<ProtectedRoute><MainLayout /></ProtectedRoute>}>
         <Route path="/home" element={<Home />} />
         <Route path="/search" element={<Home />} />
         <Route path="/user/edit" element={<Configuration />} />

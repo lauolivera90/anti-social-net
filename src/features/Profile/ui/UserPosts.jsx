@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 // Importaciones ajustadas a FSD
-import { PostPreview, getPostsByUserId } from "@/entities/post";
+import { PostPreview, getPostsByNickname } from "@/entities/post";
 
 export const UserPosts = ({ setPostLength, user }) => {
   const [posts, setPosts] = useState([]);
@@ -9,11 +9,11 @@ export const UserPosts = ({ setPostLength, user }) => {
 
   useEffect(() => {
     const loadPosts = async () => {
-      if (!user?._id) return;
+      if (!user?.nickname) return;
       
       setLoading(true);
       try {
-        const data = await getPostsByUserId(user._id);
+        const data = await getPostsByNickname(user.nickname);
         // Aseguramos que data sea un array para evitar errores de .map
         const postsData = Array.isArray(data) ? data : [];
         
@@ -28,7 +28,7 @@ export const UserPosts = ({ setPostLength, user }) => {
     };
 
     loadPosts();
-  }, [user?._id, setPostLength]);
+  }, [user?.nickname, setPostLength]);
 
   if (loading) {
     return (

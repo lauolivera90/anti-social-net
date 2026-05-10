@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
-import { Comment, getCommentsByUserId } from "@/entities/comment";
+import { Comment, getComments } from "@/entities/comment";
 
 export const UserComments = ({ setCommentsLength, user }) => {
   const [comments, setComments] = useState([]);
@@ -12,7 +12,7 @@ export const UserComments = ({ setCommentsLength, user }) => {
 
       setLoading(true);
       try {
-        const userComments = await getCommentsByUserId(user._id);
+        const userComments = await getComments({ userId: user._id });
         // Validamos que sea un array para evitar errores en el renderizado
         const commentsData = Array.isArray(userComments) ? userComments : [];
         

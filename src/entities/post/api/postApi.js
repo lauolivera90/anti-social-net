@@ -21,13 +21,21 @@ export const createPost = async (postData) => {
 };
 
 /**
- * Obtiene todos los posts del servidor.
+ * Obtiene los posts. Puede ser filtrado por etiqueta.
+ * @param {object} [filters] - Opciones de filtrado.
+ * @param {string} [filters.tagId] - El ID de la etiqueta para filtrar los posts.
  * @returns {Promise<Array<object>>} Un array de posts.
  */
-export const getAllPosts = async () => {
-  const response = await fetch(BASE_URL);
+export const getPosts = async ({ tagId } = {}) => {
+  let url = BASE_URL;
+  if (tagId) {
+    const params = new URLSearchParams({ tagId });
+    url = `${url}?${params.toString()}`;
+  }
+
+  const response = await fetch(url);
   if (!response.ok) {
-    throw new Error("Error al cargar los posts");
+    throw new Error("Error de red al cargar los posts");
   }
   return await response.json();
 };
@@ -46,12 +54,13 @@ export const getPostById = async (postId) => {
 };
 
 /**
- * Obtiene todos los posts de un usuario específico.
- * @param {string} userId - El ID del usuario.
+ * Obtiene todos los posts de un usuario específico por su nickname.
+ * @param {string} nickname - El nickname del usuario.
  * @returns {Promise<Array<object>>} Un array de posts del usuario.
  */
-export const getPostsByUserId = async (userId) => {
-  const response = await fetch(`${BASE_URL}?userId=${userId}`);
+export const getPostsByNickname = async (nickname) => {
+  // Se ajusta para usar el endpoint documentado: GET /post/user/:nickname
+  const response = await fetch(`${BASE_URL}/user/${nickname}`);
   if (!response.ok) {
     throw new Error("Error de red al cargar los posts del usuario");
   }

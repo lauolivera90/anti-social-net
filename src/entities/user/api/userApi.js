@@ -41,3 +41,40 @@ export const deleteUser = async (userId) => {
   if (!response.ok) throw new Error("Error al eliminar el usuario");
   return await response.json();
 };
+
+/**
+ * Crea un nuevo usuario (registro).
+ * @param {object} userData - Datos del nuevo usuario.
+ * @param {string} userData.nickname
+ * @param {string} userData.mail
+ * @param {string} userData.password
+ * @returns {Promise<object>} El usuario recién creado.
+ */
+export const createUser = async (userData) => {
+  const response = await fetch(BASE_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(userData),
+  });
+  // El backend debería devolver un error 409 (Conflict) si el usuario ya existe.
+  if (!response.ok) throw new Error("Error al registrar el usuario. Es posible que el email o nickname ya estén en uso.");
+  return await response.json();
+};
+
+/**
+ * Autentica a un usuario.
+ * @param {object} credentials - Credenciales del usuario.
+ * @param {string} credentials.nickname
+ * @param {string} credentials.password
+ * @returns {Promise<object>} El objeto del usuario autenticado.
+ */
+export const loginUser = async (credentials) => {
+  // Asumimos que el backend tiene un endpoint específico para login
+  const response = await fetch(`${BASE_URL}/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(credentials),
+  });
+  if (!response.ok) throw new Error("Usuario o contraseña incorrectos.");
+  return await response.json();
+};

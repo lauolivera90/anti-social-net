@@ -1,47 +1,47 @@
 import EmojiPicker from 'emoji-picker-react';
-import { useRef, useState } from 'react';
-import { Container } from "react-bootstrap";
-import { useClickOutside } from '@/shared/hook'; // 1. Importamos el hook con el alias
+import { DropDown } from '@/widget/ui'; // Importamos nuestro widget reutilizable
 
 export const Emoji = ({ setInputText }) => {
-  const [showPicker, setShowPicker] = useState(false);
-  const popupRef = useRef(null);
-
-  // 2. Usamos el hook: "Si hay click fuera de popupRef, ejecuta la función"
-  useClickOutside(popupRef, () => {
-    if (showPicker) setShowPicker(false);
-  });
-
   const onEmojiClick = (emojiData) => {
     setInputText(prev => prev + emojiData.emoji);
-    // Opcional: cerrar el picker después de elegir un emoji
-    // setShowPicker(false); 
+  };
+
+  // Definimos un objeto de estilo para personalizar los colores del picker
+  const customPickerStyles = {
+    '--epr-bg-color': '#212529', // Fondo gris muy oscuro, casi negroexto casi blanco, // Gris más oscuro para el input de búsqueda
+    '--epr-category-label-bg-color': '#212529', // Mismo fondo que el principal
+    '--epr-hover-bg-color': 'rgba(var(--bs-secondary-rgb),  .2)', // Reutilizamos el hover del design system
+    '--epr-focus-bg-color': 'rgba(var(--bs-primary-rgb), 0.2)', // Un toque del color primario para el foco
+    '--epr-border-color': '#6c757d', // Borde sutil
+    '--epr-picker-border-radius': '1rem', // 16px, igual que rounded-4
+    '--epr-search-input-border-radius': '0.5rem', // 8px
+    width: '350px',
+    margin: "-1rem", // Ancho estándar para el picker
+    border: '1px solid var(--epr-border-color)' // Añadimos el borde que quitamos del DropDown
   };
 
   return (
-    // Usamos inline-block para que el contenedor no ocupe todo el ancho
-    <Container style={{ position: 'relative', width: 'auto', display: 'inline-block' }}>
-      <i 
-        className="bi bi-emoji-kiss-fill fs-5 " 
-        style={{ cursor: 'pointer' }} 
-        onClick={() => setShowPicker(!showPicker)}
-        aria-label="Toggle emoji picker"
-        role="button"
-        tabIndex={0}
-        onKeyDown={(e) => e.key === 'Enter' && setShowPicker(!showPicker)}
-      ></i>
-
-      {showPicker && (
-        <div 
-          ref={popupRef} 
-          className="position-absolute z-3 mt-2" 
-          style={{ top: "100%", left: 0 }}
-          // Detenemos la propagación para que el click dentro del picker no lo cierre
-          onClick={(e) => e.stopPropagation()}
-        >
-          <EmojiPicker onEmojiClick={onEmojiClick} />
+    <DropDown
+      drop="down"
+      variant="slate"
+      // Quitamos el padding y borde del menú para que el picker se ajuste perfectamente
+      menuClassName="p-3 mt-3 border-0 bg-transparent" // Hacemos el menú transparente
+      trigger={
+        <div className="interactive-item rounded-pill p-2 d-flex">
+          <i 
+            className="bi bi-emoji-kiss-fill fs-5 icon-grow py-1 px-2" 
+            style={{ cursor: 'pointer' }} 
+            aria-label="Toggle emoji picker"
+            role="button"
+          ></i>
         </div>
-      )}
-    </Container>
+      }
+    >
+      <EmojiPicker 
+        onEmojiClick={onEmojiClick} 
+        emojiStyle="twitter"
+        style={customPickerStyles} // Aplicamos nuestros estilos personalizados
+      />
+    </DropDown>
   );
 }

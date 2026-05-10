@@ -8,19 +8,28 @@ export const PostView = ({ postId }) => {
   const [postData, setPostData] = useState(null);
   const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    let isMounted = true;
+
     const fetchPost = async () => {
+      setLoading(true);
       try {
         const data = await getPostById(postId);
-        setPostData(data);
+        if (isMounted) {
+          setPostData(data);
+        }
       } catch (error) {
         console.error("Error al cargar el post:", error.message);
       } finally {
-        setLoading(false);
+        if (isMounted) {
+          setLoading(false);
+        }
       }
     };
 
-  useEffect(() => {
     if (postId) fetchPost();
+
+    return () => { isMounted = false; };
   }, [postId]);
 
   if (loading) {

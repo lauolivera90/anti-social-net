@@ -1,7 +1,7 @@
-const BASE_URL = "https://antisocialnet-backend.onrender.com";
+const BASE_URL = "https://antisocialnet-backend.onrender.com/comment";
 
 export const createComment = async ({ postId, userId, text }) => {
-  const response = await fetch(`${BASE_URL}/comment`, {
+  const response = await fetch(BASE_URL, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -26,7 +26,7 @@ export const createComment = async ({ postId, userId, text }) => {
  * @returns {Promise<object>} La respuesta de la eliminación.
  */
 export const deleteComment = async (commentId) => {
-  const response = await fetch(`${BASE_URL}/comment/${commentId}`, {
+  const response = await fetch(`${BASE_URL}/${commentId}`, {
     method: "DELETE",
   });
   if (!response.ok) {
@@ -42,9 +42,29 @@ export const deleteComment = async (commentId) => {
  */
 export const getCommentsByUserId = async (userId) => {
   // Pedimos al backend que nos de solo los comentarios de este usuario
-  const response = await fetch(`${BASE_URL}/comment?userId=${userId}`);
+  const response = await fetch(`${BASE_URL}?userId=${userId}`);
   if (!response.ok) {
     throw new Error("Error de red al cargar los comentarios del usuario");
+  }
+  return await response.json();
+};
+
+/**
+ * Obtiene los comentarios. Puede ser filtrado por usuario.
+ * @param {object} [filters] - Opciones de filtrado.
+ * @param {string} [filters.userId] - El ID del usuario para filtrar los comentarios.
+ * @returns {Promise<Array<object>>} Un array de comentarios.
+ */
+export const getComments = async ({ userId } = {}) => {
+  let url = BASE_URL;
+  if (userId) {
+    const params = new URLSearchParams({ userId });
+    url = `${url}?${params.toString()}`;
+  }
+
+  const response = await fetch(url);
+  if (!response.ok) {
+    throw new Error("Error de red al cargar los comentarios");
   }
   return await response.json();
 };

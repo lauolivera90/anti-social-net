@@ -28,7 +28,7 @@ export const PostDetails = ({ description, user, date, image, tags }) => {
 
       <Row>
         <Col>
-          <p className="text-start mb-2">{description}</p>
+          <p className="text-start  mt-2 mb-0 text-break">{description}</p>
 
           <div className="d-flex flex-wrap gap-2 mb-2">
             {(tags || []).map((t) => (

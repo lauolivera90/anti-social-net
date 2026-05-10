@@ -1,6 +1,6 @@
 import { Image } from "react-bootstrap";
 
-export const Avatar = ({ src, alt, size = "48px", onClick, className = "" }) => {
+export const Avatar = ({ src, alt, size = "40px", onClick, className = "" }) => {
   const defaultImage = "https://cdn-icons-png.flaticon.com/512/149/149071.png";
   
   return (

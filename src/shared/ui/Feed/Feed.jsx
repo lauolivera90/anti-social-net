@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { PostPreview, getAllPosts } from "@/entities/post";
+import { PostPreview, getPosts } from "@/entities/post";
 import { Container, Spinner } from "react-bootstrap";
 
 export const Feed = () => {
@@ -8,7 +8,7 @@ export const Feed = () => {
 
   const loadPosts = async () => {
     try {
-      const data = await getAllPosts();
+      const data = await getPosts();
       setPosts(data);
     } catch (error) {
       console.error("Error loading posts:", error.message);

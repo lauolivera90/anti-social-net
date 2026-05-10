@@ -1,14 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
-import { Container, Form, Row, Col } from "react-bootstrap";
-import { useClickOutside } from '@/shared/hook';
+import { useEffect, useState } from 'react';
+import { Form } from "react-bootstrap";
+import { DropDown } from '@/widget/ui'; // Usamos nuestro widget personalizado
 import { TagBadge, fetchTags } from '@/entities/tag'; // Importación limpia desde la entidad
 
 export const SelectTagsAction = ({ selectedTags, setSelectedTags }) => {
-  const [showAddTag, setShowAddTag] = useState(false);
   const [tags, setTags] = useState([]);
-  const popupRef = useRef(null);
-
-  useClickOutside(popupRef, () => setShowAddTag(false));
 
   // Lógica de carga de datos delegada a la entidad
   useEffect(() => {
@@ -38,41 +34,46 @@ export const SelectTagsAction = ({ selectedTags, setSelectedTags }) => {
   };
 
   return (
-    <div className="position-relative d-inline-block">
-      <i
-        className="bi bi-tag-fill fs-5"
-        onClick={() => setShowAddTag(!showAddTag)}
-        style={{ cursor: 'pointer' }}
-        role="button"
-        title="Agregar etiquetas"
-      ></i>
-
-      {showAddTag && (
-        <Container
-          ref={popupRef}
-          className="position-absolute z-3 mt-2 bg-white p-3 border rounded shadow-lg"
-          style={{ top: "100%", left: 0, minWidth: '250px' }}
-        >
-          <Row className="gx-2 gy-2" style={{ maxHeight: '200px', overflowY: 'auto' }}>
-            {tags.length === 0 ? (
-              <Col className="text-muted small">Cargando etiquetas...</Col>
-            ) : (
-              tags.map((tag) => (
-                <Col xs={12} key={tag._id}>
-                  <Form.Check
-                    type="checkbox"
-                    id={`tag-${tag._id}`}
-                    checked={selectedTags.some(t => t._id === tag._id)}
-                    onChange={() => toggleTag(tag._id)}
-                    label={<TagBadge name={tag.name} />}
-                    className="d-flex align-items-center"
-                  />
-                </Col>
-              ))
-            )}
-          </Row>
-        </Container>
-      )}
-    </div>
+    <DropDown
+      drop="down"
+      variant="slate"
+      menuClassName="p-3 mt-3" // Añadimos padding al menú
+      trigger={
+        <div className="interactive-item rounded-pill p-2 d-flex">
+          <i
+            className="bi bi-tag-fill fs-5 icon-grow py-1 px-2"
+            role="button"
+            title="Agregar etiquetas"
+          ></i>
+        </div>
+      }
+    >
+      {/* Pasamos el contenido personalizado como `children` */}
+      <div style={{ maxHeight: '200px', overflowY: 'auto', minWidth: '256px' }}>
+        {tags.length === 0 ? (
+          <div className="text-secondary small px-2">Cargando etiquetas...</div>
+        ) : (
+          tags.map((tag) => (
+            // Reemplazamos Form.Check por una estructura manual para controlar el área de click
+            <div
+              key={tag._id}
+              onClick={() => toggleTag(tag._id)}
+              className="interactive-item d-flex align-items-center rounded-pill px-3 py-2 mb-1 me-2"
+              style={{ cursor: 'pointer' }}
+            >
+              <Form.Check.Input
+                type="checkbox"
+                checked={selectedTags.some(t => t._id === tag._id)}
+                // Hacemos que el input sea de solo lectura y el onChange esté vacío
+                // porque la lógica de cambio está en el div contenedor.
+                readOnly
+                onChange={() => {}}
+              />
+              <TagBadge className={"ms-2 text-white"} name={tag.name} />
+            </div>
+          ))
+        )}
+      </div>
+    </DropDown>
   );
 };
