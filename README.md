@@ -1,29 +1,40 @@
 # 🌐 Antisocial Net - VisualLayer
-Antisocial es una plataforma de red social inspirada en X (Twitter), desarrollada como proyecto integrador universitario. El enfoque principal fue el consumo de APIs REST, el manejo de estados complejos en el frontend y el diseño responsivo.
 
-# 🚀 Instalación y Uso Rápido (Local)
-Para ver la aplicación funcionando con datos de prueba, seguí estos pasos:
+**AntiSocial Net** es una plataforma de microblogging inspirada en la experiencia de usuario y el diseño visual de redes sociales modernas como X (anteriormente Twitter). 
 
-1. Requisito previo
-Asegurate de tener el Backend corriendo. Si no lo tenés, la aplicación se verá vacía.
+Este repositorio contiene el **Frontend** del proyecto, desarrollado bajo un enfoque estricto de arquitectura modular y *Dark Mode First*.
 
-2. Configuración del Frontend
-Cloná este repositorio y ejecutá los siguientes comandos en la terminal:
+## 📖 Contexto del Proyecto
 
-# Instalar todas las dependencias (incluye Vite)
-npm install
+Este software nace como un **proyecto integrador universitario** para la materia *"Construcción de interfaces de usuario"*. Su propósito es estrictamente académico, educativo y sin fines de lucro.
 
-# Iniciar el servidor de desarrollo
-npm run dev
+**Objetivos de aprendizaje alcanzados:**
+- Consumo robusto de APIs RESTful.
+- Manejo avanzado de estados globales y locales en React.
+- Implementación de la arquitectura escalable **Feature-Sliced Design (FSD)**.
+- Diseño de componentes UI inteligentes (Detección de colisiones, *Lazy Loading*, modales dinámicos).
+- Interfaz 100% responsiva (Desktop & Mobile-first Navigation).
 
-Nota: Por defecto, el frontend busca la API en http://localhost:3000. Asegurate de que el backend esté usando ese puerto.
+## 🚀 Aplicación Desplegada (Live Demo)
+Puedes explorar y probar la plataforma en vivo ingresando al siguiente enlace:
+**[https://anti-social-net.vercel.app/home](https://anti-social-net.vercel.app/home)**
+
+## 📜 Scripts Disponibles (`package.json`)
+Si deseas clonar el proyecto para desarrollo, estos son los comandos principales disponibles:
+
+- `npm run dev`: Inicia el servidor de desarrollo local con Vite (incluye recarga en caliente / HMR).
+- `npm run build`: Compila la aplicación y optimiza los archivos (minificación y bundling) para producción en la carpeta `dist`.
+- `npm run lint`: Ejecuta el linter (ESLint) para verificar la calidad del código, asegurando buenas prácticas y detectando errores de sintaxis.
+- `npm run preview`: Inicia un servidor web local liviano para previsualizar el contenido compilado en `dist` antes de subirlo a producción.
 
 # 🛠️ Tecnologías utilizadas
 Core: React.js & Vite (para un bundling ultrarrápido).
 
 UI/UX: React Bootstrap, Bootstrap CSS e Icons.
 
-Comunicación: Axios para el consumo de la API REST (desarrollada por el grupo Semáforos en Rojo).
+Comunicación: Fetch API / Axios para el consumo de la API REST (desarrollada por el grupo de backend *Semáforos en Rojo* alojada en Render).
+
+Arquitectura: **Feature-Sliced Design (FSD)** estructurado en capas jerárquicas.
 
 # 🌐 Funcionalidades Clave
 Gestión de Usuarios: Registro, Login y edición de perfil.

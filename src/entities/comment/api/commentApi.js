@@ -36,6 +36,20 @@ export const deleteComment = async (commentId) => {
 };
 
 /**
+ * Obtiene un comentario específico por su ID.
+ * @param {string} commentId - El ID del comentario.
+ * @returns {Promise<object>} El comentario.
+ */
+export const getCommentById = async (commentId) => {
+  const response = await fetch(`${BASE_URL}/${commentId}`);
+  console.log()
+  if (!response.ok) {
+    throw new Error("Error de red al cargar el comentario");
+  }
+  return await response.json();
+};
+
+/**
  * Obtiene todos los comentarios de un usuario específico.
  * @param {string} userId - El ID del usuario.
  * @returns {Promise<Array<object>>} Un array de comentarios del usuario.
@@ -65,6 +79,26 @@ export const getComments = async ({ userId } = {}) => {
   const response = await fetch(url);
   if (!response.ok) {
     throw new Error("Error de red al cargar los comentarios");
+  }
+  return await response.json();
+};
+
+/**
+ * Actualiza un comentario existente.
+ * @param {string} commentId - El ID del comentario a actualizar.
+ * @param {object} commentData - Los datos a actualizar (ej. la nueva descripción o texto).
+ * @returns {Promise<object>} El comentario actualizado.
+ */
+export const updateComment = async (commentId, commentData) => {
+  const response = await fetch(`${BASE_URL}/${commentId}`, {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(commentData),
+  });
+  if (!response.ok) {
+    throw new Error(`Error al actualizar el comentario ${commentId}`);
   }
   return await response.json();
 };

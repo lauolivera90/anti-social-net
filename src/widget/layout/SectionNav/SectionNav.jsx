@@ -1,28 +1,28 @@
-import { useNavigate } from "react-router-dom";
 import { Container, Row, Col } from 'react-bootstrap';
+import { useLocate } from "@/shared/hook/useLocate"; // Tu nuevo hook
 
 export const SectionNav = ({ title, to, extraAction }) => {
-  const navigate = useNavigate();
+  const locate = useLocate();
 
   const handleBack = () => {
     // Si pasas una ruta específica (ej: "/home"), va ahí. 
     // Si no, vuelve uno atrás en el historial.
     if (to) {
-      navigate(to);
+      locate(to);
     } else {
-      navigate(-1);
+      locate(-1);
     }
   };
 
   return (
     <Container 
       fluid 
-      className="position-sticky top-0 bg-black text-white px-0 py-3 z-3"
+      className="position-sticky top-0 bg-black text-white z-3 p-3"
     >
       <Row className="align-items-center">
         <Col xs="auto">
           <i
-            className="bi bi-arrow-left fs-5 p-2 rounded-circle hover-effect"
+            className="bi bi-arrow-left fs-5 p-2 ps-1 rounded-circle hover-effect"
             onClick={handleBack}
             style={{ cursor: 'pointer' }}
             role="button"
