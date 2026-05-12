@@ -1,15 +1,13 @@
 import { useState } from "react";
 import { Container, Row, Col } from "react-bootstrap";
 // Importamos los modales desde la carpeta de UI de la feature
+import { Card } from "@/widget/ui";
 import { AccountInformation, DesactivateAccount, ChangePassword } from "@/features/Configuration/ui";
 
 const Configuration = () => {
   const [showChangePassword, setShowChangePassword] = useState(false);
   const [showInformation, setShowInformation] = useState(false);
   const [showDesactivate, setShowDesactivate] = useState(false);
-
-  // Clase común para las tarjetas de opción para evitar repetición
-  const cardStyle = "p-4 h-100 border border-dark rounded bg-dark bg-opacity-25 transition-all shadow-sm";
 
   return (
     <Container className="text-white py-5 pt-3 px-3 vh-100">
@@ -25,47 +23,35 @@ const Configuration = () => {
       <Row className="g-4">
         {/* Información de cuenta */}
         <Col xs={12} lg={4}>
-          <div 
-            className={`${cardStyle} cursor-pointer border-hover-primary`} 
+          <Card
+            variant="primary"
+            icon="bi bi-person-badge"
+            title="Información de cuenta"
+            description="Revisa tu nombre de usuario, dirección de correo electrónico y datos básicos."
             onClick={() => setShowInformation(true)}
-            role="button"
-          >
-            <i className="bi bi-person-badge fs-1 text-primary"></i>
-            <h5 className="mt-3 fw-bold">Información de cuenta</h5>
-            <p className="small text-secondary mb-0">
-              Revisa tu nombre de usuario, dirección de correo electrónico y datos básicos.
-            </p>
-          </div>
+          />
         </Col>
 
         {/* Cambio de contraseña */}
         <Col xs={12} lg={4}>
-          <div 
-            className={`${cardStyle} cursor-pointer border-hover-primary`} 
+          <Card
+            variant="primary"
+            icon="bi bi-shield-lock"
+            title="Seguridad"
+            description="Protege tu acceso actualizando tu contraseña de forma periódica."
             onClick={() => setShowChangePassword(true)}
-            role="button"
-          >
-            <i className="bi bi-shield-lock fs-1 text-primary"></i>
-            <h5 className="mt-3 fw-bold">Seguridad</h5>
-            <p className="small text-secondary mb-0">
-              Protege tu acceso actualizando tu contraseña de forma periódica.
-            </p>
-          </div>
+          />
         </Col>
 
         {/* Desactivación */}
         <Col xs={12} lg={4}>
-          <div 
-            className={`${cardStyle} cursor-pointer border-hover-danger`} 
+          <Card
+            variant="danger"
+            icon="bi bi-person-x"
+            title="Desactivar cuenta"
+            description="Aprende cómo puedes suspender o eliminar tu presencia de forma permanente."
             onClick={() => setShowDesactivate(true)}
-            role="button"
-          >
-            <i className="bi bi-person-x fs-1 text-danger"></i>
-            <h5 className="mt-3 fw-bold text-danger">Desactivar cuenta</h5>
-            <p className="small text-secondary mb-0">
-              Aprende cómo puedes suspender o eliminar tu presencia de forma permanente.
-            </p>
-          </div>
+          />
         </Col>
       </Row>
 

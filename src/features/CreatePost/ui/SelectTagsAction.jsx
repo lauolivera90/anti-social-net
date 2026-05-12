@@ -1,19 +1,29 @@
-import { useEffect, useState } from 'react';
-import { Form } from "react-bootstrap";
+import { useEffect, useState, useRef } from 'react';
+import { Form, Spinner } from "react-bootstrap";
 import { DropDown } from '@/widget/ui'; // Usamos nuestro widget personalizado
-import { TagBadge, fetchTags } from '@/entities/tag'; // Importación limpia desde la entidad
+import { TagBadge, getTags } from '@/entities/tag'; // Importación limpia desde la entidad
+import { useSmartDrop } from '@/shared/hook/useSmartDrop';
 
 export const SelectTagsAction = ({ selectedTags, setSelectedTags }) => {
   const [tags, setTags] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const triggerRef = useRef(null);
+  const smartDrop = useSmartDrop(triggerRef, 250); // 250px por su maxHeight interno
 
   // Lógica de carga de datos delegada a la entidad
   useEffect(() => {
     const loadTags = async () => {
+      setIsLoading(true);
+      setError(null);
       try {
-        const data = await fetchTags();
+        const data = await getTags();
         setTags(data);
       } catch (error) {
         console.error(error.message);
+        setError("No se pudieron cargar las etiquetas.");
+      } finally {
+        setIsLoading(false);
       }
     };
 
@@ -35,11 +45,11 @@ export const SelectTagsAction = ({ selectedTags, setSelectedTags }) => {
 
   return (
     <DropDown
-      drop="down"
+      drop={smartDrop}
       variant="slate"
-      menuClassName="p-3 mt-3" // Añadimos padding al menú
+      menuClassName="p-3 mt-1" // Añadimos padding al menú
       trigger={
-        <div className="interactive-item rounded-pill p-2 d-flex">
+        <div ref={triggerRef} className="interactive-item rounded-pill p-2 d-flex">
           <i
             className="bi bi-tag-fill fs-5 icon-grow py-1 px-2"
             role="button"
@@ -50,8 +60,12 @@ export const SelectTagsAction = ({ selectedTags, setSelectedTags }) => {
     >
       {/* Pasamos el contenido personalizado como `children` */}
       <div style={{ maxHeight: '200px', overflowY: 'auto', minWidth: '256px' }}>
-        {tags.length === 0 ? (
-          <div className="text-secondary small px-2">Cargando etiquetas...</div>
+        {isLoading ? (
+          <div className="text-center p-3">
+            <Spinner animation="border" size="sm" variant="primary" />
+          </div>
+        ) : error ? (
+          <div className="text-danger small px-2">{error}</div>
         ) : (
           tags.map((tag) => (
             // Reemplazamos Form.Check por una estructura manual para controlar el área de click

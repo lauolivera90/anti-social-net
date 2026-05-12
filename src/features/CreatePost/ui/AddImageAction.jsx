@@ -1,9 +1,12 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { DropDown, Input, Button } from '@/widget/ui';
+import { useSmartDrop } from '@/shared/hook/useSmartDrop';
 
 export const AddImageAction = ({ images, setImages }) => {
   const [showPopup, setShowPopup] = useState(false);
   const [url, setUrl] = useState('');
+  const triggerRef = useRef(null);
+  const smartDrop = useSmartDrop(triggerRef, 200); // 200px es aprox la altura de este menú
 
   const handleAdd = () => {
     if (images.length >= 4) return alert("Máximo 4 imágenes");
@@ -26,11 +29,11 @@ export const AddImageAction = ({ images, setImages }) => {
         // Solo permitimos abrir el menú si no se ha alcanzado el límite
         if (images.length < 4) setShowPopup(isOpen);
       }}
-      drop="down"
+      drop={smartDrop}
       variant="slate" // Usamos el tema gris oscuro para consistencia
-      menuClassName="p-3 mt-3"
+      menuClassName="p-3 mt-1"
       trigger={
-        <div className="interactive-item rounded-pill p-2 d-flex">
+        <div ref={triggerRef} className="interactive-item rounded-pill p-2 d-flex">
           <i
             className="bi bi-card-image fs-5 icon-grow py-1 px-2"
             style={{ cursor: images.length < 4 ? 'pointer' : 'not-allowed', opacity: images.length < 4 ? 1 : 0.5 }}

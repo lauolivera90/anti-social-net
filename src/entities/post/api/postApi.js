@@ -79,3 +79,19 @@ export const deletePost = async (postId) => {
   if (!response.ok) throw new Error(`Error al eliminar el post ${postId}`);
   return await response.json();
 };
+
+/**
+ * Actualiza un post existente.
+ * @param {string} postId - El ID del post a actualizar.
+ * @param {object} postData - Los datos a actualizar.
+ * @returns {Promise<object>} El post actualizado.
+ */
+export const updatePost = async (postId, postData) => {
+  const response = await fetch(`${BASE_URL}/${postId}`, {
+    method: "PUT",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(postData),
+  });
+  if (!response.ok) throw new Error("Error al actualizar el post");
+  return await response.json();
+};

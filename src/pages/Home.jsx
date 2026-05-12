@@ -1,5 +1,5 @@
 import { PostForm } from "@/features/CreatePost/ui";
-import {Feed} from "@/shared/ui";
+import {Feed} from "@/features/Home/ui";
 
 function Home() {
   return (

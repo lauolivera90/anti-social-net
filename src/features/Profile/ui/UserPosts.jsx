@@ -2,8 +2,9 @@ import { useEffect, useState } from "react";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 // Importaciones ajustadas a FSD
 import { PostPreview, getPostsByNickname } from "@/entities/post";
+import { PostActions } from "@/features/Post-Management/ui/PostActions";
 
-export const UserPosts = ({ setPostLength, user }) => {
+export const UserPosts = ({ user }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -18,8 +19,6 @@ export const UserPosts = ({ setPostLength, user }) => {
         const postsData = Array.isArray(data) ? data : [];
         
         setPosts(postsData);
-        // Actualizamos el contador en UserInformation
-        if (setPostLength) setPostLength(postsData.length);
       } catch (error) {
         console.error("Error al cargar los posts:", error);
       } finally {
@@ -28,7 +27,7 @@ export const UserPosts = ({ setPostLength, user }) => {
     };
 
     loadPosts();
-  }, [user?.nickname, setPostLength]);
+  }, [user?.nickname]);
 
   if (loading) {
     return (
@@ -42,18 +41,25 @@ export const UserPosts = ({ setPostLength, user }) => {
     <Container fluid className="p-0">
       {posts.length > 0 ? (
         <Row className="g-0"> {/* g-0 elimina espaciados laterales si prefieres estilo "Timeline" */}
-          {posts.map((post) => (
-            <Col xs={12} key={post._id} className="border-bottom border-dark">
-              <PostPreview
-                user={post.user}
-                images={post.image}
-                description={post.description}
-                date={post.upload_date}
-                postId={post._id}
-                tags={post.tag || []}
-              />
-            </Col>
-          ))}
+          {posts.map((post) => {
+            // Si el backend no trae el post.user poblado (o es solo un ID string),
+            // usamos el objeto 'user' completo que ya tenemos del perfil.
+            const postOwner = post.user?._id ? post.user : user;
+
+            return (
+              <Col xs={12} key={post._id} className="border-bottom border-dark">
+                <PostPreview
+                  user={postOwner}
+                  images={post.image}
+                  description={post.description}
+                  date={post.upload_date}
+                  postId={post._id}
+                  tags={post.tag || []}
+                  actions={<PostActions post={{ ...post, user: postOwner }} />}
+                />
+              </Col>
+            );
+          })}
         </Row>
       ) : (
         <Container className="py-5 text-center">

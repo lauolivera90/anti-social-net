@@ -1,7 +1,16 @@
-import EmojiPicker from 'emoji-picker-react';
+import { useRef, useState, lazy, Suspense } from 'react';
+import { Spinner } from 'react-bootstrap';
 import { DropDown } from '@/widget/ui'; // Importamos nuestro widget reutilizable
+import { useSmartDrop } from '@/shared/hook/useSmartDrop';
+
+// Cargamos la librería pesada de forma asíncrona solo cuando sea necesario
+const EmojiPicker = lazy(() => import('emoji-picker-react'));
 
 export const Emoji = ({ setInputText }) => {
+  const triggerRef = useRef(null);
+  const smartDrop = useSmartDrop(triggerRef, 400); // Usamos 400px considerando los márgenes y altura del EmojiPicker
+  const [hasLoaded, setHasLoaded] = useState(false);
+
   const onEmojiClick = (emojiData) => {
     setInputText(prev => prev + emojiData.emoji);
   };
@@ -22,12 +31,16 @@ export const Emoji = ({ setInputText }) => {
 
   return (
     <DropDown
-      drop="down"
+      drop={smartDrop}
       variant="slate"
+      onToggle={(isOpen) => {
+        // Solo iniciamos la carga cuando el usuario abre el menú por primera vez
+        if (isOpen && !hasLoaded) setHasLoaded(true);
+      }}
       // Quitamos el padding y borde del menú para que el picker se ajuste perfectamente
-      menuClassName="p-3 mt-3 border-0 bg-transparent" // Hacemos el menú transparente
+      menuClassName="p-3 mt-1 border-0 bg-transparent" // Hacemos el menú transparente
       trigger={
-        <div className="interactive-item rounded-pill p-2 d-flex">
+        <div ref={triggerRef} className="interactive-item rounded-pill p-2 d-flex">
           <i 
             className="bi bi-emoji-kiss-fill fs-5 icon-grow py-1 px-2" 
             style={{ cursor: 'pointer' }} 
@@ -37,11 +50,20 @@ export const Emoji = ({ setInputText }) => {
         </div>
       }
     >
-      <EmojiPicker 
-        onEmojiClick={onEmojiClick} 
-        emojiStyle="twitter"
-        style={customPickerStyles} // Aplicamos nuestros estilos personalizados
-      />
+      {hasLoaded && (
+        <Suspense fallback={
+          <div className="d-flex justify-content-center align-items-center bg-dark" style={{ width: '350px', height: '400px', margin: '-1rem', borderRadius: '1rem', border: '1px solid #6c757d' }}>
+            <Spinner animation="border" variant="secondary" />
+          </div>
+        }>
+          <EmojiPicker 
+            onEmojiClick={onEmojiClick} 
+            emojiStyle="twitter"
+            lazyLoadEmojis={true} // Optimización: carga las imágenes dinámicamente con el scroll
+            style={customPickerStyles} 
+          />
+        </Suspense>
+      )}
     </DropDown>
   );
 }

@@ -86,7 +86,7 @@ export function Sidebar() {
         <DropDown 
           drop="up"
           variant="dark"
-          menuClassName="mb-3 w-100"
+          menuClassName="mb-1 w-100"
           options={userMenuOptions}
           trigger={
             <Row 
