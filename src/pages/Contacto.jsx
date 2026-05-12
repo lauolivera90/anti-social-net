@@ -1,45 +1,52 @@
-import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
-//import styles from '../components/NotLogged/NotLogged.module.css'
+import { PublicLayout } from "@/widget/layout";
+import { Button } from "@/widget/ui";
 
 export default function Contacto() {
-    const navigate = useNavigate()
-    const goToRoot = () => {
-        navigate(`/`);
-    }
+    const navigate = useNavigate();
+
+    const handleCopy = (email) => {
+        navigator.clipboard.writeText(email);
+        alert("¡Correo copiado al portapapeles!");
+    };
+
+    const contacts = [
+        { name: "González, Federico", email: "No disponible" },
+        { name: "Labriola, Federico", email: "fede.lean.lab@gmail.com" },
+        { name: "Lubris Vadell, Martin", email: "martin.lubris@gmail.com" },
+        { name: "Olivera, Lautaro B.", email: "lautarobolivera098@gmail.com" },
+    ];
 
     return (
-        <div className={styles.contenedor}>
-            <div className="d-flex vh-100">
-                <div className="w-100 h-100">
-                    <img
-                        src="https://i.pinimg.com/736x/79/0e/44/790e44391a38a9589e32c846947a01bb.jpg"
-                        alt="backGround"
-                        className="w-100 h-100 object-fit-cover"
-                        style={{ display: "block" }}
-                    />
-                </div>
-                <div className="w-100 d-flex flex-column justify-content-center align-items-center gap-3 p-5">
-                    <h1 className="fw-bold text-black">AntiSocial Net</h1>
-                    <h3 className="fw-normal text-black">Contáctate con nosotros</h3>
+        <PublicLayout>
+            <h1 className="fw-bold text-white display-5 mb-2 text-center">AntiSocial Net</h1>
+            <h3 className="fw-normal text-secondary fs-5 mb-5 text-center">Contáctate con nosotros</h3>
 
-                    <ul className="list-group">
-                        <li className="list-group-item"><p style={{ textAlign: 'left' }}><b>Oliviera, Lautaro</b></p> Dirección de correo electrónico: <i>lautioliviera@gmail.com</i><br></br></li>
-                        <li className="list-group-item"><p style={{ textAlign: 'left' }}><b>Labriola, Federico</b></p> Dirección de correo electrónico: <i>fede.lean.lab@gmail.com</i><br></br></li>
-                        <li className="list-group-item"><p style={{ textAlign: 'left' }}><b>Oliviera, Lautaro</b></p> Dirección de correo electrónico: <i>lautioliviera@gmail.com</i><br></br></li>
-                        <li className="list-group-item"><p style={{ textAlign: 'left' }}><b>Labriola, Federico</b></p> Dirección de correo electrónico: <i>fede.lean.lab@gmail.com</i><br></br></li>
-                    </ul>
-                    <p>No te olvides dejarnos tus datos. Te contestaremos a la brevedad</p>
-                    <footer>Saludos de parte de nuestro Staff</footer>
-                    <button className="btn btn-primary w-25 mt-5" onClick={goToRoot}>
-                        Volver
-                    </button>
-
-                </div>
+            <div className="w-100 d-flex flex-column gap-3 mb-4">
+                {contacts.map((contact, index) => (
+                    <div key={index} className="p-3 border border-secondary rounded text-white bg-dark bg-opacity-10 d-flex justify-content-between align-items-center">
+                        <div>
+                            <p className="mb-1"><b>{contact.name}</b></p>
+                            <p className="mb-0 text-secondary small"><i>{contact.email}</i></p>
+                        </div>
+                        <i 
+                            className="bi bi-clipboard interactive-item p-2 rounded-circle fs-5 text-secondary icon-grow" 
+                            style={{ cursor: "pointer" }}
+                            onClick={() => handleCopy(contact.email)}
+                            title="Copiar correo"
+                        ></i>
+                    </div>
+                ))}
             </div>
-        </div>
-
-
-
+            
+            <p className="text-secondary text-center small mb-1">
+                No te olvides dejarnos tus datos. Te contestaremos a la brevedad.
+            </p>
+            <footer className="text-secondary text-center small mb-4">Saludos de parte de nuestro Staff.</footer>
+            
+            <Button variant="primary" className="w-100 py-2 fs-5 rounded-pill mt-2" onClick={() => navigate("/")}>
+                Volver
+            </Button>
+        </PublicLayout>
     );
 }

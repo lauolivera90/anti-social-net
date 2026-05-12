@@ -8,7 +8,10 @@ export const ModalCustom = ({
   children, 
   footerActions, 
   isLoading = false,
-  variant = "slate" // Valores: "dark", "slate", "light"
+  variant = "slate", // Valores: "dark", "slate", "light"
+  scrollable, // Nueva prop opcional
+  showCloseButton = true, // Permite ocultar el botón de "Cerrar"
+  ...props    // Permite pasar cualquier otra prop nativa de Modal
 }) => {
 
   // Configuración de estilos por variante
@@ -36,7 +39,13 @@ export const ModalCustom = ({
   const style = variants[variant] || variants.slate;
 
   return (
-    <Modal show={show} onHide={onHide} centered>
+    <Modal 
+      show={show} 
+      onHide={onHide} 
+      centered 
+      scrollable={scrollable} 
+      {...props}
+    >
       <Modal.Header closeButton className={style.header}>
         <Modal.Title className="fw-bold">{title}</Modal.Title>
       </Modal.Header>
@@ -52,13 +61,15 @@ export const ModalCustom = ({
       </Modal.Body>
 
       <Modal.Footer className={style.footer}>
-        <Button 
-          variant={style.closeBtn} 
-          onClick={onHide} 
-          disabled={isLoading}
-        >
-          Cerrar
-        </Button>
+        {showCloseButton && (
+          <Button 
+            variant={style.closeBtn} 
+            onClick={onHide} 
+            disabled={isLoading}
+          >
+            Cerrar
+          </Button>
+        )}
         {footerActions}
       </Modal.Footer>
     </Modal>

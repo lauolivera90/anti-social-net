@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { PostSkeleton } from "@/shared/ui"; // El layout compartido
 import { formatTime } from "@/shared/hook"; // Si decides agregar la fecha luego
 
-export const Comment = ({ user, text, date }) => {
+export const Comment = ({ user, text, date, actions, commentId }) => {
   const navigate = useNavigate();
 
   const handleProfileClick = (e) => {
@@ -14,12 +14,21 @@ export const Comment = ({ user, text, date }) => {
     }
   };
 
+  const handleCommentClick = (e) => {
+    if (e) e.stopPropagation();
+    if (commentId) {
+      navigate(`/comment/${commentId}`);
+    }
+  };
+
   return (
     <>
       <PostSkeleton
         user={user}
         onProfileClick={handleProfileClick}
         headerExtra={date ? `· ${formatTime(date)}` : null}
+        actions={actions}
+        onClick={handleCommentClick}
         >
         <p className="text-start m-0 text-white">
           {text}

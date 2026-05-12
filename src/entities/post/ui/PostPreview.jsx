@@ -6,7 +6,7 @@ import { ImageGrid, PostSkeleton } from "@/shared/ui";
 import { TagBadge } from "@/entities/tag/ui/TagBadge";
 import {Avatar} from "@/widget/ui";
 
-export const PostPreview = ({ user = {}, description, images, date, postId, tags = [] }) => {
+export const PostPreview = ({ user = {}, description, images, date, postId, tags = [], actions }) => {
   const navigate = useNavigate();
 
   const goToPost = (e) => {
@@ -25,6 +25,7 @@ export const PostPreview = ({ user = {}, description, images, date, postId, tags
       onClick={goToPost}
       onProfileClick={handleProfileClick}
       headerExtra={`· ${formatTime(date)}`}
+      actions={actions}
     >
       {/* text-break fuerza el salto de línea en textos largos sin espacios */}
       <p className="text-start mb-0 text-break">{description}</p>

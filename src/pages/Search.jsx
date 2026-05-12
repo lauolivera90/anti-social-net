@@ -1,71 +1,85 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { Container, Col, Row } from "react-bootstrap";
-import { PostPreview } from "@/entities/post/ui/PostPreview";
-import { getPostsByTagId } from '@/entities/post'; // Asumimos que crearemos esta función
-import TagSearchBar from '../components/SearchBar';
+import { useSearchParams } from 'react-router-dom';
+import { Spinner } from "react-bootstrap"; // O el tuyo de shared/ui
+import { PostPreview } from "@/entities/post";
+import { getPosts } from '@/entities/post';
+import { PostActions } from "@/features/Post-Management/ui/PostActions";
 
 const Search = () => {
   const [busqueda, setBusqueda] = useState([]);
   const [tag, setTag] = useState(null);
-  const location = useLocation();
-
-  const getPostsByTag = async () => {
-    try {
-      const tagId = location.pathname.split("/").pop();
-      if (!tagId) return;
-      
-      // Usamos la función de la API centralizada
-      const posts = await getPostsByTagId(tagId);
-      setBusqueda(posts);
-      // Para mostrar el nombre del tag, podríamos necesitar otra llamada o que el endpoint de posts lo incluya
-      if (posts.length > 0) setTag(posts[0].tag.find(t => t._id === tagId));
-    } catch (error) {
-      console.error("Error al obtener los posts por tag:", error);
-    }
-  };
+  const [loading, setLoading] = useState(false);
+  const [searchParams] = useSearchParams();
 
   useEffect(() => {
-    getPostsByTag();
-  }, [location.pathname]);
+    const fetchResults = async () => {
+      const tagId = searchParams.get('tagId');
+      if (!tagId) {
+        setBusqueda([]);
+        setTag(null);
+        return;
+      }
+
+      setLoading(true);
+      try {
+        const posts = await getPosts({ tagId });
+        setBusqueda(posts);
+        
+        // Buscamos el nombre del tag en los resultados
+        if (posts.length > 0) {
+          const foundTag = posts[0].tag.find(t => t._id === tagId);
+          setTag(foundTag);
+        }
+      } catch (error) {
+        console.error("Error en búsqueda:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchResults();
+  }, [searchParams]);
 
   return (
-    <Container fluid>
-      <Row>
-        <Col>
-          <Container fluid>
-            <TagSearchBar />
-            <Row className="m-0 p-0">
-              <Col className="m-0 p-0 mt-3">
-                <h4>
-                  {tag ? `Resultados para el tag: #${tag?.name}` : "Selecciona un tag para ver los resultados"}
-                </h4>
+    <div className="py-3 px-2">
+      {/* Cabecera de búsqueda */}
+      <header className="mb-4 border-bottom border-dark pb-3">
+        <h4 className="fw-bold">
+          {tag ? `Resultados para #${tag.name}` : "Explorar contenido"}
+        </h4>
+      </header>
 
-                {busqueda.length > 0 ? (
-                  <Container fluid className="m-0 p-0">
-                    {busqueda.map((post) => (
-                      <PostPreview
-                        key={post._id}
-                        user={post.user || "Desconocido"}
-                        images={post.image}
-                        description={post.description}
-                        date={post.upload_date}
-                        postId={post._id}
-                        tags={post.tag || []}
-                      />
-                    ))}
-                  </Container>
-                ) : (
-                  <p>
-                    {tag?.name ? `Lo sentimos, no tenemos posts con el tag: #${tag.name}` : ""}
-                  </p>
-                )}
-              </Col>
-            </Row>
-          </Container>
-        </Col>
-      </Row>
-    </Container>
+      {/* Estados de la vista */}
+      {loading ? (
+        <div className="d-flex justify-content-center py-5">
+          <Spinner animation="border" variant="primary" />
+        </div>
+      ) : busqueda.length > 0 ? (
+        <div className="posts-container">
+          {busqueda.map((post) => (
+            <PostPreview
+              key={post._id}
+              user={post.user}
+              images={post.image}
+              description={post.description}
+              date={post.upload_date}
+              postId={post._id}
+              tags={post.tag}
+              actions={<PostActions post={post} />}
+            />
+          ))}
+        </div>
+      ) : (
+        <div className="text-center py-5">
+          <p className="text-secondary fs-5">
+            {tag 
+              ? `No encontramos publicaciones con el tag #${tag.name}` 
+              : "Utiliza el buscador o selecciona un tag para ver publicaciones relacionadas."
+            }
+          </p>
+        </div>
+      )}
+    </div>
   );
 };
 

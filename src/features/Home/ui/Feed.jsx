@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { PostPreview, getPosts } from "@/entities/post";
+import { PostActions } from "@/features/Post-Management/ui/PostActions";
 import { Container, Spinner } from "react-bootstrap";
 
 export const Feed = () => {
@@ -45,6 +46,7 @@ export const Feed = () => {
           date={post.upload_date}
           postId={post._id}
           tags={post.tag}
+          actions={<PostActions post={post} />}
         />
       ))}
     </Container>

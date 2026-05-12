@@ -1,6 +1,18 @@
 const BASE_URL = "https://antisocialnet-backend.onrender.com/user";
 
 /**
+ * Obtiene todos los usuarios.
+ * @returns {Promise<Array<object>>} Un array de usuarios.
+ */
+export const getUsers = async () => {
+  const response = await fetch(BASE_URL);
+  if (!response.ok) {
+    throw new Error("Error de red al cargar los usuarios");
+  }
+  return await response.json();
+};
+
+/**
  * Obtiene un usuario específico por su ID.
  * @param {string} userId - El ID del usuario a obtener.
  * @returns {Promise<object>} El objeto del usuario.

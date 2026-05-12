@@ -14,6 +14,11 @@ const Public = () => {
     }
   }, [usuario, navigate]);
 
+  useEffect(() => {
+    // Despierta la API en Render (Free Tier) lanzando una petición en segundo plano.
+    fetch("https://antisocialnet-backend.onrender.com/health").catch(() => {});
+  }, []);
+
   return (
     <PublicLayout>
       <h1 className="fw-bold text-white display-4 mb-4 text-center">
@@ -42,9 +47,21 @@ const Public = () => {
         </Button>
       </div>
 
-      <p className="text-secondary mt-5 small">
-        Al registrarte, aceptas los Términos de servicio y la Política de privacidad.
-      </p>
+      <div className="mt-5 text-center">
+        <p className="text-secondary small mb-2">
+          Al registrarte, aceptas nuestro{" "}
+          <span 
+            className="text-primary text-decoration-underline interactive-item px-1 rounded transition-all" 
+            role="button"
+            onClick={() => navigate("/disclaimer")}
+          >
+            Aviso Legal (Disclaimer)
+          </span>.
+        </p>
+        <Button variant="ghost" className="text-secondary small p-0 m-0 text-decoration-underline" onClick={() => navigate("/contacto")}>
+          Contacto
+        </Button>
+      </div>
     </PublicLayout>
   );
 };

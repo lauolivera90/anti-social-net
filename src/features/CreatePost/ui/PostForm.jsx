@@ -62,7 +62,7 @@ export function PostForm() {
             <div className='border-bottom border-dark pt-4 transition-all'></div>
           )}
 
-          <div className='px-3 mt-2'>
+          <div className='px-0 mt-2'>
 
 
             {/* 4. ACCIONES SUPERIORES (Se activan al hacer focus) */}
@@ -73,13 +73,12 @@ export function PostForm() {
                   <SelectTagsAction selectedTags={selectedTags} setSelectedTags={setSelectedTags} />
                 </Col>
                 
-                <Col className="text-end">
+                <Col className="d-flex justify-content-end align-items-center gap-2 gap-sm-3">
                   
-                  <CharCounter condition={canPost} text={inputText} />
+                  <CharCounter text={inputText} />
 
-                  <Button onClick={handlePost} disabled={!canPost || isLoading} className="rounded-pill px-4 fw-bold">
+                  <Button onClick={handlePost} disabled={!canPost || isLoading} className="rounded-pill px-3 px-sm-4 fw-bold">
                     {isLoading ? 'Publicando...' : 'Postear'}
-                    
                   </Button>
                 </Col>
               </Row>

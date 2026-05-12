@@ -14,8 +14,6 @@ export const ProfileView = () => {
     const { usuario } = useAuth();
     
     const [user, setUser] = useState(null);
-    const [postLength, setPostLength] = useState(0);
-    const [commentsLength, setCommentsLength] = useState(0);
 
     // Determinamos si el perfil visualizado es el del usuario logueado
     const isOwnProfile = !urlId || urlId === "user" || urlId === usuario?._id;
@@ -47,23 +45,24 @@ export const ProfileView = () => {
     const profileTabs = [
         {
             label: "Publicaciones",
-            content: <UserPosts setPostLength={setPostLength} user={user} />
+            content: <UserPosts user={user} />
         },
         {
             label: "Comentarios",
-            content: <UserComments setCommentsLength={setCommentsLength} user={user} />
+            content: <UserComments user={user} />
         }
     ];
 
     return (
         <>
+
+            <SectionNav title={user.nickname} />
             <Container fluid className="p-3 pt-0">
-                <SectionNav title={user.nickname} />
                 
                 <UserInformation
                     user={user}
-                    postsCount={postLength}
-                    commentsCount={commentsLength}
+                    postsCount={user.postCount || 0}
+                    commentsCount={user.commentCount || 0}
                     // Inyectamos la acción solo si es su propio perfil
                     actions={
                         isOwnProfile && (

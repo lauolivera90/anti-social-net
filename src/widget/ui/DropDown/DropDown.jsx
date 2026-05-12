@@ -19,7 +19,7 @@ export const DropDown = ({
   const currentTheme = themes[variant] || themes.dark;
 
   return (
-    <Dropdown drop={drop} {...props}>
+    <Dropdown className="z-2" drop={drop} {...props}>
       <Dropdown.Toggle as="div" style={{ cursor: 'pointer' }} > 
         {trigger}
       </Dropdown.Toggle>

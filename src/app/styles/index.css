@@ -101,3 +101,32 @@ button:focus-visible {
 .interactive-item:hover .icon-grow {
   transform: scale(1.15);
 }
+
+.border-hover-primary:hover {
+  border-color: var(--bs-primary) !important;
+}
+
+.border-hover-danger:hover {
+  border-color: var(--bs-danger) !important;
+}
+
+/* --- Custom Scrollbar for Webkit browsers --- */
+/* Esto mejora la estética de las barras de scroll en el tema oscuro */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* El fondo de la pista será el del contenedor padre */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #343a40; /* Un gris oscuro sutil (bs-dark) */
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #495057; /* Un gris un poco más claro al pasar el ratón (bs-gray-700) */
+}
+
+

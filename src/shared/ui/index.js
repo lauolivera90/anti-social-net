@@ -1,7 +1,6 @@
 export { PostSkeleton } from './PostSkeleton/PostSkeleton'
 export {Emoji} from './Emoji/Emoji'
 export {ImageGrid} from './ImageGrid/ImageGrid'
-export {Feed} from './Feed/Feed'
 export {UserInfo} from './UserInfo/UserInfo'
 export {Logo} from './Logo/Logo'
 export {CharCounter} from './CharCounter/CharCounter'

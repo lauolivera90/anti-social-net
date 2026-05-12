@@ -4,10 +4,9 @@ import { Container, Row, Col } from 'react-bootstrap';
 import { UserInfo } from '@/shared/ui';
 
 import { ImageGrid } from '@/shared/ui';
-import { SectionNav } from '@/widget/layout';
 import { TagBadge } from '@/entities/tag/ui/TagBadge';
 
-export const PostDetails = ({ description, user, date, image, tags }) => {
+export const PostDetails = ({ description, user, date, image, tags, actions}) => {
   const navigate = useNavigate();
 
   const handleProfileClick = (e) => {
@@ -18,13 +17,9 @@ export const PostDetails = ({ description, user, date, image, tags }) => {
   return (
     <Container
       fluid
-      className="border-0 border-bottom border-dark p-3 pt-0 shadow-sm bg-black text-white"
+      className="border-0 border-bottom border-dark p-3 shadow-sm bg-black text-white"
     >
-      <SectionNav title="Post" />
-
-      <div className='pt-3'>
-        <UserInfo user={user} onProfileClick={handleProfileClick} />
-      </div>
+      <UserInfo user={user} onProfileClick={handleProfileClick} actions={actions} />
 
       <Row>
         <Col>

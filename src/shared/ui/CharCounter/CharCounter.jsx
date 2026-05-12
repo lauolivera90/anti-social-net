@@ -1,9 +1,11 @@
-export function CharCounter({condition, text}) {
-    const charCountColor = !condition ? 'text-danger' : 'text-white';
+export function CharCounter({ text, max = 240 }) {
+    const count = text.trim().length;
+    const isOverLimit = count > max;
+    const charCountColor = isOverLimit ? 'text-danger' : 'text-white';
 
     return (
-        <span className={`me-3 small ${charCountColor}`}>
-          {text.length > 0 && (!condition ? `-${text.length - 240}` : text.length)}
+        <span className={`small ${charCountColor}`}>
+          {count > 0 && (isOverLimit ? `-${count - max}` : count)}
         </span>
     );
 }

@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { Container, Row, Col, Spinner } from "react-bootstrap";
 import { Comment, getComments } from "@/entities/comment";
+import { CommentActions } from '@/features/Comment-Management/ui';
 
-export const UserComments = ({ setCommentsLength, user }) => {
+export const UserComments = ({ user }) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -18,10 +19,6 @@ export const UserComments = ({ setCommentsLength, user }) => {
         
         setComments(commentsData);
         
-        // Actualizamos el contador global del perfil
-        if (setCommentsLength) {
-          setCommentsLength(commentsData.length);
-        }
       } catch (error) {
         console.error("Error al cargar los comentarios:", error);
       } finally {
@@ -30,7 +27,7 @@ export const UserComments = ({ setCommentsLength, user }) => {
     };
 
     loadComments();
-  }, [user?._id, setCommentsLength]);
+  }, [user?._id]);
 
   if (loading) {
     return (
@@ -47,9 +44,11 @@ export const UserComments = ({ setCommentsLength, user }) => {
           {comments.map((comment) => (
             <Col key={comment._id} xs={12} className="border-bottom border-dark">
               <Comment
+                commentId={comment._id}
                 user={comment.user}
-                text={comment.text}
+                text={comment.description || comment.text}
                 date={comment.upload_date}
+                actions={<CommentActions comment={comment} />}
               />
             </Col>
           ))}

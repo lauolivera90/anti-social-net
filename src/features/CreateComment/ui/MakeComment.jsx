@@ -73,19 +73,19 @@ export const MakeComment = ({ replicatedUser, postId, onCommentAdded }) => {
 
       {focus && (
         <Row className="pe-4 ps-2 align-items-center mb-3">
-          <Col xs="auto text-white">
+          <Col xs="auto" className="text-white">
             <Emoji setInputText={setInputText} />
           </Col>
-          <Col className="text-end">
+          <Col className="d-flex justify-content-end align-items-center gap-2 gap-sm-3">
 
-            <CharCounter condition={canComment} text={inputText} />
+            <CharCounter text={inputText} />
 
             <Button
               variant="primary"
               type="submit"
               form="makePost"
               disabled={!canComment || isLoading}
-              className="rounded-pill px-4 fw-bold"
+              className="rounded-pill px-3 px-sm-4 fw-bold"
             >
               {isLoading ? "Respondiendo..." : "Responder"}
             </Button>
