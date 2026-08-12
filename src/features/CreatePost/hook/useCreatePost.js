@@ -21,7 +21,7 @@ export const useCreatePost = () => {
       await createPost({
         user: usuario._id,
         description: inputText,
-        image: images,
+        image: images.map(img => (typeof img === 'string' ? { url: img } : img)),
         tag: selectedTags,
       });
       cleanInputs();

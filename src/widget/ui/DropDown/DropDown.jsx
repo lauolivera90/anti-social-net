@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Dropdown } from "react-bootstrap";
 
 export const DropDown = ({ 
@@ -7,7 +8,10 @@ export const DropDown = ({
   variant = "dark", 
   drop = "down",
   menuClassName = "",
-  ...props // Captura el resto de las props (como `show`, `onToggle`, etc.)
+  menuStyle = {},
+  show: controlledShow,
+  onToggle: onToggleProp,
+  ...props // Captura el resto de las props (como `align`, `variant`, etc.)
 }) => {
   // Temas predefinidos para reutilizar en toda la app
   const themes = {
@@ -17,15 +21,48 @@ export const DropDown = ({
   };
 
   const currentTheme = themes[variant] || themes.dark;
+  const [localShow, setLocalShow] = useState(false);
+  const show = controlledShow ?? localShow;
+
+  const handleToggle = (nextShow, event) => {
+    if (controlledShow === undefined) {
+      setLocalShow(nextShow);
+    }
+    if (onToggleProp) {
+      onToggleProp(nextShow, event);
+    }
+  };
+
+  useEffect(() => {
+    if (!show) return;
+
+    const handleScroll = () => {
+      if (controlledShow === undefined) {
+        setLocalShow(false);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, true);
+    window.addEventListener('resize', handleScroll, true);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll, true);
+      window.removeEventListener('resize', handleScroll, true);
+    };
+  }, [show, controlledShow]);
 
   return (
-    <Dropdown className="z-2" drop={drop} {...props}>
-      <Dropdown.Toggle as="div" style={{ cursor: 'pointer' }} > 
+    <Dropdown className="z-2" drop={drop} show={show} onToggle={handleToggle} {...props}>
+      <Dropdown.Toggle as="div" role="button" tabIndex={0} style={{ cursor: 'pointer' }} > 
         {trigger}
       </Dropdown.Toggle>
 
       <Dropdown.Menu 
-        className={`${currentTheme} shadow-lg p-2 rounded-4 border ${menuClassName}`}
+        className={`${currentTheme} shadow-lg p-2 rounded-4 border overflow-auto ${menuClassName}`}
+        style={{ zIndex: 3000, maxHeight: '400px', overflow: 'auto', ...menuStyle }}
+        renderOnMount
+        popperConfig={{ strategy: 'fixed' }}
+        rootCloseEvent="click"
       >
         {/* Si se pasan hijos, se renderizan. Si no, se mapean las opciones. */}
         {children ? children : (

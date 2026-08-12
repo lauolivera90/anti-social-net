@@ -1,23 +1,30 @@
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { Trends, RecommendedUsers } from "@/features/AsideSection/ui";
 import { Input } from "@/widget/ui";
-import { Link } from "react-router-dom";
 
 export const AsideSection = () => {
+  const [query, setQuery] = useState("");
+  const navigate = useNavigate();
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const trimmed = query.trim();
+    if (!trimmed) return;
+    navigate(`/search?q=${encodeURIComponent(trimmed)}`);
+  };
+
   return (
     <aside
       className="position-sticky d-flex flex-column pt-3"
       style={{ 
-        /* Calculamos un top negativo. 
-           Si tu Aside mide, por ejemplo, 1200px y tu pantalla 800px,
-           necesitamos que "suba" esos 400px de diferencia antes de quedarse quieto.
-        */
         top: "calc(100vh - 100%)", 
-        alignSelf: "start", // Crucial para que sticky funcione en Flexbox
+        alignSelf: "start",
         width: "100%"
       }}
     >
       {/* Barra de Búsqueda: Se queda siempre arriba de su propio contenedor */}
-      <div className="position-relative mb-4">
+      <form onSubmit={handleSubmit} className="position-relative mb-4">
         <i
           className="bi bi-search position-absolute top-50 start-0 translate-middle-y ms-3 text-secondary z-1"
           style={{ pointerEvents: "none" }}
@@ -25,10 +32,12 @@ export const AsideSection = () => {
         <Input
           type="text"
           placeholder="Buscar en AntiSocial"
+          value={query}
+          onChange={(event) => setQuery(event.target.value)}
           className="mb-0"
           classNameControl="ps-5 rounded-pill bg-black border-dark text-white"
         />
-      </div>
+      </form>
 
       {/* Contenido que subirá con el scroll hasta llegar a su base */}
       <Trends />

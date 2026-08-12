@@ -13,7 +13,7 @@ export const MobileNav = () => {
 
   return (
     <nav 
-      className="d-md-none position-fixed bottom-0 start-0 w-100 bg-black border-top border-dark z-3"
+      className="d-lg-none position-fixed bottom-0 start-0 w-100 bg-black border-top border-dark z-3"
       style={{ paddingBottom: 'env(safe-area-inset-bottom)' }} // Soporte para la barra de navegación del iPhone
     >
       <div className="d-flex justify-content-around align-items-center py-2 px-1">

@@ -35,8 +35,8 @@ export function Sidebar() {
   return (
     <Container 
       fluid 
-      className='position-sticky top-0 d-none d-md-flex flex-column vh-100'
-      style={{ width: "272px", maxWidth: "272px" }}
+      className='position-sticky top-0 d-none d-lg-flex flex-column vh-100'
+      style={{ width: "240px", maxWidth: "240px" }}
     >
       {/* SECCIÓN LOGO */}
       <Row 
@@ -72,7 +72,7 @@ export function Sidebar() {
                 <Col xs="auto" className="pe-1">
                   <i className={`${item.icon} ${isActive ? "text-primary" : ""}`} />
                 </Col>
-                <Col className="d-none d-xl-block">
+                <Col className="d-none d-lg-block">
                   <span className="fs-5">{item.label}</span>
                 </Col>
               </Row>
@@ -86,7 +86,9 @@ export function Sidebar() {
         <DropDown 
           drop="up"
           variant="dark"
-          menuClassName="mb-1 w-100"
+          align="end"
+          menuClassName="mb-1"
+          menuStyle={{ minWidth: '160px', maxWidth: '320px' }}
           options={userMenuOptions}
           trigger={
             <Row 
@@ -98,7 +100,7 @@ export function Sidebar() {
                 <UserInfo user={usuario} />
               </Col>
               {/* Tres puntos opcionales para indicar que hay un menú */}
-              <Col xs="auto" className="d-none d-xl-block">
+              <Col xs="auto" className="d-none d-lg-block">
                 <i className="bi bi-three-dots fs-5 text-white"></i>
               </Col>
             </Row>

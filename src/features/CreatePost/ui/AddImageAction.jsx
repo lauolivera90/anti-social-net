@@ -12,7 +12,7 @@ export const AddImageAction = ({ images, setImages }) => {
     if (images.length >= 4) return alert("Máximo 4 imágenes");
     if (!url.startsWith('http')) return alert("URL inválida");
 
-    setImages(prev => [...prev, { url }]);
+    setImages(prev => [...prev, url]);
     setUrl('');
     setShowPopup(false);
   };

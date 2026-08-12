@@ -54,7 +54,7 @@ export function PostForm() {
               {/* 4. PREVISUALIZACIÓN DE IMÁGENES (Usando la Entidad ImageGrid) */}
               <ImageGrid 
                 images={images} 
-                onRemove={(url) => setImages(prev => prev.filter(img => img.url !== url))} 
+                onRemove={(url) => setImages(prev => prev.filter(img => (img.url || img) !== url))} 
               />
             </div>
 

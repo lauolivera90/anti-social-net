@@ -6,23 +6,20 @@ export const MainLayout = () => {
   const location = useLocation();
 
   // Define las rutas que NO deben mostrar la sección lateral.
-  const pathsWithoutAside = ["/user/edit"];
-
-  // La sección lateral se muestra si la ruta actual NO está en la lista.
-  const showAside = !pathsWithoutAside.some(path => location.pathname.startsWith(path));
+  const showAside = !location.pathname.startsWith('/user/edit');
 
   return (
     <Container fluid>
       <Row className="justify-content-center">
         {/* --- Columna del Sidebar (Izquierda) --- */}
-        <Col xs="auto" className="p-0">
+        <Col lg={3} className="p-0 d-none d-lg-flex">
           <Sidebar />
         </Col>
 
-        {/* --- Columna de Contenido Principal (Centro) --- 
+        {/* --- Columna de Contenido Principal (Centro) ---
             Se agrega pb-5 mb-5 en móviles para que el MobileNav no tape el contenido,
-            y pb-md-0 mb-md-0 para reiniciar el espaciado en desktop. */}
-        <Col xs={12} lg={showAside ? 6 : 9} className="border-start border-end border-dark p-0 pb-5 mb-5 pb-md-0 mb-md-0" style={{ minHeight: '100vh' }}>
+            y pb-lg-0 mb-lg-0 para reiniciar el espaciado en desktop. */}
+        <Col xs={12} lg={showAside ? 6 : 9} className="border-start border-end border-dark p-0 pb-5 mb-5 pb-lg-0 mb-lg-0" style={{ minHeight: '100vh' }}>
           <Outlet />
         </Col>
 

@@ -47,7 +47,7 @@ export const EditPostModal = ({ show, handleClose, post, onPostUpdated }) => {
   const cleanInputs = () => {
     setInputText(post?.description || '');
     setSelectedTags(post?.tag || []);
-    setImages(post?.image || []);
+    setImages((post?.image || []).map(img => img?.url || img));
   };
 
   // Hook para confirmar el cierre si hay cambios sin guardar

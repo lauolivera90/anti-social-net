@@ -12,7 +12,7 @@ export const useUpdatePost = (initialPost) => {
   useEffect(() => {
     if (initialPost) {
       setInputText(initialPost.description || '');
-      setImages(initialPost.image || []);
+      setImages((initialPost.image || []).map(img => img?.url || img));
       setSelectedTags(initialPost.tag || []);
     }
   }, [initialPost]);
@@ -27,7 +27,7 @@ export const useUpdatePost = (initialPost) => {
 
     const postData = {
       description: inputText,
-      image: images.map(img => img.url || img), // Normalizamos a un array de strings
+      image: images.map(img => (typeof img === 'string' ? { url: img } : img)),
       tag: selectedTags.map(t => t._id || t), // Enviar solo los IDs de forma segura
     };
 

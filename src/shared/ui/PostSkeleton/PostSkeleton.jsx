@@ -47,7 +47,7 @@ export const PostSkeleton = ({
           )}
           {/* Slot posicionado de forma absoluta para evitar alterar la altura del Row */}
           {actions && (
-            <div className="position-absolute top-50 translate-middle-y end-0 p-0" style={{ width: 'auto' }}>
+            <div className="position-absolute z-3 top-50 translate-middle-y end-0 p-0" style={{ width: 'auto' }}>
               {actions}
             </div>
           )}

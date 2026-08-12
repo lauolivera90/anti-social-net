@@ -37,18 +37,18 @@ export const RecommendedUsers = () => {
           {users.map((user) => (
             <Row
               key={user._id}
-              className="g-0 align-items-center w-100 mb-2 p-2 rounded interactive-item"
+              className="g-2 align-items-center w-100 mb-2 p-2 rounded interactive-item flex-wrap"
               onClick={() => navigate(`/user/${user._id}`)}
               role="button"
               style={{ cursor: "pointer" }}
             >
-              <Col className="ps-1">
+              <Col xs={12} sm className="ps-1 d-flex align-items-center">
                 <UserInfo user={user} showNickname={true} />
               </Col>
-              <Col xs="auto">
+              <Col xs={12} sm="auto" className="d-flex justify-content-sm-end">
                 <Button 
                   variant="secondary" 
-                  className="rounded-pill px-3 py-1 fw-bold"
+                  className="rounded-pill px-3 py-1 fw-bold w-100 w-sm-auto"
                 >
                   Visitar
                 </Button>
